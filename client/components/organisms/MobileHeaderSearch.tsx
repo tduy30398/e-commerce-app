@@ -7,7 +7,7 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet"
 import { Search } from 'lucide-react'
-import { Input } from '../ui/input'
+import SearchForm from '../molecules/SearchForm'
 
 const MobileHeaderInput = () => {
     return (
@@ -20,11 +20,7 @@ const MobileHeaderInput = () => {
                     <SheetTitle className="text-left">Search</SheetTitle>
                 </SheetHeader>
                 <div className="p-4">
-                    <Input
-                        type="search"
-                        placeholder="Search for products..."
-                        className="bg-flash-white rounded-3xl h-[36px]"
-                    />
+                    <SearchForm isMobile />
                 </div>
             </SheetContent>
         </Sheet>

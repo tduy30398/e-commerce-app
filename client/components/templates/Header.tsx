@@ -1,11 +1,11 @@
+import { ROUTES } from '@/lib/constants';
 import { navigateList } from '@/public/dummy/general';
-import { Search, ShoppingCart } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import HamburgerMenu from '../molecules/HamburgerMenu';
-import MobileHeaderInput from '../molecules/MobileHeaderInput';
-import { Input } from '../ui/input';
-import { ROUTES } from '@/lib/constants';
+import SearchForm from '../molecules/SearchForm';
+import HamburgerMenu from '../organisms/HamburgerMenu';
+import MobileHeaderInput from '../organisms/MobileHeaderSearch';
 
 const Header = () => {
     return (
@@ -30,14 +30,7 @@ const Header = () => {
                     ))}
                 </div>
             </div>
-            <div className="relative hidden sm:block w-full ml-10">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-5 w-5" />
-                <Input
-                    type="search"
-                    placeholder="Search for products..."
-                    className="pl-10 bg-flash-white rounded-3xl h-[48px]"
-                />
-            </div>
+            <SearchForm />
             <div className="flex items-center sm:ml-10 gap-4 shrink-0">
                 <div className='sm:hidden size-6'>
                     <MobileHeaderInput />
