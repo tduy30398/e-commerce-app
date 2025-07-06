@@ -26,7 +26,7 @@ const PartnerCarousel: React.FC = () => {
     };
 
     return (
-        <div className="bg-black h-20 sm:h-[122px] py-6 sm:py-10">
+        <section className="bg-black h-20 sm:h-[122px] py-6 sm:py-10">
             <Slider {...settings}>
                 {partnerLogos.map((partner, index) => (
                     <div key={index}>
@@ -39,7 +39,7 @@ const PartnerCarousel: React.FC = () => {
                     </div>
                 ))}
             </Slider>
-        </div>
+        </section>
     );
 };
 
