@@ -1,44 +1,22 @@
-'use client';
-
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
-import { Input } from '../ui/input';
-import { Search, ShoppingCart, X } from 'lucide-react';
+import { navigateList } from '@/public/dummy/general';
+import { Search, ShoppingCart } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 import HamburgerMenu from '../molecules/HamburgerMenu';
-
-interface NavigateListProps {
-    title: string;
-    link: string
-}
-
-export const navigateList: NavigateListProps[] = [
-    {
-        title: 'Trending',
-        link: '/trending'
-    },
-    {
-        title: 'Start Selling',
-        link: '/selling'
-    },
-    {
-        title: 'Download',
-        link: '/app'
-    }
-];
+import MobileHeaderInput from '../molecules/MobileHeaderInput';
+import { Input } from '../ui/input';
+import { ROUTES } from '@/lib/constants';
 
 const Header = () => {
-    const [showSearch, setShowSearch] = React.useState<boolean>(false);
-
     return (
-        <header className='relative h-[72px] xl:h-[96px] px-4 xl:px-[100px] py-6 flex items-center justify-between sm:justify-start'>
+        <header className='relative h-[72px] xl:h-24 px-4 xl:px-24 py-6 flex items-center justify-between sm:justify-start'>
             <div className="shrink-0 flex items-center">
                 <div className="mr-4 h-6 sm:hidden">
                     <HamburgerMenu />
                 </div>
-                <Link href={'/'} className='w-[126px] h-[18px] sm:w-[160px] sm:h-[22px]'>
+                <Link href={ROUTES.HOME} className='w-[126px] h-[18px] sm:w-[160px] sm:h-[22px]'>
                     <Image
-                        src='/icons/mainLogo.svg'
+                        src='/icons/main-logo.svg'
                         alt='logo'
                         width={160}
                         height={22}
@@ -57,17 +35,17 @@ const Header = () => {
                 <Input
                     type="search"
                     placeholder="Search for products..."
-                    className="pl-10 bg-[#f0f0f0] rounded-3xl h-[48px]"
+                    className="pl-10 bg-flash-white rounded-3xl h-[48px]"
                 />
             </div>
             <div className="flex items-center sm:ml-10 gap-4 shrink-0">
-                <div onClick={() => setShowSearch(true)} className='sm:hidden'>
-                    <Search className='size-6 cursor-pointer' />
+                <div className='sm:hidden size-6'>
+                    <MobileHeaderInput />
                 </div>
-                <Link href={'/cart'}>
+                <Link href={ROUTES.CART}>
                     <ShoppingCart className='size-6 cursor-pointer' />
                 </Link>
-                <Link href={'/profile'}>
+                <Link href={ROUTES.PROFILE}>
                     <Image
                         src='/icons/profile.svg'
                         alt='profile'
@@ -76,14 +54,6 @@ const Header = () => {
                     />
                 </Link>
             </div>
-            {showSearch && <div className="absolute left-0 top-0 right-0 bottom-0 p-4 flex items-center bg-white">
-                <Input
-                    type="search"
-                    placeholder="Search for products..."
-                    className="bg-[#f0f0f0] rounded-3xl h-[36px]"
-                />
-                <X className="size-5 ml-3" onClick={() => setShowSearch(false)} />
-            </div>}
         </header>
     )
 }

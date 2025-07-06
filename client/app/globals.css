@@ -82,6 +82,14 @@
   .flex-center {
     @apply flex items-center justify-center;
   }
+  
+  .main-button {
+    @apply bg-black text-white text-base font-medium rounded-4xl py-4 px-10 hover:bg-black/80;
+  }
+
+  .bg-flash-white {
+    @apply bg-[#f0f0f0];
+  }
 }
 
 body {
