@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sheet"
 import { Menu } from 'lucide-react'
 import Link from 'next/link'
-import { navigateList } from '../templates/Header'
+import { navigateList } from '@/public/dummy/general'
 
 const HamburgerMenu = () => {
     return (

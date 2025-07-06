@@ -1,5 +1,6 @@
-import CustomButton from '@/components/molecules/CustomButton';
+import { ROUTES } from '@/lib/constants';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function NotFound() {
     return (
@@ -9,7 +10,7 @@ export default function NotFound() {
                 Something went wrong.
             </p>
             <Image src={'/images/404.png'} alt="404" width={655} height={290} />
-            <CustomButton linkProps={{ href: '/', label: 'Go home' }} className='mt-8' />
+            <Link href={ROUTES.HOME} className='main-button mt-8'>Go Home</Link>
         </div>
     );
 }
