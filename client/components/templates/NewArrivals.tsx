@@ -1,4 +1,4 @@
-import axiosInstance from '@/lib/constants';
+// import axiosInstance from '@/lib/constants';
 import Image from 'next/image';
 import React from 'react'
 
@@ -14,8 +14,11 @@ interface ProductTypes {
 }
 
 const NewArrivals = async () => {
-    const res = await axiosInstance.get('/api/product');
-    const products: ProductTypes[] = res.data;
+    // const res = await axiosInstance.get('/api/product');
+    const res = await fetch('http://localhost:3001/api/product');
+    const products: ProductTypes[] = await res.json();
+    console.log(products);
+
 
     return (
         <section>
