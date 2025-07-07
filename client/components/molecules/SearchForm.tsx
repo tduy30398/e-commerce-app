@@ -3,13 +3,10 @@ import Form from 'next/form'
 import { Search } from 'lucide-react'
 import { Input } from '../ui/input'
 
-interface SearchFormProps {
-    isMobile?: boolean
-}
 
-const SearchForm: React.FC<SearchFormProps> = ({ isMobile }) => {
+const SearchForm: React.FC = () => {
     return (
-        <Form action="/search" className={`relative w-full ${isMobile ? '' : 'hidden sm:block ml-10'}`}>
+        <Form action="/search" className="relative w-full hidden sm:block ml-10">
             <button type="submit" className='absolute left-3 top-1/2 -translate-y-1/2 cursor-pointer'>
                 <Search className="text-muted-foreground size-5" />
             </button>

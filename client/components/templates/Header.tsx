@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import SearchForm from '../molecules/SearchForm';
 import HamburgerMenu from '../organisms/HamburgerMenu';
-import MobileHeaderInput from '../organisms/MobileHeaderSearch';
+import MobileSearchHeader from '../organisms/MobileSearchHeader';
 
 const Header = () => {
     return (
@@ -33,7 +33,7 @@ const Header = () => {
             <SearchForm />
             <div className="flex items-center sm:ml-10 gap-4 shrink-0">
                 <div className='sm:hidden size-6'>
-                    <MobileHeaderInput />
+                    <MobileSearchHeader />
                 </div>
                 <Link href={ROUTES.CART}>
                     <ShoppingCart className='size-6 cursor-pointer' />
