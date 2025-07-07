@@ -25,7 +25,7 @@ const MobileSearchHeader = () => {
 
     if (query) {
       setOpen(false);
-      router.push(`/search?query=${encodeURIComponent(query)}`);
+      router.push(`/search?query=${query}`);
     }
   };
 
