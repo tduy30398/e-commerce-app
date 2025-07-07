@@ -1,22 +1,27 @@
 const express = require('express');
 const app = express();
-const http = require("http");
 const cors = require("cors");
 const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const userRoutes = require('./routes/user');
+const productRoutes = require('./routes/product');
 
-dotenv.config({ path: '.env.local' });
+dotenv.config();
 
 app.use(cors({
   origin: "http://localhost:3000",
   credentials: true
 }));
 
-const server = http.createServer(app);
+app.use(express.json());
 
-app.get('/test', (req, res) => {
-    res.send('Hello World!');
-});
+app.use('/api/user', userRoutes);
+app.use('/api/product', productRoutes);
 
-server.listen(3001, () => {
-    console.log("Server is running on port 3001");
-});
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => {
+    app.listen(process.env.PORT, () => {
+      console.log(`Server running on port ${process.env.PORT}`);
+    });
+  })
+  .catch(err => console.error(err));
