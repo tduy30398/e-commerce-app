@@ -10,6 +10,10 @@ dotenv.config();
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (_, res) => {
+  res.send('Server is running');
+});
+
 app.use('/api/user', userRoutes);
 app.use('/api/product', productRoutes);
 
