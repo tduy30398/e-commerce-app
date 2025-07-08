@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: e-commerce-api
+    env: node
+    plan: free
+    buildCommand: cd server && yarn install
+    startCommand: cd server && yarn start
+    envVars:
+      - key: MONGODB_URI
+        value: mongodb+srv://tduy30399:298541942669a@e-commercedb.dpvvnde.mongodb.net/?retryWrites=true&w=majority&appName=E-commerceDB
+      - key: PORT
+        value: 3001
