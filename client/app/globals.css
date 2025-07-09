@@ -90,6 +90,10 @@
   .bg-flash-white {
     @apply bg-[#f0f0f0];
   }
+
+  .section-container {
+    @apply max-w-screen-xl mx-4 md:mx-[48px] lg:mx-[100px] 2xl:mx-auto;
+  }
 }
 
 body {

@@ -1,8 +1,8 @@
 import axiosInstance from '@/lib/axios';
-import Image from 'next/image';
 import React from 'react'
+import ProductCard from '../molecules/ProductCard';
 
-interface ProductTypes {
+export interface ProductTypes {
     _id: number;
     name: string;
     price: number;
@@ -14,19 +14,16 @@ interface ProductTypes {
 }
 
 const NewArrivals = async () => {
-    const products: ProductTypes[] = (await axiosInstance.get('/api/product'))?.data;
-    console.log(products);
-    
+    const res = await axiosInstance.get('/api/product');
+    const products: ProductTypes[] = res.data;
+
     return (
-        <section>
-            {products.map((product) => (
-                <div key={product._id}>
-                    <Image src={product.image} alt={product.name} width={300} height={300} />
-                    <h2>{product.name}</h2>
-                    <p>{product.description}</p>
-                    <p>{product.price}</p>
-                    <p>{product.rating}</p>
-                </div>
+        <section className='section-container flex flex-wrap gap-8 mt-[72px]'>
+            {products.length > 0 && products.map((product) => (
+                <ProductCard
+                    key={product._id}
+                    {...product}
+                />
             ))}
         </section>
     )
