@@ -9,7 +9,7 @@ import MobileSearchHeader from '../organisms/MobileSearchHeader';
 
 const Header = () => {
     return (
-        <header className='relative h-[72px] xl:h-24 px-4 xl:px-24 py-6 flex items-center justify-between sm:justify-start'>
+        <header className='relative section-container h-[72px] xl:h-24 py-6 flex items-center justify-between sm:justify-start'>
             <div className="shrink-0 flex items-center">
                 <div className="mr-4 h-6 sm:hidden">
                     <HamburgerMenu />
