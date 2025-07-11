@@ -18,7 +18,7 @@ const NewArrivals = async () => {
     const products: ProductTypes[] = res.data;
 
     return (
-        <section className='section-container flex flex-wrap gap-8 mt-[72px]'>
+        <section className='section-container flex gap-8 mt-[72px] pb-16'>
             {products.length > 0 && products.map((product) => (
                 <ProductCard
                     key={product._id}
