@@ -20,7 +20,7 @@ const HomeBanner = () => {
                     </Link>
                     < StatisticCounter />
                 </div>
-                <div className="lg:w-[calc((644/1240)*100%)] flex-center relative">
+                <div className="lg:w-[calc((644/1240)*100%)] flex-center relative max-sm:-mx-4">
                     <Image
                         src={'/images/home-banner.png'}
                         alt='banner'
