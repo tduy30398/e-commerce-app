@@ -6,9 +6,9 @@ import Link from 'next/link'
 
 const Footer = () => {
     return (
-        <footer className='pt-20 bg-flash-white'>
-            <div className="section-container flex items-start gap-20 pb-[50px] border-b-[1px] border-gray-300">
-                <div className="w-[calc((3/12)*100%)] mt-[6px]">
+        <footer className='pt-10 lg:pt-20 bg-flash-white'>
+            <div className="section-container flex flex-col xl:flex-row items-start gap-6 lg:gap-20 pb-[50px] border-b-[1px] border-gray-300">
+                <div className="xl:w-[calc((3/12)*100%)] mt-[6px]">
                     <Image
                         src='/icons/main-logo.svg'
                         alt='logo'
@@ -17,7 +17,7 @@ const Footer = () => {
                         className='w-[126px] h-[18px] sm:w-[142px] sm:h-[22px]'
                     />
                     <p className='mt-6 text-base'>We have clothes that suits your style and which you’re proud to wear. From women to men.</p>
-                    <div className="flex items-center mt-9 gap-2">
+                    <div className="flex items-center mt-5 md:mt-9 gap-2">
                         <Link
                             href='https://twitter.com'
                             target='_blank'
@@ -48,9 +48,9 @@ const Footer = () => {
                         </Link >
                     </div>
                 </div>
-                <div className="flex items-start w-full">
+                <div className="flex items-start w-full flex-wrap">
                     {footerDummy.map((item, index) => (
-                        <div key={index} className="w-1/4">
+                        <div key={index} className={`w-1/2 lg:w-1/4 ${index > 1 && 'max-lg:mt-4'}`}>
                             <h3 className='text-xl font-semibold uppercase'>{item.title}</h3>
                             <ul >
                                 {item.links.map((link, index) => (
@@ -68,13 +68,13 @@ const Footer = () => {
                     ))}
                 </div>
             </div>
-            <div className="pb-20 mt-4 section-container flex items-center justify-between">
+            <div className="pb-20 mt-4 section-container flex-col md:flex-row flex items-center justify-between">
                 <p>
                     Shop.co © 2000-2023, All Rights Reserved
                 </p>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 md:gap-3 max-md:mt-4">
                     {paymentMethods.map((item, index) => (
-                        <div key={index} className="px-4 bg-white rounded-[10px] h-9 flex items-center">
+                        <div key={index} className="px-4 bg-white rounded-[10px] h-6 md:h-9 flex items-center">
                             <img src={item.logo} alt={item.name} width={34} height={15} />
                         </div>
                     ))}

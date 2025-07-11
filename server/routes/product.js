@@ -7,7 +7,7 @@ router.post('/', async (req, res) => {
   try {
     const newProduct = new Product(req.body);
     const savedProduct = await newProduct.save();
-    res.status(201).json(savedProduct._id);
+    res.status(201).json({id: savedProduct._id});
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -39,7 +39,7 @@ router.put('/:id', async (req, res) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedProduct) return res.status(404).json({ error: 'Product not found' });
-    res.json(updatedProduct._id);
+    res.json({id: updatedProduct._id});
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
