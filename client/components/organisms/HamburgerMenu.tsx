@@ -23,8 +23,8 @@ const HamburgerMenu = () => {
                 </SheetHeader>
                 <div className="ml-4">
                     {navigateList.map((item, index) => (
-                        <Link key={index} href={item.link} className='ml-6 text-black font-medium text-base hover:underline'>
-                            <SheetDescription>
+                        <Link key={index} href={item.link} className='ml-6 hover:underline'>
+                            <SheetDescription className='text-black font-medium text-base'>
                                 {item.title}
                             </SheetDescription>
                         </Link>

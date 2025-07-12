@@ -22,10 +22,18 @@ const HomeBanner = () => {
                 </div>
                 <div className="lg:w-[calc((644/1240)*100%)] flex-center relative max-sm:-mx-4">
                     <Image
+                        src={'/images/home-banner-pc.png'}
+                        alt='banner'
+                        width={703}
+                        height={663}
+                        className='max-sm:hidden'
+                    />
+                    <Image
                         src={'/images/home-banner.png'}
                         alt='banner'
                         width={780 * 0.8}
                         height={896 * 0.8}
+                        className='sm:hidden'
                     />
                 </div>
             </div>

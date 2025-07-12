@@ -61,7 +61,7 @@ const satoshi = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "E-Commerce App",
+  title: "Shop Commerce",
   description: "Buy everything here",
 };
 
