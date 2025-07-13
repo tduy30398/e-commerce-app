@@ -22,7 +22,7 @@ const NewArrivals = async () => {
     return (
         <section className='flex flex-col items-center mt-12 md:mt-[72px] mb-10 sm:mb-20'>
             <h2 className='text-3xl md:text-5xl font-extrabold'>NEW ARRIVALS</h2>
-            <div className='grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 mt-8 md:mt-14 mb-9'>
+            <div className='grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8 md:mt-14 mb-9'>
                 {products.length > 0 && products.slice(0, 4).map((product) => (
                     <ProductCard
                         key={product._id}
