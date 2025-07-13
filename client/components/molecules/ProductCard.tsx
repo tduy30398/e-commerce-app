@@ -2,6 +2,7 @@ import React from 'react'
 import { ProductTypes } from '../templates/NewArrivals'
 import Image from 'next/image'
 import { Star } from 'lucide-react'
+import { formattedCapitalize } from '@/lib/utils'
 
 const ProductCard: React.FC<ProductTypes> = ({ name, image, rating, price }) => {
     return (
@@ -14,7 +15,7 @@ const ProductCard: React.FC<ProductTypes> = ({ name, image, rating, price }) => 
                     className='object-cover'
                 />
             </div>
-            <h4 className='mt-4 text-xs md:text-xl font-semibold line-clamp-1'>{name || ''}</h4>
+            <h4 className='mt-4 text-xs md:text-xl font-semibold line-clamp-1'>{formattedCapitalize(name)}</h4>
             <div className="flex items-center mt-2">
                 <Star className='size-4 md:size-5 text-[#FFC633] fill-[#FFC633] mr-2' />
                 <span className='text-xs md:text-base'>{`${rating || 0}/5`}</span>

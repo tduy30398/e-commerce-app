@@ -43,7 +43,7 @@ const DeleteAlert: React.FC<DeleteAlertProps> = ({ id }: { id: string }) => {
             <AlertDialogTrigger asChild>
                 <Trash2 className="cursor-pointer size-4" />
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className='top-10 left-1/2 -translate-x-1/2 translate-y-0'>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you sure to delete this record?</AlertDialogTitle>
                     <AlertDialogDescription className="text-black">

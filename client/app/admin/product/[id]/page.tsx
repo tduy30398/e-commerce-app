@@ -31,8 +31,8 @@ type FormData = z.infer<typeof formSchema>
 const ProductDetail = () => {
     const router = useRouter();
     const { id } = useParams<{ id: string }>();
-    const [preview, setPreview] = useState<string | null>(null)
-    const [uploadPct, setUploadPct] = useState<number | null>(null)
+    const [preview, setPreview] = useState<string | null>(null);
+    const [uploadPct, setUploadPct] = useState<number | null>(null);
 
     const {
         register,
@@ -55,11 +55,13 @@ const ProductDetail = () => {
         getProductDetail,
         {
             onSuccess: (data: ProductTypes) => {
-                setValue('name', data.name)
-                setValue('imageUrl', data.image)
-                setValue('rating', String(data.rating))
-                setValue('price', String(data.price))
-                setValue('description', data.description)
+                reset({
+                    name: data.name,
+                    imageUrl: data.image,
+                    description: data.description,
+                    rating: String(data.rating),
+                    price: String(data.price),
+                })
                 setPreview(data.image)
             },
             onError: (err) => {
@@ -145,53 +147,55 @@ const ProductDetail = () => {
     if (error) return <div>Failed to load</div>;
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div className="flex justify-between">
+        <>
+            <div className="flex justify-between mb-6">
                 <h2 className='text-2xl font-bold'>Product Detail</h2>
                 <Button type="submit" className='cursor-pointer' disabled={!!uploadPct}>
-                    {id ? 'Update' : 'Create'}
+                    {id !== 'create' ? 'Update' : 'Create'}
                 </Button>
             </div>
-            <div className="flex gap-x-4">
-                <div className='w-1/3'>
-                    <Label htmlFor="name">Name<span className="text-red-500">*</span></Label>
-                    <Input className='mt-2' id="name" {...register('name')} />
-                    {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name.message}</p>}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                <div className="flex gap-x-4">
+                    <div className='w-1/3'>
+                        <Label htmlFor="name">Name<span className="text-red-500">*</span></Label>
+                        <Input className='mt-2' id="name" {...register('name')} />
+                        {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name.message}</p>}
+                    </div>
+                    <div className='w-1/3'>
+                        <Label htmlFor="price">Price<span className="text-red-500">*</span></Label>
+                        <Input type='number' className='mt-2' id="price" {...register('price')} />
+                        {errors.price && <p className="text-sm text-red-600 mt-1">{errors.price.message}</p>}
+                    </div>
+                    <div className='w-1/3'>
+                        <Label htmlFor="rating">Rating<span className="text-red-500">*</span></Label>
+                        <Input type='number' step="0.1" className='mt-2' id="rating" {...register('rating')} />
+                        {errors.rating && <p className="text-sm text-red-600 mt-1">{errors.rating.message}</p>}
+                    </div>
                 </div>
-                <div className='w-1/3'>
-                    <Label htmlFor="price">Price<span className="text-red-500">*</span></Label>
-                    <Input type='number' className='mt-2' id="price" {...register('price')} />
-                    {errors.price && <p className="text-sm text-red-600 mt-1">{errors.price.message}</p>}
+                <div className="flex gap-x-4">
+                    <div className='w-1/2'>
+                        <Label htmlFor="image">Product Image<span className="text-red-500">*</span></Label>
+                        <Input className='mt-2 cursor-pointer' id="image" type="file" accept="image/*" onChange={handleImageChange} />
+                        {uploadPct !== null && <Progress value={uploadPct} className="mt-2" />}
+                        {preview && (
+                            <img
+                                src={preview}
+                                alt="Preview"
+                                className="mt-4 w-64 h-64 object-cover rounded-lg mx-auto"
+                            />
+                        )}
+                        {errors.imageUrl && (
+                            <p className="text-sm text-red-600 mt-1">{errors.imageUrl.message}</p>
+                        )}
+                    </div>
+                    <div className='w-1/2'>
+                        <Label htmlFor="description">Description<span className="text-red-500">*</span></Label>
+                        <Textarea className='mt-2 min-h-[308px]' id="description" {...register('description')} />
+                        {errors.description && <p className="text-sm text-red-600 mt-1">{errors.description.message}</p>}
+                    </div>
                 </div>
-                <div className='w-1/3'>
-                    <Label htmlFor="rating">Rating<span className="text-red-500">*</span></Label>
-                    <Input type='number' className='mt-2' id="rating" {...register('rating')} />
-                    {errors.rating && <p className="text-sm text-red-600 mt-1">{errors.rating.message}</p>}
-                </div>
-            </div>
-            <div className="flex gap-x-4">
-                <div className='w-1/2'>
-                    <Label htmlFor="image">Upload Image<span className="text-red-500">*</span></Label>
-                    <Input className='mt-2 cursor-pointer' id="image" type="file" accept="image/*" onChange={handleImageChange} />
-                    {uploadPct !== null && <Progress value={uploadPct} className="mt-2" />}
-                    {preview && (
-                        <img
-                            src={preview}
-                            alt="Preview"
-                            className="mt-4 w-64 h-64 object-cover rounded-lg mx-auto"
-                        />
-                    )}
-                    {errors.imageUrl && (
-                        <p className="text-sm text-red-600 mt-1">{errors.imageUrl.message}</p>
-                    )}
-                </div>
-                <div className='w-1/2'>
-                    <Label htmlFor="description">Description<span className="text-red-500">*</span></Label>
-                    <Textarea className='mt-2 min-h-[308px]' id="description" {...register('description')} />
-                    {errors.description && <p className="text-sm text-red-600 mt-1">{errors.description.message}</p>}
-                </div>
-            </div>
-        </form>
+            </form>
+        </>
     )
 }
 
