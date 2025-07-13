@@ -6,12 +6,12 @@ import { Star } from 'lucide-react'
 const ProductCard: React.FC<ProductTypes> = ({ name, image, rating, price }) => {
     return (
         <div>
-            <div className='relative w-[160px] h-[160px] sm:w-[240px] sm:h-[240px]'>
+            <div className='relative bg-gray-100 rounded-2xl h-40 sm:h-60 mb-4 overflow-hidden'>
                 <Image
                     src={image}
                     alt={name}
                     fill
-                    className='rounded-2xl'
+                    className='object-cover'
                 />
             </div>
             <h4 className='mt-4 text-xs md:text-xl font-semibold line-clamp-1'>{name || ''}</h4>

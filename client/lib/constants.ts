@@ -5,5 +5,6 @@ export const ROUTES = {
     REGISTER: '/register',
     TRENDING: '/trending',
     CART: '/cart',
-    ARRIVALS: '/arrivals'
+    ARRIVALS: '/arrivals',
+    ADMINPRODUCT: '/admin/product',
 };
