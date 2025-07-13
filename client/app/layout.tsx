@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner"
 
 import localFont from 'next/font/local';
 
@@ -76,6 +77,7 @@ export default function RootLayout({
         className={satoshi.variable}
       >
         {children}
+        <Toaster position="top-center" />
       </body>
     </html>
   );
