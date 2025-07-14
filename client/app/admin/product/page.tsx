@@ -1,7 +1,7 @@
 import { ProductTable } from '@/components/templates/ProductTable';
 import Link from 'next/link';
 
-const Module = () => {
+const Module = async () => {
     return (
         <>
             <div className="flex justify-between">

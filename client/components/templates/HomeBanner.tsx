@@ -15,7 +15,7 @@ const HomeBanner = () => {
                     <p className='mt-5 lg:mt-8 text-base'>
                         Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.
                     </p>
-                    <Link href={ROUTES.TRENDING} className='main-button block w-full sm:w-fit mt-6 sm:mt-8 text-center max-lg:mx-auto'>
+                    <Link href={ROUTES.PRODUCT} className='main-button block w-full sm:w-fit mt-6 sm:mt-8 text-center max-lg:mx-auto'>
                         Shop Now
                     </Link>
                     < StatisticCounter />

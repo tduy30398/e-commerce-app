@@ -10,13 +10,13 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { ROUTES } from "@/lib/constants";
 
 import { Inbox } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const items = [
-
     {
         title: "Products",
         url: "/admin/product",
@@ -32,8 +32,8 @@ export function AppSidebar() {
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupLabel className="my-4">
-                        <Link href={"/admin"} className="text-xl font-bold">
-                            SHOP.CO
+                        <Link href={ROUTES.ADMINPRODUCT} className="text-xl font-bold">
+                            DASHBOARD
                         </Link>
                     </SidebarGroupLabel>
                     <SidebarGroupContent>

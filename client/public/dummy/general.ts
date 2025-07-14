@@ -1,3 +1,5 @@
+import { ROUTES } from "@/lib/constants";
+
 interface NavigateListProps {
     title: string;
     link: string
@@ -10,17 +12,17 @@ interface StatisticsProps {
 
 export const navigateList: NavigateListProps[] = [
     {
-        title: 'Trending',
-        link: '/trending'
-    },
-    {
-        title: 'New Arrivals',
-        link: '/new'
+        title: 'Products',
+        link: ROUTES.PRODUCT
     },
     {
         title: 'Download',
         link: '/app'
-    }
+    },
+    {
+        title: 'Dashboard',
+        link: ROUTES.ADMINPRODUCT
+    },
 ];
 
 export const statistics: StatisticsProps[] = [
