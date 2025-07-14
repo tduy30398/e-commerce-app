@@ -27,7 +27,7 @@ const PaginationCustom: React.FC<PaginationCustomProps> = ({
   return (
     <Pagination>
       <PaginationContent>
-        <PaginationItem className='cursor-not-allowed'>
+        <PaginationItem className={current === 1 ? "cursor-not-allowed" : "cursor-pointer"}>
           <PaginationPrevious
             onClick={onPrev}
             className={current === 1 ? "pointer-events-none opacity-50" : ""}
@@ -41,11 +41,11 @@ const PaginationCustom: React.FC<PaginationCustomProps> = ({
               onClick={() => setPage(p)}
               className='cursor-pointer'
             >
-              {p}
+              {p < 10 ? `0${p}` : p}
             </Button>
           </PaginationItem>
         ))}
-        <PaginationItem className='cursor-not-allowed'>
+        <PaginationItem className={current === totalPages ? "cursor-not-allowed" : "cursor-pointer"}>
           <PaginationNext
             onClick={onNext}
             className={current === totalPages ? "pointer-events-none opacity-50" : ""}
