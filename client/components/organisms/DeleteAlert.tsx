@@ -21,7 +21,6 @@ interface DeleteAlertProps {
     id: string;
 }
 
-
 const DeleteAlert: React.FC<DeleteAlertProps> = ({ id }: { id: string }) => {
     const handleDelete = async () => {
         try {
