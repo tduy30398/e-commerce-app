@@ -120,6 +120,5 @@ export const ProductTable: React.FC = () => {
                 setPage={setCurrentPage}
             />
         </>
-
     );
 }
