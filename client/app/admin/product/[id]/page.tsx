@@ -16,6 +16,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ProductTypes } from '@/components/templates/NewArrivals';
 import { ROUTES } from '@/lib/constants';
 import { toast } from 'sonner';
+import useSWRMutation from 'swr/mutation';
 
 const getProductDetail = (url: string) => axiosInstance.get(url).then(res => res.data)
 
@@ -27,7 +28,32 @@ const formSchema = z.object({
     description: z.string().min(1, 'Description is required')
 })
 
+interface ProductRequest {
+    name: string;
+    image: string;
+    rating: number;
+    price: number;
+    description: string;
+}
+
 type FormData = z.infer<typeof formSchema>
+
+const createProduct = async (
+    url: string,
+    { arg }: { arg: ProductRequest }
+) => {
+    const res = await axiosInstance.post(url, arg);
+    return res.data.id
+};
+
+const updateProduct = async (
+    url: string,
+    { arg }: { arg: { id: string; data: ProductRequest } }
+): Promise<{ id: string }> => {
+    const { id, data } = arg;
+    const res = await axiosInstance.put(`${url}/${id}`, data);
+    return res.data.id
+};
 
 const ProductDetail = () => {
     const router = useRouter();
@@ -54,6 +80,33 @@ const ProductDetail = () => {
         }
     })
 
+    const handleSuccess = () => {
+        mutate('/api/product');
+        reset();
+        setPreview(null);
+        router.push(ROUTES.ADMINPRODUCT);
+    }
+
+    const { trigger: triggerCreate, isMutating } = useSWRMutation('/api/product', createProduct, {
+        onSuccess: () => {
+            toast.success('Product created');
+            handleSuccess()
+        },
+        onError: () => {
+            toast.error('Create product failed');
+        }
+    });
+
+    const { trigger: updateProductMutate, isMutating: updateLoading } = useSWRMutation('/api/product', updateProduct, {
+        onSuccess: () => {
+            mutate('/api/product');
+            handleSuccess();
+        },
+        onError: () => {
+            toast.error('Update product failed');
+        }
+    });;
+
     const { error, isLoading } = useSWR(id !== 'create' ? `/api/product/${id}` : null,
         getProductDetail,
         {
@@ -67,8 +120,8 @@ const ProductDetail = () => {
                 })
                 setPreview(data.image)
             },
-            onError: (err) => {
-                console.log(err)
+            onError: () => {
+                toast.error('Get product failed');
             },
         }
     );
@@ -126,7 +179,7 @@ const ProductDetail = () => {
             const isValid = await trigger();
             if (!isValid) return;
 
-            const submitData = {
+            const submitData: ProductRequest = {
                 price: Number(data.price),
                 rating: Number(data.rating),
                 description: data.description,
@@ -135,22 +188,18 @@ const ProductDetail = () => {
             };
 
             if (id !== 'create') {
-                await axiosInstance.put(`/api/product/${id}`, submitData);
+                updateProductMutate({ id: id!, data: submitData });
             } else {
-                await axiosInstance.post('/api/product', submitData);
+                await triggerCreate(submitData);
             }
 
-            mutate('/api/product');
-            reset();
-            setPreview(null);
-            router.push(ROUTES.ADMINPRODUCT);
         } catch (err) {
             console.error(err);
             toast.error('Something went wrong');
         }
     }
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading || isMutating || updateLoading) return <div>Loading...</div>;
     if (error) return <div>Failed to load</div>;
 
     return (

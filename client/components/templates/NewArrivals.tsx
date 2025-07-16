@@ -15,9 +15,13 @@ export interface ProductTypes {
     updatedAt: string;
 }
 
-const NewArrivals = async () => {
+async function getAllProduct(): Promise<ProductTypes[]> {
     const res = await axiosInstance.get('/api/product');
-    const products: ProductTypes[] = res.data;
+    return res.data;
+}
+
+const NewArrivals = async () => {
+    const products = await getAllProduct();
 
     return (
         <section className='flex flex-col items-center mt-12 md:mt-[72px] mb-10 sm:mb-20'>

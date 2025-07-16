@@ -14,12 +14,15 @@ const Header = () => {
                 <div className="mr-4 h-6 lg:hidden">
                     <HamburgerMenu />
                 </div>
-                <Link href={ROUTES.HOME} className='w-[126px] h-[18px] sm:w-[160px] sm:h-[22px]'>
+                <Link
+                    href={ROUTES.HOME}
+                    className="relative w-[126px] h-[18px] sm:w-[160px] sm:h-[22px]"
+                >
                     <Image
-                        src='/icons/main-logo.svg'
-                        alt='logo'
-                        width={160}
-                        height={22}
+                        src="/icons/main-logo.svg"
+                        alt="logo"
+                        fill
+                        className="object-contain"
                     />
                 </Link>
                 <div className="ml-10 hidden lg:flex items-center">
