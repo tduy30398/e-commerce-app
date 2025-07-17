@@ -34,7 +34,7 @@ const PAGE_SIZE = 10;
 
 export const ProductTable: React.FC = () => {
     const [current, setCurrentPage] = React.useState<number>(1);
-    const { data: products, isLoading } = useSWR('/api/product', getAllProduct)
+    const { data: products, isLoading, error } = useSWR('/api/product', getAllProduct)
     const totalPages = products ? Math.ceil(products?.length / PAGE_SIZE) : 0;
 
     const paginatedData = products?.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);
@@ -76,6 +76,8 @@ export const ProductTable: React.FC = () => {
     if (isLoading) {
         return <TableSkeleton />
     };
+
+    if (error) return <div>Failed to load data. Error: {error.message}</div>;
 
     return (
         <>

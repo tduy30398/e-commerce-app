@@ -17,6 +17,7 @@ import { ProductTypes } from '@/components/templates/NewArrivals';
 import { ROUTES } from '@/lib/constants';
 import { toast } from 'sonner';
 import useSWRMutation from 'swr/mutation';
+import TableSkeleton from '@/components/molecules/TableSkeleton';
 
 const getProductDetail = (url: string) => axiosInstance.get(url).then(res => res.data)
 
@@ -87,26 +88,6 @@ const ProductDetail = () => {
         router.push(ROUTES.ADMINPRODUCT);
     }
 
-    const { trigger: triggerCreate, isMutating } = useSWRMutation('/api/product', createProduct, {
-        onSuccess: () => {
-            toast.success('Product created');
-            handleSuccess()
-        },
-        onError: () => {
-            toast.error('Create product failed');
-        }
-    });
-
-    const { trigger: updateProductMutate, isMutating: updateLoading } = useSWRMutation('/api/product', updateProduct, {
-        onSuccess: () => {
-            mutate('/api/product');
-            handleSuccess();
-        },
-        onError: () => {
-            toast.error('Update product failed');
-        }
-    });;
-
     const { error, isLoading } = useSWR(id !== 'create' ? `/api/product/${id}` : null,
         getProductDetail,
         {
@@ -125,6 +106,26 @@ const ProductDetail = () => {
             },
         }
     );
+
+    const { trigger: createProductTrigger, isMutating, error: editError } = useSWRMutation('/api/product', createProduct, {
+        onSuccess: () => {
+            toast.success('Product created');
+            handleSuccess()
+        },
+        onError: () => {
+            toast.error('Create product failed');
+        }
+    });
+
+    const { trigger: updateProductTrigger, isMutating: updateLoading, error: createError } = useSWRMutation('/api/product', updateProduct, {
+        onSuccess: () => {
+            mutate('/api/product');
+            handleSuccess();
+        },
+        onError: () => {
+            toast.error('Update product failed');
+        }
+    });
 
     const uploadToCloudinary = async (file: File): Promise<string> => {
         const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
@@ -188,9 +189,9 @@ const ProductDetail = () => {
             };
 
             if (id !== 'create') {
-                updateProductMutate({ id: id!, data: submitData });
+                updateProductTrigger({ id: id!, data: submitData });
             } else {
-                await triggerCreate(submitData);
+                await createProductTrigger(submitData);
             }
 
         } catch (err) {
@@ -199,8 +200,8 @@ const ProductDetail = () => {
         }
     }
 
-    if (isLoading || isMutating || updateLoading) return <div>Loading...</div>;
-    if (error) return <div>Failed to load</div>;
+    if (isLoading || isMutating || updateLoading) return <TableSkeleton />;
+    if (error || editError || createError) return <div>Failed to load data. Error: {error.message}</div>;
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
