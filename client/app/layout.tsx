@@ -3,7 +3,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner"
 
 import localFont from 'next/font/local';
-import ProgressBar from "@/components/molecules/ProgressBar";
+import ProgressBarWraper from "@/components/organisms/ProgressBarWraper";
 
 const satoshi = localFont({
   src: [
@@ -77,7 +77,7 @@ export default function RootLayout({
       <body
         className={satoshi.variable}
       >
-        <ProgressBar />
+        <ProgressBarWraper />
         {children}
         <Toaster position="top-center" />
       </body>

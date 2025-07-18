@@ -26,10 +26,12 @@ router.get('/', async (req, res) => {
     ]);
 
     res.json({
-      page,
-      limit,
-      totalPages: Math.ceil(total / limit),
-      totalItems: total,
+      panigation: {
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+        totalItems: total,
+      },
       data: products,
     });
   } catch (err) {
