@@ -1,7 +1,6 @@
 'use client'
 
-import axiosInstance from '@/lib/axios';
-import { CircleCheck, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import React from 'react';
 import { toast } from "sonner";
 import { mutate } from 'swr';
@@ -16,23 +15,30 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger
 } from "../ui/alert-dialog";
+import { deleteProduct } from '@/service/product';
+import useSWRMutation from 'swr/mutation';
 
 interface DeleteAlertProps {
     id: string;
 }
 
 const DeleteAlert: React.FC<DeleteAlertProps> = ({ id }: { id: string }) => {
-    const handleDelete = async () => {
-        try {
-            await axiosInstance.delete(`/api/product/${id}`);
+    const {
+        trigger: deleteProductTrigger,
+        isMutating: deleteLoading,
+        error: deleteError
+    } = useSWRMutation('/api/product', deleteProduct, {
+        onSuccess: () => {
             mutate('/api/product');
-            toast.success('Product deleted successfully', {
-                icon: <CircleCheck className="text-green-500" />,
-            });
-        } catch (err) {
-            console.error(err);
-            toast.error('Error has occurred when delete');
+            toast.success('Delete product success');
+        },
+        onError: () => {
+            toast.error('Update product failed');
         }
+    });
+
+    if (deleteError) {
+        toast.error('Delete product failed');
     }
 
     return (
@@ -50,7 +56,13 @@ const DeleteAlert: React.FC<DeleteAlertProps> = ({ id }: { id: string }) => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel className="cursor-pointer">Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleDelete} className="cursor-pointer">Delete</AlertDialogAction>
+                    <AlertDialogAction
+                        disabled={deleteLoading}
+                        onClick={() => deleteProductTrigger({ id })}
+                        className="cursor-pointer"
+                    >
+                        Delete
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

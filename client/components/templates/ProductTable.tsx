@@ -12,12 +12,11 @@ import Link from "next/link";
 import { Eye } from "lucide-react";
 import { ROUTES } from "@/lib/constants";
 import DeleteAlert from "../organisms/DeleteAlert";
-import axiosInstance from "@/lib/axios";
 import useSWR from "swr";
 import PaginationCustom from "../molecules/PaginationCustom";
 import React from "react";
-import { ProductTypes } from "./NewArrivals";
 import TableSkeleton from "../molecules/TableSkeleton";
+import { getAllProducts } from "@/service/product";
 
 interface DataTableProps {
     [key: string]: string | number;
@@ -28,13 +27,11 @@ interface TableColumn {
     label: string;
 }
 
-const getAllProduct = (url: string): Promise<ProductTypes[]> => axiosInstance.get(url).then(res => res.data);
-
 const PAGE_SIZE = 10;
 
 export const ProductTable: React.FC = () => {
     const [current, setCurrentPage] = React.useState<number>(1);
-    const { data: products, isLoading, error } = useSWR('/api/product', getAllProduct)
+    const { data: products, isLoading, error } = useSWR('/api/product', getAllProducts)
     const totalPages = products ? Math.ceil(products?.length / PAGE_SIZE) : 0;
 
     const paginatedData = products?.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);

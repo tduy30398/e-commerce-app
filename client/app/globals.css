@@ -142,3 +142,39 @@ body {
     @apply bg-background text-foreground;
    }
 }
+
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  @apply fixed z-[9999] top-0 left-0 w-full h-0.5 bg-blue-500;
+}
+
+/* Optional: Spinner styles */
+#nprogress .spinner {
+  @apply block fixed z-[9999] top-4 right-4;
+}
+
+#nprogress .spinner-icon {
+  @apply w-4.5 h-4.5 border-2 border-solid border-gray-200 border-t-blue-500 border-l-blue-500 rounded-full;
+  animation: nprogress-spinner 400ms linear infinite;
+}
+
+.nprogress-custom-parent {
+  @apply overflow-hidden relative;
+}
+
+.nprogress-custom-parent #nprogress .spinner,
+.nprogress-custom-parent #nprogress .bar {
+  @apply absolute;
+}
+
+@keyframes nprogress-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

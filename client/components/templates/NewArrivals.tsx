@@ -1,27 +1,15 @@
-import axiosInstance from '@/lib/axios';
 import React from 'react'
 import ProductCard from '../molecules/ProductCard';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/constants';
-
-export interface ProductTypes {
-    _id: string;
-    name: string;
-    price: number;
-    image: string;
-    description: string;
-    rating: number;
-    createdAt: string;
-    updatedAt: string;
-}
-
-async function getAllProduct(): Promise<ProductTypes[]> {
-    const res = await axiosInstance.get('/api/product');
-    return res.data;
-}
+import { getAllProducts } from '@/service/product';
 
 const NewArrivals = async () => {
-    const products = await getAllProduct();
+    const products = await getAllProducts();
+
+    if (!products) {
+        return 'Get product failed! Please try again later.';
+    };
 
     return (
         <section className='flex flex-col items-center mt-12 md:mt-[72px] mb-10 sm:mb-20'>

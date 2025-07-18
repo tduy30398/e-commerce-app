@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import axiosInstance from '@/lib/axios';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import useSWR, { mutate } from 'swr';
@@ -13,13 +12,12 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { Textarea } from '@/components/ui/textarea';
-import { ProductTypes } from '@/components/templates/NewArrivals';
 import { ROUTES } from '@/lib/constants';
 import { toast } from 'sonner';
 import useSWRMutation from 'swr/mutation';
 import TableSkeleton from '@/components/molecules/TableSkeleton';
-
-const getProductDetail = (url: string) => axiosInstance.get(url).then(res => res.data)
+import { createProduct, getProductDetail, updateProduct } from '@/service/product';
+import { ProductRequest, ProductTypes } from '@/service/product/type';
 
 const formSchema = z.object({
     name: z.string().min(1, 'Name is required'),
@@ -29,32 +27,7 @@ const formSchema = z.object({
     description: z.string().min(1, 'Description is required')
 })
 
-interface ProductRequest {
-    name: string;
-    image: string;
-    rating: number;
-    price: number;
-    description: string;
-}
-
 type FormData = z.infer<typeof formSchema>
-
-const createProduct = async (
-    url: string,
-    { arg }: { arg: ProductRequest }
-) => {
-    const res = await axiosInstance.post(url, arg);
-    return res.data.id
-};
-
-const updateProduct = async (
-    url: string,
-    { arg }: { arg: { id: string; data: ProductRequest } }
-): Promise<{ id: string }> => {
-    const { id, data } = arg;
-    const res = await axiosInstance.put(`${url}/${id}`, data);
-    return res.data.id
-};
 
 const ProductDetail = () => {
     const router = useRouter();
@@ -88,7 +61,7 @@ const ProductDetail = () => {
         router.push(ROUTES.ADMINPRODUCT);
     }
 
-    const { error, isLoading } = useSWR(id !== 'create' ? `/api/product/${id}` : null,
+    const { error, isLoading } = useSWR(id !== 'create' ? id : null,
         getProductDetail,
         {
             onSuccess: (data: ProductTypes) => {
@@ -107,7 +80,7 @@ const ProductDetail = () => {
         }
     );
 
-    const { trigger: createProductTrigger, isMutating, error: editError } = useSWRMutation('/api/product', createProduct, {
+    const { trigger: createProductTrigger, isMutating, error: createError } = useSWRMutation('/api/product', createProduct, {
         onSuccess: () => {
             toast.success('Product created');
             handleSuccess()
@@ -117,7 +90,11 @@ const ProductDetail = () => {
         }
     });
 
-    const { trigger: updateProductTrigger, isMutating: updateLoading, error: createError } = useSWRMutation('/api/product', updateProduct, {
+    const {
+        trigger: updateProductTrigger,
+        isMutating: updateLoading,
+        error: updateError
+    } = useSWRMutation('/api/product', updateProduct, {
         onSuccess: () => {
             mutate('/api/product');
             handleSuccess();
@@ -201,7 +178,7 @@ const ProductDetail = () => {
     }
 
     if (isLoading || isMutating || updateLoading) return <TableSkeleton />;
-    if (error || editError || createError) return <div>Failed to load data. Error: {error.message}</div>;
+    if (error || createError || updateError) return <div>Failed to load data. Error: {error.message}</div>;
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

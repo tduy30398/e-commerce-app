@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SearchResult = async ({ searchParams }: { searchParams: Promise<{ query: string }> }) => {
+const SearchResult = async ({ searchParams }: { searchParams: { query: string } }) => {
     const query = await searchParams;
     return (
         <div>
