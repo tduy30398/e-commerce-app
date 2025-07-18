@@ -3,11 +3,9 @@ import ProgressBar from '../molecules/ProgressBar'
 
 const ProgressBarWraper = () => {
     return (
-        <div>
-            <Suspense>
-                <ProgressBar />
-            </Suspense>
-        </div>
+        <Suspense>
+            <ProgressBar />
+        </Suspense>
     )
 }
 
