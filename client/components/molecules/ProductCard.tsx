@@ -1,8 +1,8 @@
 import React from 'react'
-import { ProductTypes } from '../templates/NewArrivals'
 import Image from 'next/image'
 import { Star } from 'lucide-react'
 import { formattedCapitalize } from '@/lib/utils'
+import { ProductTypes } from '@/service/product/type'
 
 const ProductCard: React.FC<ProductTypes> = ({ name, image, rating, price }) => {
     return (
