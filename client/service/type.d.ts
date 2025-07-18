@@ -9,3 +9,9 @@ type APIPaginationResponse<T> = {
     data: T;
     panigation: Pagination;
 };
+
+type BaseFilterParams = {
+    keyword?: string;
+    limit?: number;
+    page?: number;
+};
