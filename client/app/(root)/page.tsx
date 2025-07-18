@@ -4,11 +4,11 @@ import NewArrivals from '@/components/templates/NewArrivals';
 
 const Home = () => {
     return (
-        <div>
+        <>
             <HomeBanner />
             <PartnerCarousel />
             <NewArrivals />
-        </div>
+        </>
     );
 };
 
