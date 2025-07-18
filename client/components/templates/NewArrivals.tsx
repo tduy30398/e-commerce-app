@@ -5,7 +5,7 @@ import { ROUTES } from '@/lib/constants';
 import { getAllProducts } from '@/service/product';
 
 const NewArrivals = async () => {
-    const products = await getAllProducts();
+    const products = await getAllProducts({ limit: 4 });
 
     if (!products) {
         return 'Get product failed! Please try again later.';
@@ -15,7 +15,7 @@ const NewArrivals = async () => {
         <section className='flex flex-col items-center mt-12 md:mt-[72px] mb-10 sm:mb-20'>
             <h2 className='text-3xl md:text-5xl font-extrabold'>NEW ARRIVALS</h2>
             <div className='grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8 md:mt-14 mb-9'>
-                {products.length > 0 && products.slice(0, 4).map((product) => (
+                {products.data.length > 0 && products.data.map((product) => (
                     <ProductCard
                         key={product._id}
                         {...product}

@@ -30,15 +30,27 @@ interface TableColumn {
 const PAGE_SIZE = 10;
 
 export const ProductTable: React.FC = () => {
-    const [current, setCurrentPage] = React.useState<number>(1);
-    const { data: products, isLoading, error } = useSWR('/api/product', getAllProducts)
-    const totalPages = products ? Math.ceil(products?.length / PAGE_SIZE) : 0;
+    const [page, setPage] = React.useState(1);
 
-    const paginatedData = products?.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);
-    const fillerRows = paginatedData ? PAGE_SIZE - paginatedData?.length : 0;
+    const queryKey = ['/api/product', { page, limit: PAGE_SIZE }];
 
-    const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-    const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+    const { data: products, isLoading, error } = useSWR(
+        queryKey,
+        () => getAllProducts({ page, limit: PAGE_SIZE }),
+        { revalidateOnFocus: false }
+    );
+
+    const handleNext = () => {
+        if (products?.panigation && page < products.panigation.totalPages) {
+            setPage((prev) => prev + 1);
+        }
+    };
+
+    const handlePrev = () => {
+        if (page > 1) {
+            setPage((prev) => prev - 1);
+        }
+    };
 
     const tableCoulmn: TableColumn[] = [
         {
@@ -60,15 +72,15 @@ export const ProductTable: React.FC = () => {
     ]
 
     const tableData = React.useMemo(() => {
-        if (!paginatedData) return [];
+        if (!products) return [];
 
-        return paginatedData.map((product) => ({
+        return products.data.map((product) => ({
             id: product._id,
             name: product.name,
             price: product.price,
             rating: product.rating
         }))
-    }, [paginatedData])
+    }, [products])
 
     if (isLoading) {
         return <TableSkeleton />
@@ -97,26 +109,18 @@ export const ProductTable: React.FC = () => {
                                 <Link href={`${ROUTES.ADMINPRODUCT}/${item.id}`} className="cursor-pointer">
                                     <Eye className="size-4" />
                                 </Link>
-                                <DeleteAlert id={String(item.id)} />
+                                <DeleteAlert id={String(item.id)} queryKey={queryKey} />
                             </TableCell>
-                        </TableRow>
-                    ))}
-                    {Array.from({ length: fillerRows }).map((_, i) => (
-                        <TableRow
-                            key={`filler-${i}`}
-                            className="pointer-events-none border-none"
-                        >
-                            <TableCell colSpan={3}>&nbsp;</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
             <PaginationCustom
-                onNext={handleNextPage}
-                onPrev={handlePrevPage}
-                totalPages={totalPages}
-                current={current}
-                setPage={setCurrentPage}
+                onNext={handleNext}
+                onPrev={handlePrev}
+                totalPages={products?.panigation.totalPages || 1}
+                current={page}
+                setPage={setPage}
             />
         </>
     );

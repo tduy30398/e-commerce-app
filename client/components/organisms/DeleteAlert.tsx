@@ -20,16 +20,20 @@ import useSWRMutation from 'swr/mutation';
 
 interface DeleteAlertProps {
     id: string;
+    queryKey: (string | {
+        page: number;
+        limit: number;
+    })[]
 }
 
-const DeleteAlert: React.FC<DeleteAlertProps> = ({ id }: { id: string }) => {
+const DeleteAlert: React.FC<DeleteAlertProps> = ({ id, queryKey }) => {
     const {
         trigger: deleteProductTrigger,
         isMutating: deleteLoading,
         error: deleteError
     } = useSWRMutation('/api/product', deleteProduct, {
         onSuccess: () => {
-            mutate('/api/product');
+            mutate(queryKey);
             toast.success('Delete product success');
         },
         onError: () => {
