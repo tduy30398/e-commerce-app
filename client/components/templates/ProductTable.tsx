@@ -16,7 +16,7 @@ import useSWR from "swr";
 import PaginationCustom from "../molecules/PaginationCustom";
 import React from "react";
 import TableSkeleton from "../molecules/TableSkeleton";
-import { getAllProducts } from "@/service/product";
+import { getAllProducts } from "@/actions/product";
 
 interface DataTableProps {
     [key: string]: string | number;

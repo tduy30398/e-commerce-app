@@ -2,7 +2,7 @@ import React from 'react'
 import ProductCard from '../molecules/ProductCard';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/constants';
-import { getAllProducts } from '@/service/product';
+import { getAllProducts } from '@/actions/product';
 
 const NewArrivals = async () => {
     const products = await getAllProducts({ limit: 4 });

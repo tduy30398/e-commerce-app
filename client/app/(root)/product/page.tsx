@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SearchResult = async ({ searchParams }: { searchParams: Promise<{ query: string }> }) => {
+const Product = async ({ searchParams }: { searchParams: Promise<{ query: string }> }) => {
     const query = await searchParams;
     return (
         <div>
@@ -10,4 +10,4 @@ const SearchResult = async ({ searchParams }: { searchParams: Promise<{ query: s
     )
 }
 
-export default SearchResult
+export default Product

@@ -16,8 +16,8 @@ import { ROUTES } from '@/lib/constants';
 import { toast } from 'sonner';
 import useSWRMutation from 'swr/mutation';
 import TableSkeleton from '@/components/molecules/TableSkeleton';
-import { createProduct, getProductDetail, updateProduct } from '@/service/product';
-import { ProductRequest, ProductTypes } from '@/service/product/type';
+import { createProduct, getProductDetail, updateProduct } from '@/actions/product';
+import { ProductRequest, ProductTypes } from '@/actions/product/type';
 
 const formSchema = z.object({
     name: z.string().min(1, 'Name is required'),

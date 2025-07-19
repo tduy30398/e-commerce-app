@@ -3,6 +3,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -13,6 +14,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useRouter } from "next/navigation";
+import { ROUTES } from "@/lib/constants";
 
 const MobileSearchHeader = () => {
   const [open, setOpen] = useState(false);
@@ -25,7 +27,7 @@ const MobileSearchHeader = () => {
 
     if (query) {
       setOpen(false);
-      router.push(`/search?query=${query}`);
+      router.push(`${ROUTES.PRODUCT}?query=${query}`);
     }
   };
 
@@ -38,13 +40,14 @@ const MobileSearchHeader = () => {
         <DialogHeader>
           <DialogTitle>Search</DialogTitle>
         </DialogHeader>
+        <DialogDescription />
         <form onSubmit={handleSubmitForm}>
-            <Input
-              name="query"
-              type="search"
-              placeholder="Search for products..."
-              className="bg-flash-white rounded-3xl h-9"
-            />
+          <Input
+            name="query"
+            type="search"
+            placeholder="Search for products..."
+            className="bg-flash-white rounded-3xl h-9"
+          />
           <DialogFooter>
             <Button
               type="submit"
