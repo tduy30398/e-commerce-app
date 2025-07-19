@@ -1,7 +1,7 @@
 import { ProductTable } from '@/components/templates/ProductTable';
 import Link from 'next/link';
 
-const Module = () => {
+const ProductDashboard = () => {
     return (
         <>
             <div className="flex justify-between">
@@ -15,4 +15,4 @@ const Module = () => {
     )
 }
 
-export default Module
+export default ProductDashboard

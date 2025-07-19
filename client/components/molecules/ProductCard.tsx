@@ -2,17 +2,17 @@ import React from 'react'
 import Image from 'next/image'
 import { Star } from 'lucide-react'
 import { formattedCapitalize } from '@/lib/utils'
-import { ProductTypes } from '@/service/product/type'
+import { ProductTypes } from '@/actions/product/type'
 
 const ProductCard: React.FC<ProductTypes> = ({ name, image, rating, price }) => {
     return (
         <div>
-            <div className='relative bg-gray-100 rounded-2xl h-40 sm:h-60 mb-4 overflow-hidden'>
+            <div className='relative bg-[#F0EEED] rounded-2xl h-40 sm:h-60 mb-4 overflow-hidden'>
                 <Image
                     src={image}
                     alt={name}
                     fill
-                    className='object-cover'
+                    className='object-contain'
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
             </div>
