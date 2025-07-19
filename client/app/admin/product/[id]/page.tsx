@@ -22,10 +22,15 @@ import { ProductRequest, ProductTypes } from '@/service/product/type';
 const formSchema = z.object({
     name: z.string().min(1, 'Name is required'),
     imageUrl: z.string().url('Image is required'),
-    rating: z.string().min(1, 'Rating is required'),
-    price: z.string().min(1, 'Price is required'),
-    description: z.string().min(1, 'Description is required')
-})
+    rating: z
+        .number({ error: 'Rating is required' })
+        .min(1, 'Rating must larger than 1')
+        .max(5, 'Rating must smaller than 5'),
+    price: z
+        .number({ error: 'Price is required' })
+        .min(1, 'Price must larger than 1'),
+    description: z.string().min(1, 'Description is required'),
+});
 
 type FormData = z.infer<typeof formSchema>
 
@@ -49,8 +54,6 @@ const ProductDetail = () => {
             name: '',
             imageUrl: '',
             description: '',
-            rating: '',
-            price: '',
         }
     })
 
@@ -69,8 +72,8 @@ const ProductDetail = () => {
                     name: data.name,
                     imageUrl: data.image,
                     description: data.description,
-                    rating: String(data.rating),
-                    price: String(data.price),
+                    rating: data.rating,
+                    price: data.price,
                 })
                 setPreview(data.image)
             },
@@ -82,8 +85,8 @@ const ProductDetail = () => {
 
     const { trigger: createProductTrigger, isMutating, error: createError } = useSWRMutation('/api/product', createProduct, {
         onSuccess: () => {
-            toast.success('Product created');
             handleSuccess()
+            toast.success('Product created');
         },
         onError: () => {
             toast.error('Create product failed');
@@ -96,8 +99,8 @@ const ProductDetail = () => {
         error: updateError
     } = useSWRMutation('/api/product', updateProduct, {
         onSuccess: () => {
-            mutate('/api/product');
             handleSuccess();
+            toast.success('Product updated');
         },
         onError: () => {
             toast.error('Update product failed');
@@ -196,12 +199,12 @@ const ProductDetail = () => {
                 </div>
                 <div className='w-1/3'>
                     <Label htmlFor="price">Price<span className="text-red-500">*</span></Label>
-                    <Input type='number' className='mt-2' id="price" {...register('price')} />
+                    <Input type='number' className='mt-2' id="price" {...register('price', { valueAsNumber: true })} />
                     {errors.price && <p className="text-sm text-red-600 mt-1">{errors.price.message}</p>}
                 </div>
                 <div className='w-1/3'>
                     <Label htmlFor="rating">Rating<span className="text-red-500">*</span></Label>
-                    <Input type='number' step="0.1" className='mt-2' id="rating" {...register('rating')} />
+                    <Input type='number' step="0.1" className='mt-2' id="rating" {...register('rating', { valueAsNumber: true })} />
                     {errors.rating && <p className="text-sm text-red-600 mt-1">{errors.rating.message}</p>}
                 </div>
             </div>
