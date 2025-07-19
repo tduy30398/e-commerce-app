@@ -1,21 +1,19 @@
-import React from 'react'
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
-  PaginationNext,
-  PaginationPrevious
 } from "@/components/ui/pagination"
-import { Button } from '../ui/button';
+import { ArrowLeft, ArrowRight } from 'lucide-react'
+import React from 'react'
+import { Button } from '../ui/button'
 
 interface PaginationCustomProps {
-  totalPages: number;
-  current: number;
-  onNext: () => void;
-  onPrev: () => void;
-  setPage: (page: number) => void;
+  totalPages: number
+  current: number
+  onNext: () => void
+  onPrev: () => void
+  setPage: (page: number) => void
 }
-
 
 const PaginationCustom: React.FC<PaginationCustomProps> = ({
   totalPages,
@@ -25,31 +23,51 @@ const PaginationCustom: React.FC<PaginationCustomProps> = ({
   setPage
 }) => {
   return (
-    <Pagination>
-      <PaginationContent>
-        <PaginationItem className={current === 1 ? "cursor-not-allowed" : "cursor-pointer"}>
-          <PaginationPrevious
+    <Pagination className="mt-5">
+      <PaginationContent className="w-full flex justify-between items-center gap-4">
+        <PaginationItem
+          aria-disabled={current === 1}
+          className={current === 1 ? "cursor-not-allowed" : ""}
+        >
+          <Button
             onClick={onPrev}
-            className={current === 1 ? "pointer-events-none opacity-50" : ""}
-          />
+            disabled={current === 1}
+            variant="outline"
+            size="sm"
+            className={current !== 1 ? "cursor-pointer" : ""}
+          >
+            <ArrowLeft className="size-4 mr-1" />
+            Prev
+          </Button>
         </PaginationItem>
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-          <PaginationItem key={p}>
+        <div className="flex gap-2 items-center justify-center">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
             <Button
-              variant={p === current ? "default" : "outline"}
+              key={p}
+              disabled={p === current}
               size="sm"
+              variant={p === current ? "default" : "outline"}
               onClick={() => setPage(p)}
-              className='cursor-pointer'
+              className={`min-w-[36px] px-2 ${p === current ? 'font-semibold' : 'cursor-pointer'}`}
             >
               {p < 10 ? `0${p}` : p}
             </Button>
-          </PaginationItem>
-        ))}
-        <PaginationItem className={current === totalPages ? "cursor-not-allowed" : "cursor-pointer"}>
-          <PaginationNext
+          ))}
+        </div>
+        <PaginationItem
+          aria-disabled={current === totalPages}
+          className={current === totalPages ? "cursor-not-allowed" : ""}
+        >
+          <Button
             onClick={onNext}
-            className={current === totalPages ? "pointer-events-none opacity-50" : ""}
-          />
+            disabled={current === totalPages}
+            variant="outline"
+            size="sm"
+            className={current !== totalPages ? "cursor-pointer" : ""}
+          >
+            Next
+            <ArrowRight className="size-4 ml-1" />
+          </Button>
         </PaginationItem>
       </PaginationContent>
     </Pagination>
