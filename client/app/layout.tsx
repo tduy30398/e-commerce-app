@@ -79,7 +79,7 @@ export default function RootLayout({
       >
         <ProgressBarWraper />
         {children}
-        <Toaster position="top-center" />
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );
