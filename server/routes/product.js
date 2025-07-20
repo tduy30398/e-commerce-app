@@ -16,17 +16,43 @@ router.post("/", async (req, res) => {
 // GET ALL
 router.get("/", async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const page = Math.max(parseInt(req.query.page) || 1, 1);
+    const limit = Math.max(parseInt(req.query.limit) || 10, 1);
     const skip = (page - 1) * limit;
 
+    const search = req.query.search || "";
+    const minPrice = parseFloat(req.query.minPrice);
+    const maxPrice = parseFloat(req.query.maxPrice);
+    const onSale = req.query.onSale === "true";
+    const minRating = parseFloat(req.query.minRating);
+
+    const query = {};
+
+    if (search) {
+      query.name = { $regex: search, $options: "i" };
+    }
+
+    if (!isNaN(minPrice) || !isNaN(maxPrice)) {
+      query.price = {};
+      if (!isNaN(minPrice)) query.price.$gte = minPrice;
+      if (!isNaN(maxPrice)) query.price.$lte = maxPrice;
+    }
+
+    if (onSale) {
+      query.promotionalPrice = { $exists: true, $ne: null };
+    }
+
+    if (!isNaN(minRating)) {
+      query.rating = { $gte: minRating };
+    }
+
     const [products, total] = await Promise.all([
-      Product.find().skip(skip).limit(limit),
-      Product.countDocuments(),
+      Product.find(query).skip(skip).limit(limit),
+      Product.countDocuments(query),
     ]);
 
     res.json({
-      panigation: {
+      pagination: {
         page,
         limit,
         totalPages: Math.ceil(total / limit),
