@@ -2,17 +2,17 @@ import {
   Pagination,
   PaginationContent,
   PaginationItem,
-} from "@/components/ui/pagination"
-import { ArrowLeft, ArrowRight } from 'lucide-react'
-import React from 'react'
-import { Button } from '../ui/button'
+} from '@/components/ui/pagination';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+import React from 'react';
+import { Button } from '../ui/button';
 
 interface PaginationCustomProps {
-  totalPages: number
-  current: number
-  onNext: () => void
-  onPrev: () => void
-  setPage: (page: number) => void
+  totalPages: number;
+  current: number;
+  onNext: () => void;
+  onPrev: () => void;
+  setPage: (page: number) => void;
 }
 
 const PaginationCustom: React.FC<PaginationCustomProps> = ({
@@ -20,21 +20,21 @@ const PaginationCustom: React.FC<PaginationCustomProps> = ({
   current,
   onNext,
   onPrev,
-  setPage
+  setPage,
 }) => {
   return (
     <Pagination className="mt-5">
       <PaginationContent className="w-full flex justify-between items-center gap-4">
         <PaginationItem
           aria-disabled={current === 1}
-          className={current === 1 ? "cursor-not-allowed" : ""}
+          className={current === 1 ? 'cursor-not-allowed' : ''}
         >
           <Button
             onClick={onPrev}
             disabled={current === 1}
             variant="outline"
             size="sm"
-            className={current !== 1 ? "cursor-pointer" : ""}
+            className={current !== 1 ? 'cursor-pointer' : ''}
           >
             <ArrowLeft className="size-4 mr-1" />
             Prev
@@ -46,9 +46,11 @@ const PaginationCustom: React.FC<PaginationCustomProps> = ({
               key={p}
               disabled={p === current}
               size="sm"
-              variant={p === current ? "default" : "outline"}
+              variant={p === current ? 'default' : 'outline'}
               onClick={() => setPage(p)}
-              className={`min-w-[36px] px-2 ${p === current ? 'font-semibold' : 'cursor-pointer'}`}
+              className={`min-w-[36px] px-2 ${
+                p === current ? 'font-semibold' : 'cursor-pointer'
+              }`}
             >
               {p < 10 ? `0${p}` : p}
             </Button>
@@ -56,14 +58,14 @@ const PaginationCustom: React.FC<PaginationCustomProps> = ({
         </div>
         <PaginationItem
           aria-disabled={current === totalPages}
-          className={current === totalPages ? "cursor-not-allowed" : ""}
+          className={current === totalPages ? 'cursor-not-allowed' : ''}
         >
           <Button
             onClick={onNext}
             disabled={current === totalPages}
             variant="outline"
             size="sm"
-            className={current !== totalPages ? "cursor-pointer" : ""}
+            className={current !== totalPages ? 'cursor-pointer' : ''}
           >
             Next
             <ArrowRight className="size-4 ml-1" />
@@ -71,7 +73,7 @@ const PaginationCustom: React.FC<PaginationCustomProps> = ({
         </PaginationItem>
       </PaginationContent>
     </Pagination>
-  )
-}
+  );
+};
 
-export default PaginationCustom
+export default PaginationCustom;

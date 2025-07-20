@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   Dialog,
@@ -7,14 +7,14 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
-} from "@/components/ui/dialog"
-import { Search } from "lucide-react"
-import { useState } from "react";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { useRouter } from "next/navigation";
-import { ROUTES } from "@/lib/constants";
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Search } from 'lucide-react';
+import { useState } from 'react';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/lib/constants';
 
 const MobileSearchHeader = () => {
   const [open, setOpen] = useState(false);
@@ -23,7 +23,7 @@ const MobileSearchHeader = () => {
   const handleSubmitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const query = formData.get("query")?.toString().trim();
+    const query = formData.get('query')?.toString().trim();
 
     if (query) {
       setOpen(false);
@@ -34,7 +34,7 @@ const MobileSearchHeader = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Search className='size-6 cursor-pointer' />
+        <Search className="size-6 cursor-pointer" />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] top-10 left-1/2 -translate-x-1/2 translate-y-0">
         <DialogHeader>
@@ -60,7 +60,7 @@ const MobileSearchHeader = () => {
         </form>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
 export default MobileSearchHeader;

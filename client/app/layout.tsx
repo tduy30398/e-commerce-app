@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import { Toaster } from "@/components/ui/sonner"
+import type { Metadata } from 'next';
+import './globals.css';
+import { Toaster } from '@/components/ui/sonner';
 
 import localFont from 'next/font/local';
-import ProgressBarWraper from "@/components/organisms/ProgressBarWraper";
+import ProgressBarWraper from '@/components/organisms/ProgressBarWraper';
 
 const satoshi = localFont({
   src: [
@@ -63,8 +63,8 @@ const satoshi = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Shop Commerce",
-  description: "Buy everything here",
+  title: 'Shop Commerce',
+  description: 'Buy everything here',
 };
 
 export default function RootLayout({
@@ -74,9 +74,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={satoshi.variable}
-      >
+      <body className={satoshi.variable}>
         <ProgressBarWraper />
         {children}
         <Toaster position="top-center" richColors />

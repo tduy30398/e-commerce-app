@@ -7,6 +7,7 @@ export interface ProductTypes {
     rating: number;
     createdAt: string;
     updatedAt: string;
+    promotionalPrice?: number;
 }
 
 export interface ProductRequest {
@@ -15,4 +16,5 @@ export interface ProductRequest {
     rating: number;
     price: number;
     description: string;
+    promotionalPrice?: number;
 }
