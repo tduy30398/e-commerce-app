@@ -14,4 +14,6 @@ type BaseFilterParams = {
     keyword?: string;
     limit?: number;
     page?: number;
+    search?: string;
+    minRating?: number;
 };

@@ -158,3 +158,30 @@ export const paymentMethods = [
         logo: '/icons/payment/googlePay.svg'
     }
 ]
+
+export const filterRatings = [
+    {
+        title: 'All ratings',
+        value: 'all'
+    },
+    {
+        title: '5 stars',
+        value: '5'
+    },
+    {
+        title: '4 stars and above',
+        value: '4'
+    },
+    {
+        title: '3 stars and above',
+        value: '3'
+    },
+    {
+        title: '2 stars and above',
+        value: '2'
+    },
+    {
+        title: '1 star and above',
+        value: '1'
+    },
+]

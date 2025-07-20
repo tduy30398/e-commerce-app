@@ -23,6 +23,7 @@ const Header = () => {
             alt="logo"
             fill
             className="object-contain"
+            priority
           />
         </Link>
         <div className="ml-10 hidden lg:flex items-center">
