@@ -6,6 +6,7 @@ import {
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import React from 'react';
 import { Button } from '../ui/button';
+import { cn } from '@/lib/utils';
 
 interface PaginationCustomProps {
   totalPages: number;
@@ -48,9 +49,10 @@ const PaginationCustom: React.FC<PaginationCustomProps> = ({
               size="sm"
               variant={p === current ? 'default' : 'outline'}
               onClick={() => setPage(p)}
-              className={`min-w-[36px] px-2 ${
+              className={cn(
+                'min-w-[36px] px-2',
                 p === current ? 'font-semibold' : 'cursor-pointer'
-              }`}
+              )}
             >
               {p < 10 ? `0${p}` : p}
             </Button>

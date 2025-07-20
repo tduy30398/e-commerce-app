@@ -68,7 +68,7 @@ const Product = () => {
         <div className="lg:col-span-3">
           <h2 className="text-3xl font-bold mb-6">Our Trending Products</h2>
 
-          <div className="grid grid-cols-2 xl:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 xl:grid-cols-3 lg:gap-4">
             {products?.data && products?.data.length > 0 ? (
               products.data.map((product) => (
                 <ProductCard key={product._id} {...product} />
