@@ -7,7 +7,7 @@ type Pagination = {
 
 type APIPaginationResponse<T> = {
     data: T;
-    panigation: Pagination;
+    pagination: Pagination;
 };
 
 type BaseFilterParams = {

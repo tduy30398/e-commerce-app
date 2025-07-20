@@ -43,7 +43,7 @@ const ProductDashboard = () => {
   });
 
   const handleNext = () => {
-    if (products?.panigation && page < products.panigation.totalPages) {
+    if (products?.pagination && page < products.pagination.totalPages) {
       setPage((prev) => prev + 1);
     }
   };
@@ -142,7 +142,7 @@ const ProductDashboard = () => {
       <PaginationCustom
         onNext={handleNext}
         onPrev={handlePrev}
-        totalPages={products?.panigation.totalPages || 1}
+        totalPages={products?.pagination.totalPages || 1}
         current={page}
         setPage={setPage}
       />
