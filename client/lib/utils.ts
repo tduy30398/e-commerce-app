@@ -9,3 +9,10 @@ export const formattedCapitalize = (str: string) => {
   if (!str) return '';
   return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
 }; 
+
+export const calculatePercentage = (num1: number, num2: number) => {
+  if (num2 === 0) {
+    return 0;
+  }
+  return Math.round((num1 / num2) * 100);
+};

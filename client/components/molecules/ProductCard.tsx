@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Star } from 'lucide-react';
-import { formattedCapitalize } from '@/lib/utils';
+import { formattedCapitalize, calculatePercentage } from '@/lib/utils';
 import { ProductTypes } from '@/actions/product/type';
 
 const ProductCard: React.FC<ProductTypes> = ({
@@ -9,9 +9,10 @@ const ProductCard: React.FC<ProductTypes> = ({
   image,
   rating,
   price,
+  promotionalPrice,
 }) => {
   return (
-    <div>
+    <div className="border border-transparent hover:border-cyan-500 cursor-pointer rounded-lg p-2 lg:p-4">
       <div className="relative bg-[#F0EEED] rounded-2xl h-40 sm:h-60 mb-4 overflow-hidden">
         <Image
           src={image}
@@ -28,9 +29,26 @@ const ProductCard: React.FC<ProductTypes> = ({
         <Star className="size-4 md:size-5 text-[#FFC633] fill-[#FFC633] mr-2" />
         <span className="text-xs md:text-base">{`${rating || 0}/5`}</span>
       </div>
-      <p className="tex-base md:text-2xl font-semibold mt-2">{`$${
-        price || 0
-      }`}</p>
+      <div className="flex items-center mt-2">
+        <span className="tex-base md:text-2xl font-semibold">{`$${
+          promotionalPrice || price || 0
+        }`}</span>
+        {promotionalPrice ? (
+          <span className="tex-base md:text-2xl text-gray-400 line-through font-semibold ml-[10px]">{`$${
+            price || 0
+          }`}</span>
+        ) : (
+          ''
+        )}
+        {promotionalPrice ? (
+          <span className="text-sm bg-[#ffebeb] text-[#ff3333] px-2 rounded-4xl ml-[10px]">{`-${calculatePercentage(
+            promotionalPrice,
+            price
+          )}%`}</span>
+        ) : (
+          ''
+        )}
+      </div>
     </div>
   );
 };
