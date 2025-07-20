@@ -1,12 +1,12 @@
-import React, { Suspense } from 'react'
-import ProgressBar from '../molecules/ProgressBar'
+import React, { Suspense } from 'react';
+import ProgressBar from '../molecules/ProgressBar';
 
 const ProgressBarWraper = () => {
-    return (
-        <Suspense>
-            <ProgressBar />
-        </Suspense>
-    )
-}
+  return (
+    <Suspense>
+      <ProgressBar />
+    </Suspense>
+  );
+};
 
-export default ProgressBarWraper
+export default ProgressBarWraper;
