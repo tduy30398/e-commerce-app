@@ -32,6 +32,7 @@ const HomeBanner = () => {
             width={703}
             height={663}
             className="max-sm:hidden"
+            priority
           />
           <Image
             src={'/images/home-banner.png'}
@@ -39,6 +40,7 @@ const HomeBanner = () => {
             width={780 * 0.8}
             height={896 * 0.8}
             className="sm:hidden"
+            priority
           />
         </div>
       </div>

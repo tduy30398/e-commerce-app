@@ -150,8 +150,6 @@ const ProductDetail = () => {
   if (error || createError || updateError)
     return <div>Failed to load data. Error: {error.message}</div>;
 
-  console.log(methods.watch('price'));
-
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

@@ -18,6 +18,9 @@ import {
 } from '@/components/ui/select';
 import { filterRatings } from '@/public/dummy/general';
 import { Button } from '@/components/ui/button';
+import { Switch } from '../ui/switch';
+import { Label } from '../ui/label';
+import { Slider } from '../ui/slider';
 
 const PAGE_SIZE = 9;
 
@@ -29,12 +32,20 @@ const ProductPage = () => {
   const [selectedRating, setSelectedRating] = React.useState(
     filterRatings[0].value
   );
+  const [isDiscount, setIsDiscount] = React.useState(false);
+  const [priceRange, setPriceRange] = React.useState<[number, number]>([
+    50, 300,
+  ]);
+
+  const handleValueChange = (values: number[]) => {
+    setPriceRange([values[0], values[1]]);
+  };
 
   const queryKey = ['/api/product', page, query];
 
   const {
     data: products,
-    isLoading,
+    isValidating,
     error,
   } = useSWR(
     queryKey,
@@ -44,6 +55,9 @@ const ProductPage = () => {
         limit: PAGE_SIZE,
         ...(query && { search: query }),
         ...(selectedRating !== 'all' && { minRating: Number(selectedRating) }),
+        onSale: isDiscount,
+        minPrice: priceRange[0],
+        maxPrice: priceRange[1],
       }),
     {
       revalidateOnFocus: false,
@@ -62,13 +76,14 @@ const ProductPage = () => {
     }
   };
 
-  if (isLoading) {
+  if (isValidating) {
     return <ProductPageSkeleton />;
   }
 
   if (error) {
     return <div>Error : {error.message}</div>;
   }
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-8 md:mt-14 mb-9 w-full">
       <aside className="lg:col-span-1 bg-white p-4 rounded-xl shadow h-fit">
@@ -76,8 +91,8 @@ const ProductPage = () => {
           <h2 className="text-xl font-bold">Filters</h2>
           <ListFilter className="size-5" />
         </div>
-        <div className="mt-4">
-          <label className="block text-xl font-bold mb-1">Rating range</label>
+        <div className="mt-4 border-b-[1px] border-b-gray-200 pb-6">
+          <Label className="block text-xl font-bold mb-1">Rating range</Label>
           <Select value={selectedRating} onValueChange={setSelectedRating}>
             <SelectTrigger className="w-full mt-4">
               <SelectValue placeholder="Select Rating" />
@@ -92,6 +107,34 @@ const ProductPage = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
+        </div>
+        <div className="flex items-center mt-4 border-b-[1px] border-b-gray-200 pb-6">
+          <Label htmlFor="promotional" className="block text-xl font-bold mb-1">
+            Discount products
+          </Label>
+          <Switch
+            checked={isDiscount}
+            onCheckedChange={setIsDiscount}
+            id="promotional"
+            className="ml-4 cursor-pointer"
+          />
+        </div>
+        <div className="flex flex-col items-start mt-4 border-b-[1px] border-b-gray-200 pb-6">
+          <Label
+            htmlFor="price-range"
+            className="block text-xl font-bold mb-10"
+          >
+            Price
+          </Label>
+          <Slider
+            id="price-range"
+            min={0}
+            max={500}
+            step={1}
+            value={priceRange}
+            onValueChange={handleValueChange}
+            className="w-full cursor-pointer"
+          />
         </div>
         <Button
           onClick={() => mutate(queryKey)}
