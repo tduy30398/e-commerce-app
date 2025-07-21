@@ -18,8 +18,9 @@ import { usePathname } from 'next/navigation';
 
 const items = [
   {
+    id: 1,
     title: 'Products',
-    url: '/admin/product',
+    url: ROUTES.ADMINPRODUCT,
     icon: Inbox,
   },
 ];
@@ -39,7 +40,7 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.id}>
                   <SidebarMenuButton asChild isActive={pathname === item.url}>
                     <Link href={item.url}>
                       <item.icon />
