@@ -35,12 +35,8 @@ router.get("/", async (req, res) => {
     if (!isNaN(minPrice) || !isNaN(maxPrice)) {
       query.$expr = {
         $and: [
-          !isNaN(minPrice)
-            ? { $gte: [ { $ifNull: ["$promotionalPrice", "$price"] }, minPrice ] }
-            : {},
-          !isNaN(maxPrice)
-            ? { $lte: [ { $ifNull: ["$promotionalPrice", "$price"] }, maxPrice ] }
-            : {},
+          { $gte: [ { $ifNull: ["$promotionalPrice", "$price"] }, minPrice ] },
+          { $lte: [ { $ifNull: ["$promotionalPrice", "$price"] }, maxPrice ] },
         ],
       };
     }
