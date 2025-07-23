@@ -26,7 +26,7 @@ const Header = () => {
             priority
           />
         </Link>
-        <div className="ml-10 hidden lg:flex items-center">
+        <nav className="ml-10 hidden lg:flex items-center">
           {navigateList.map((item, index) => (
             <Link
               key={index}
@@ -36,7 +36,7 @@ const Header = () => {
               {item.title}
             </Link>
           ))}
-        </div>
+        </nav>
       </div>
       <SearchForm />
       <div className="flex items-center sm:ml-10 gap-4 shrink-0">

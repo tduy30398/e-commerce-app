@@ -24,7 +24,7 @@ import { z } from 'zod';
 const formSchema = z
   .object({
     name: z.string().nonempty('Name is required'),
-    image: z.string().url('Image must be a valid URL'),
+    image: z.url('Image must be a valid URL'),
     rating: z
       .number({ error: 'Rating must be a number' })
       .min(1, 'Rating must be greater than or equal to 1')
@@ -149,8 +149,6 @@ const ProductDetail = () => {
   if (isLoading || isMutating || updateLoading) return <TableSkeleton />;
   if (error || createError || updateError)
     return <div>Failed to load data. Error: {error.message}</div>;
-
-  console.log(methods.watch('price'));
 
   return (
     <FormProvider {...methods}>

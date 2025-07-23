@@ -95,7 +95,7 @@ const ProductDashboard = () => {
       <div className="flex justify-between">
         <h2 className="text-2xl font-bold mb-6">Products List</h2>
         <Link
-          href="/admin/product/create"
+          href={`${ROUTES.ADMINPRODUCT}/create`}
           className="bg-black text-white px-4 py-2 rounded-md h-9 leading-[18px]"
         >
           Create

@@ -16,8 +16,8 @@ router.post("/", async (req, res) => {
 // GET ALL
 router.get("/", async (req, res) => {
   try {
-    const page = Math.max(parseInt(req.query.page) || 1, 1);
-    const limit = Math.max(parseInt(req.query.limit) || 10, 1);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
     const search = req.query.search || "";
@@ -33,9 +33,16 @@ router.get("/", async (req, res) => {
     }
 
     if (!isNaN(minPrice) || !isNaN(maxPrice)) {
-      query.price = {};
-      if (!isNaN(minPrice)) query.price.$gte = minPrice;
-      if (!isNaN(maxPrice)) query.price.$lte = maxPrice;
+      query.$expr = {
+        $and: [
+          !isNaN(minPrice)
+            ? { $gte: [ { $ifNull: ["$promotionalPrice", "$price"] }, minPrice ] }
+            : {},
+          !isNaN(maxPrice)
+            ? { $lte: [ { $ifNull: ["$promotionalPrice", "$price"] }, maxPrice ] }
+            : {},
+        ],
+      };
     }
 
     if (onSale) {
