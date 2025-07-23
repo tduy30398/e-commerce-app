@@ -4,10 +4,9 @@ import { getAllProducts } from '@/actions/product';
 import PaginationCustom from '@/components/molecules/PaginationCustom';
 import ProductCard from '@/components/molecules/ProductCard';
 import ProductPageSkeleton from '@/components/molecules/ProductPageSkeleton';
-import { ListFilter } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
-import useSWR, { mutate } from 'swr';
+import useSWR from 'swr';
 import {
   Select,
   SelectContent,
@@ -21,6 +20,8 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
 import { Slider } from '../ui/slider';
+import Image from 'next/image';
+import FilterDrawer from '../organisms/FilterDrawer';
 
 const PAGE_SIZE = 9;
 
@@ -28,6 +29,16 @@ const ProductPage = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get('query') || '';
 
+  // Pending state
+  const [pendingRating, setPendingRating] = React.useState(
+    filterRatings[0].value
+  );
+  const [pendingIsDiscount, setPendingIsDiscount] = React.useState(false);
+  const [pendingPriceRange, setPendingPriceRange] = React.useState<
+    [number, number]
+  >([50, 300]);
+
+  // State
   const [page, setPage] = React.useState(1);
   const [selectedRating, setSelectedRating] = React.useState(
     filterRatings[0].value
@@ -37,11 +48,21 @@ const ProductPage = () => {
     50, 300,
   ]);
 
-  const handleValueChange = (values: number[]) => {
-    setPriceRange([values[0], values[1]]);
+  const handleApplyFilters = () => {
+    setSelectedRating(pendingRating);
+    setIsDiscount(pendingIsDiscount);
+    setPriceRange(pendingPriceRange);
+    setPage(1);
   };
 
-  const queryKey = ['/api/product', page, query];
+  const queryKey = [
+    '/api/product',
+    page,
+    selectedRating,
+    isDiscount,
+    priceRange,
+    query,
+  ];
 
   const {
     data: products,
@@ -85,15 +106,17 @@ const ProductPage = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-8 md:mt-14 mb-9 w-full">
-      <aside className="lg:col-span-1 bg-white p-4 rounded-xl shadow h-fit">
+    <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 md:mt-14 mb-9 w-full">
+      <aside className="max-lg:hidden lg:col-span-1 bg-white p-4 rounded-xl shadow h-fit">
         <div className="flex items-center justify-between border-b-[1px] border-b-gray-200 pb-6">
           <h2 className="text-xl font-bold">Filters</h2>
-          <ListFilter className="size-5" />
+          <div className="relative size-8 ml-4 cursor-pointer">
+            <Image fill src="/icons/filter.svg" alt="filter" />
+          </div>
         </div>
         <div className="mt-4 border-b-[1px] border-b-gray-200 pb-6">
           <Label className="block text-xl font-bold mb-1">Rating range</Label>
-          <Select value={selectedRating} onValueChange={setSelectedRating}>
+          <Select value={pendingRating} onValueChange={setPendingRating}>
             <SelectTrigger className="w-full mt-4">
               <SelectValue placeholder="Select Rating" />
             </SelectTrigger>
@@ -113,8 +136,8 @@ const ProductPage = () => {
             Only discount
           </Label>
           <Switch
-            checked={isDiscount}
-            onCheckedChange={setIsDiscount}
+            checked={pendingIsDiscount}
+            onCheckedChange={setPendingIsDiscount}
             id="promotional"
             className="ml-4 cursor-pointer"
           />
@@ -131,23 +154,33 @@ const ProductPage = () => {
             min={0}
             max={500}
             step={1}
-            value={priceRange}
-            onValueChange={handleValueChange}
+            value={pendingPriceRange}
+            onValueChange={(val: number[]) =>
+              setPendingPriceRange([val[0], val[1]])
+            }
             className="w-full cursor-pointer"
           />
         </div>
         <Button
-          onClick={() => mutate(queryKey)}
+          onClick={handleApplyFilters}
           className="main-button mt-8 w-full h-12 cursor-pointer"
         >
           Apply Filter
         </Button>
       </aside>
-      <div className="lg:col-span-3">
-        <h2 className="text-3xl font-bold mb-6">
-          {query ? `Search results for "${query}"` : 'Our Trending Products'}
-        </h2>
-        <div className="grid grid-cols-2 xl:grid-cols-3 lg:gap-4">
+      <div className="lg:col-span-2 xl:col-span-3">
+        <div className="max-lg:mb-7 flex items-center justify-between">
+          <h2 className="text-xl sm:text-3xl font-bold sm:mb-6">
+            {query ? `Search results for "${query}"` : 'Trending'}
+          </h2>
+          <div className="flex items-center">
+            <p className="text-base">{`Total: ${
+              products?.pagination.totalItems || 0
+            } product${products?.pagination.totalItems === 1 ? '' : 's'}`}</p>
+            <FilterDrawer />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-4">
           {products?.data && products?.data.length > 0 ? (
             products.data.map((product) => (
               <ProductCard key={product._id} {...product} />
