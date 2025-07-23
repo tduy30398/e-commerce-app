@@ -33,9 +33,16 @@ router.get("/", async (req, res) => {
     }
 
     if (!isNaN(minPrice) || !isNaN(maxPrice)) {
-      query.price = {};
-      if (!isNaN(minPrice)) query.price.$gte = minPrice;
-      if (!isNaN(maxPrice)) query.price.$lte = maxPrice;
+      query.$expr = {
+        $and: [
+          !isNaN(minPrice)
+            ? { $gte: [ { $ifNull: ["$promotionalPrice", "$price"] }, minPrice ] }
+            : {},
+          !isNaN(maxPrice)
+            ? { $lte: [ { $ifNull: ["$promotionalPrice", "$price"] }, maxPrice ] }
+            : {},
+        ],
+      };
     }
 
     if (onSale) {

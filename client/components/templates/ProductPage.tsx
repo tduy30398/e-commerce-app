@@ -33,6 +33,13 @@ const ProductPage = () => {
     filterRatings[0].value
   );
   const [isDiscount, setIsDiscount] = React.useState(false);
+  const [priceRange, setPriceRange] = React.useState<[number, number]>([
+    50, 300,
+  ]);
+
+  const handleValueChange = (values: number[]) => {
+    setPriceRange([values[0], values[1]]);
+  };
 
   const queryKey = ['/api/product', page, query];
 
@@ -49,6 +56,8 @@ const ProductPage = () => {
         ...(query && { search: query }),
         ...(selectedRating !== 'all' && { minRating: Number(selectedRating) }),
         onSale: isDiscount,
+        minPrice: priceRange[0],
+        maxPrice: priceRange[1],
       }),
     {
       revalidateOnFocus: false,
@@ -100,14 +109,31 @@ const ProductPage = () => {
           </Select>
         </div>
         <div className="flex items-center mt-4 border-b-[1px] border-b-gray-200 pb-6">
-          <Label htmlFor="promotional" className='block text-xl font-bold mb-1'>Discount products</Label>
-          <Switch checked={isDiscount} onCheckedChange={setIsDiscount} id="promotional" className='ml-4 cursor-pointer' />
+          <Label htmlFor="promotional" className="block text-xl font-bold mb-1">
+            Discount products
+          </Label>
+          <Switch
+            checked={isDiscount}
+            onCheckedChange={setIsDiscount}
+            id="promotional"
+            className="ml-4 cursor-pointer"
+          />
         </div>
         <div className="flex flex-col items-start mt-4 border-b-[1px] border-b-gray-200 pb-6">
-          <Label htmlFor="priceRange" className='block text-xl font-bold mb-1'>Price</Label>
+          <Label
+            htmlFor="price-range"
+            className="block text-xl font-bold mb-10"
+          >
+            Price
+          </Label>
           <Slider
-            id='priceRange'
-            className='mt-5'
+            id="price-range"
+            min={0}
+            max={500}
+            step={1}
+            value={priceRange}
+            onValueChange={handleValueChange}
+            className="w-full cursor-pointer"
           />
         </div>
         <Button
