@@ -110,7 +110,7 @@ const ProductPage = () => {
         </div>
         <div className="flex items-center mt-4 border-b-[1px] border-b-gray-200 pb-6">
           <Label htmlFor="promotional" className="block text-xl font-bold mb-1">
-            Discount products
+            Only discount
           </Label>
           <Switch
             checked={isDiscount}
