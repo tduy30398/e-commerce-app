@@ -15,13 +15,13 @@ const HamburgerMenu = () => {
   return (
     <Sheet>
       <SheetTrigger>
-        <Menu className="size-6" />
+        <Menu className="size-6 cursor-pointer" />
       </SheetTrigger>
-      <SheetContent side={'left'}>
+      <SheetContent side={'left'} className="w-auto max-w-fit px-8 py-6 -ml-4">
         <SheetHeader>
           <SheetTitle className="text-left">Menu</SheetTitle>
         </SheetHeader>
-        <nav className="ml-4">
+        <nav>
           {navigateList.map((item, index) => (
             <Link key={index} href={item.link} className="ml-6 hover:underline">
               <SheetDescription className="text-black font-medium text-base">

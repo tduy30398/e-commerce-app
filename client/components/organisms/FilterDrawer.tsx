@@ -6,39 +6,37 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerDescription,
-  DrawerFooter,
   DrawerClose,
 } from '@/components/ui/drawer';
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
+import { X } from 'lucide-react';
 
-const FilterDrawer = () => {
+interface FilterDrawerProps {
+  trigger: React.ReactNode;
+  title: string;
+  description?: string;
+  children: React.ReactNode;
+}
+
+const FilterDrawer = ({
+  trigger,
+  title,
+  description,
+  children,
+}: FilterDrawerProps) => {
   return (
     <Drawer>
-      <DrawerTrigger asChild>
-        <div className="lg:hidden relative size-8 ml-4 cursor-pointer">
-          <Image fill src="/icons/filter.svg" alt="filter" />
-        </div>
-      </DrawerTrigger>
+      <DrawerTrigger asChild>{trigger}</DrawerTrigger>
       <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>Drawer Title</DrawerTitle>
-          <DrawerDescription>
-            This is a description inside the drawer.
-          </DrawerDescription>
+        <DrawerHeader className="border-b-[1px] border-b-gray-200">
+          <DrawerTitle className="text-xl font-bold text-left flex items-center justify-between">
+            {title}
+            <DrawerClose className="cursor-pointer">
+              <X className="size-6" />
+            </DrawerClose>
+          </DrawerTitle>
+          <DrawerDescription>{description || ''}</DrawerDescription>
         </DrawerHeader>
-
-        <div className="p-4">
-          {/* Add your custom content here */}
-          <p>Some drawer content here...</p>
-        </div>
-
-        <DrawerFooter>
-          <Button>Submit</Button>
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter>
+        {children}
       </DrawerContent>
     </Drawer>
   );
