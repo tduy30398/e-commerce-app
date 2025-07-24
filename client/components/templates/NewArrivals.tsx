@@ -25,7 +25,7 @@ const NewArrivals = async () => {
       </div>
       <Link
         href={ROUTES.PRODUCT}
-        className="text-base text-black px-8 md:px-16 py-2 md:py-4 border border-gray-300 rounded-full hover:bg-gray-100 max-sm:text-center"
+        className="max-md:w-full text-center text-base text-black px-8 md:px-16 py-2 md:py-4 border border-gray-300 rounded-full hover:bg-gray-100 max-sm:text-center"
       >
         View All
       </Link>

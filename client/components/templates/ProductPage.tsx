@@ -4,24 +4,13 @@ import { getAllProducts } from '@/actions/product';
 import PaginationCustom from '@/components/molecules/PaginationCustom';
 import ProductCard from '@/components/molecules/ProductCard';
 import ProductPageSkeleton from '@/components/molecules/ProductPageSkeleton';
+import { filterRatings } from '@/public/dummy/general';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
 import useSWR from 'swr';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { filterRatings } from '@/public/dummy/general';
-import { Button } from '@/components/ui/button';
-import { Switch } from '../ui/switch';
-import { Label } from '../ui/label';
-import { Slider } from '../ui/slider';
-import Image from 'next/image';
 import FilterDrawer from '../organisms/FilterDrawer';
+import ProductFilter from '../organisms/ProductFilter';
 
 const PAGE_SIZE = 9;
 
@@ -108,65 +97,15 @@ const ProductPage = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 md:mt-14 mb-9 w-full">
       <aside className="max-lg:hidden lg:col-span-1 bg-white p-4 rounded-xl shadow h-fit">
-        <div className="flex items-center justify-between border-b-[1px] border-b-gray-200 pb-6">
-          <h2 className="text-xl font-bold">Filters</h2>
-          <div className="relative size-8 ml-4 cursor-pointer">
-            <Image fill src="/icons/filter.svg" alt="filter" />
-          </div>
-        </div>
-        <div className="mt-4 border-b-[1px] border-b-gray-200 pb-6">
-          <Label className="block text-xl font-bold mb-1">Rating range</Label>
-          <Select value={pendingRating} onValueChange={setPendingRating}>
-            <SelectTrigger className="w-full mt-4">
-              <SelectValue placeholder="Select Rating" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {filterRatings.map((rating) => (
-                  <SelectItem key={rating.value} value={rating.value}>
-                    {rating.title}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex items-center mt-4 border-b-[1px] border-b-gray-200 pb-6">
-          <Label htmlFor="promotional" className="block text-xl font-bold mb-1">
-            Only discount
-          </Label>
-          <Switch
-            checked={pendingIsDiscount}
-            onCheckedChange={setPendingIsDiscount}
-            id="promotional"
-            className="ml-4 cursor-pointer"
-          />
-        </div>
-        <div className="flex flex-col items-start mt-4 border-b-[1px] border-b-gray-200 pb-6">
-          <Label
-            htmlFor="price-range"
-            className="block text-xl font-bold mb-10"
-          >
-            Price
-          </Label>
-          <Slider
-            id="price-range"
-            min={0}
-            max={500}
-            step={1}
-            value={pendingPriceRange}
-            onValueChange={(val: number[]) =>
-              setPendingPriceRange([val[0], val[1]])
-            }
-            className="w-full cursor-pointer"
-          />
-        </div>
-        <Button
-          onClick={handleApplyFilters}
-          className="main-button mt-8 w-full h-12 cursor-pointer"
-        >
-          Apply Filter
-        </Button>
+        <ProductFilter
+          pendingRating={pendingRating}
+          setPendingRating={setPendingRating}
+          pendingIsDiscount={pendingIsDiscount}
+          setPendingIsDiscount={setPendingIsDiscount}
+          pendingPriceRange={pendingPriceRange}
+          setPendingPriceRange={setPendingPriceRange}
+          handleApplyFilters={handleApplyFilters}
+        />
       </aside>
       <div className="lg:col-span-2 xl:col-span-3">
         <div className="max-lg:mb-7 flex items-center justify-between">
@@ -177,7 +116,27 @@ const ProductPage = () => {
             <p className="text-base">{`Total: ${
               products?.pagination.totalItems || 0
             } product${products?.pagination.totalItems === 1 ? '' : 's'}`}</p>
-            <FilterDrawer />
+            <FilterDrawer
+              trigger={
+                <div className="lg:hidden relative size-8 ml-4 cursor-pointer">
+                  <Image fill src="/icons/filter.svg" alt="filter" />
+                </div>
+              }
+              title="Filters"
+            >
+              <div className="px-5 pb-5">
+                <ProductFilter
+                  pendingRating={pendingRating}
+                  setPendingRating={setPendingRating}
+                  pendingIsDiscount={pendingIsDiscount}
+                  setPendingIsDiscount={setPendingIsDiscount}
+                  pendingPriceRange={pendingPriceRange}
+                  setPendingPriceRange={setPendingPriceRange}
+                  handleApplyFilters={handleApplyFilters}
+                  isHideTitle
+                />
+              </div>
+            </FilterDrawer>
           </div>
         </div>
         <div className="grid grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-4">

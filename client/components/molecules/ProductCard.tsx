@@ -12,7 +12,7 @@ const ProductCard: React.FC<ProductTypes> = ({
   promotionalPrice,
 }) => {
   return (
-    <div className="border border-transparent hover:border-cyan-500 cursor-pointer rounded-lg lg:p-4">
+    <div className="border border-transparent hover:border-cyan-500 cursor-pointer rounded-lg sm:p-4">
       <div className="relative bg-[#F0EEED] rounded-2xl h-40 sm:h-60 mb-4 overflow-hidden">
         <Image
           src={image}
