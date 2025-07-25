@@ -17,7 +17,7 @@ const ProductPageSkeleton = () => {
       <div className="lg:col-span-2 xl:col-span-3">
         <Skeleton className="max-lg:hidden h-12 w-full mb-4" />
         <div className="grid gap-2 grid-cols-2 xl:grid-cols-3 lg:gap-4">
-          {Array.from({ length: 4 }).map((_, i) => (
+          {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="space-y-3">
               <Skeleton className="h-48 w-full rounded-xl" />
               <Skeleton className="h-4 w-3/4" />
