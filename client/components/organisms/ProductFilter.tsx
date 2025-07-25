@@ -16,6 +16,7 @@ interface ProductFilterProps {
   setPendingPriceRange: (value: [number, number]) => void;
   handleApplyFilters: () => void;
   isHideTitle?: boolean;
+  disabled?: boolean;
 }
 
 const ProductFilter = ({
@@ -27,6 +28,7 @@ const ProductFilter = ({
   setPendingPriceRange,
   handleApplyFilters,
   isHideTitle = false,
+  disabled = false,
 }: ProductFilterProps) => {
   return (
     <>
@@ -77,6 +79,7 @@ const ProductFilter = ({
       <Button
         onClick={handleApplyFilters}
         className="main-button mt-8 w-full h-12 cursor-pointer"
+        disabled={disabled}
       >
         Apply Filter
       </Button>

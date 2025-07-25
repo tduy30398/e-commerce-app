@@ -20,13 +20,7 @@ import useSWRMutation from 'swr/mutation';
 
 interface DeleteAlertProps {
   id: string;
-  queryKey: (
-    | string
-    | {
-        page: number;
-        limit: number;
-      }
-  )[];
+  queryKey: (string | number)[];
 }
 
 const DeleteAlert: React.FC<DeleteAlertProps> = ({ id, queryKey }) => {

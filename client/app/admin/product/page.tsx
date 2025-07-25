@@ -32,7 +32,7 @@ const PAGE_SIZE = 10;
 const ProductDashboard = () => {
   const [page, setPage] = React.useState(1);
 
-  const queryKey = ['/api/product', { page, limit: PAGE_SIZE }];
+  const queryKey = ['/api/product', page];
 
   const {
     data: products,

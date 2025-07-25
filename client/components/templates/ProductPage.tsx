@@ -3,7 +3,6 @@
 import { getAllProducts } from '@/actions/product';
 import PaginationCustom from '@/components/molecules/PaginationCustom';
 import ProductCard from '@/components/molecules/ProductCard';
-import ProductPageSkeleton from '@/components/molecules/ProductPageSkeleton';
 import { filterRatings } from '@/public/dummy/general';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
@@ -11,6 +10,7 @@ import React from 'react';
 import useSWR from 'swr';
 import FilterDrawer from '../organisms/FilterDrawer';
 import ProductFilter from '../organisms/ProductFilter';
+import { Skeleton } from '../ui/skeleton';
 
 const PAGE_SIZE = 9;
 
@@ -86,10 +86,6 @@ const ProductPage = () => {
     }
   };
 
-  if (isValidating) {
-    return <ProductPageSkeleton />;
-  }
-
   if (error) {
     return <div>Error : {error.message}</div>;
   }
@@ -105,63 +101,79 @@ const ProductPage = () => {
           pendingPriceRange={pendingPriceRange}
           setPendingPriceRange={setPendingPriceRange}
           handleApplyFilters={handleApplyFilters}
+          disabled={isValidating}
         />
       </aside>
-      <div className="lg:col-span-2 xl:col-span-3">
-        <div className="max-lg:mb-7 flex items-center justify-between">
-          <h2 className="text-xl sm:text-3xl font-bold">
-            {query ? `Search results for "${query}"` : 'Trending'}
-          </h2>
-          <div className="flex items-center">
-            <p className="text-base">{`Total: ${
-              products?.pagination.totalItems || 0
-            } product${products?.pagination.totalItems === 1 ? '' : 's'}`}</p>
-            <FilterDrawer
-              trigger={
-                <div className="lg:hidden relative size-8 ml-4 cursor-pointer">
-                  <Image fill src="/icons/filter.svg" alt="filter" />
+      {!isValidating ? (
+        <div className="lg:col-span-2 xl:col-span-3">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-xl sm:text-3xl font-bold">
+              {query ? `Search results for "${query}"` : 'Trending'}
+            </h2>
+            <div className="flex items-center">
+              <p className="text-base">{`Total: ${
+                products?.pagination.totalItems || 0
+              } product${products?.pagination.totalItems === 1 ? '' : 's'}`}</p>
+              <FilterDrawer
+                trigger={
+                  <div className="lg:hidden relative size-8 ml-4 cursor-pointer">
+                    <Image fill src="/icons/filter.svg" alt="filter" />
+                  </div>
+                }
+                title="Filters"
+              >
+                <div className="px-5 pb-5">
+                  <ProductFilter
+                    pendingRating={pendingRating}
+                    setPendingRating={setPendingRating}
+                    pendingIsDiscount={pendingIsDiscount}
+                    setPendingIsDiscount={setPendingIsDiscount}
+                    pendingPriceRange={pendingPriceRange}
+                    setPendingPriceRange={setPendingPriceRange}
+                    handleApplyFilters={handleApplyFilters}
+                    isHideTitle
+                  />
                 </div>
-              }
-              title="Filters"
-            >
-              <div className="px-5 pb-5">
-                <ProductFilter
-                  pendingRating={pendingRating}
-                  setPendingRating={setPendingRating}
-                  pendingIsDiscount={pendingIsDiscount}
-                  setPendingIsDiscount={setPendingIsDiscount}
-                  pendingPriceRange={pendingPriceRange}
-                  setPendingPriceRange={setPendingPriceRange}
-                  handleApplyFilters={handleApplyFilters}
-                  isHideTitle
-                />
-              </div>
-            </FilterDrawer>
+              </FilterDrawer>
+            </div>
           </div>
-        </div>
-        <div className="grid grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-4">
+          <div className="grid grid-cols-2 xl:grid-cols-3 gap-y-6 gap-x-3 lg:gap-5">
+            {products?.data && products?.data.length > 0 ? (
+              products.data.map((product) => (
+                <ProductCard key={product._id} {...product} />
+              ))
+            ) : (
+              <p className="col-span-full text-3xl text-center text-black">
+                No products available.
+              </p>
+            )}
+          </div>
           {products?.data && products?.data.length > 0 ? (
-            products.data.map((product) => (
-              <ProductCard key={product._id} {...product} />
-            ))
+            <PaginationCustom
+              onNext={handleNext}
+              onPrev={handlePrev}
+              totalPages={products?.pagination.totalPages || 1}
+              current={page}
+              setPage={setPage}
+            />
           ) : (
-            <p className="col-span-full text-3xl text-center text-black">
-              No products available.
-            </p>
+            ''
           )}
         </div>
-        {products?.data && products?.data.length > 0 ? (
-          <PaginationCustom
-            onNext={handleNext}
-            onPrev={handlePrev}
-            totalPages={products?.pagination.totalPages || 1}
-            current={page}
-            setPage={setPage}
-          />
-        ) : (
-          ''
-        )}
-      </div>
+      ) : (
+        <div className="lg:col-span-2 xl:col-span-3">
+          <Skeleton className="h-12 w-full mb-4" />
+          <div className="grid gap-2 grid-cols-2 xl:grid-cols-3 lg:gap-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="space-y-3">
+                <Skeleton className="h-48 w-full rounded-xl" />
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
