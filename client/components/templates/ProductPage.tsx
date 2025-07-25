@@ -109,7 +109,7 @@ const ProductPage = () => {
       </aside>
       <div className="lg:col-span-2 xl:col-span-3">
         <div className="max-lg:mb-7 flex items-center justify-between">
-          <h2 className="text-xl sm:text-3xl font-bold sm:mb-6">
+          <h2 className="text-xl sm:text-3xl font-bold">
             {query ? `Search results for "${query}"` : 'Trending'}
           </h2>
           <div className="flex items-center">
