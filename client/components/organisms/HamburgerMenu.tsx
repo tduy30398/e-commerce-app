@@ -21,7 +21,7 @@ const HamburgerMenu = () => {
         <SheetHeader>
           <SheetTitle className="text-left">Menu</SheetTitle>
         </SheetHeader>
-        <nav>
+        <nav className="mr-10">
           {navigateList.map((item, index) => (
             <Link key={index} href={item.link} className="ml-6 hover:underline">
               <SheetDescription className="text-black font-medium text-base">
