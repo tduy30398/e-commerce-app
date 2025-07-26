@@ -96,7 +96,7 @@ const ProductDashboard = () => {
         <h2 className="text-2xl font-bold mb-6">Products List</h2>
         <Link
           href={`${ROUTES.ADMINPRODUCT}/create`}
-          className="bg-black text-white px-4 py-2 rounded-md h-9 leading-[18px]"
+          className="bg-black text-white px-10 py-2 rounded-4xl h-9 leading-[18px]"
         >
           Create
         </Link>

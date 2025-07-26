@@ -1,25 +1,25 @@
 'use client';
 
-import { useEffect, useState, DragEvent, ChangeEvent } from 'react';
+import { DragEvent, ChangeEvent } from 'react';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import React from 'react';
 
 type Props = {
   value?: string;
   onChange: (url: string) => void;
+  error?: string;
+  handleSetPct: (pct: number | null) => void;
 };
 
-export default function Uploader({ value, onChange }: Props) {
-  const [preview, setPreview] = useState<string | null>(null);
-  const [uploadPct, setUploadPct] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (value) {
-      setPreview(value);
-    }
-  }, [value]);
+export default function Uploader({
+  value,
+  onChange,
+  error,
+  handleSetPct,
+}: Props) {
+  const [preview, setPreview] = React.useState<string | null>(null);
 
   const uploadToCloudinary = async (file: File): Promise<string> => {
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
@@ -34,12 +34,12 @@ export default function Uploader({ value, onChange }: Props) {
 
       xhr.upload.onprogress = (e) => {
         if (e.lengthComputable) {
-          setUploadPct(Math.round((e.loaded / e.total) * 100));
+          handleSetPct(Math.round((e.loaded / e.total) * 100));
         }
       };
 
       xhr.onload = () => {
-        setUploadPct(null);
+        handleSetPct(null);
         if (xhr.status === 200) {
           const response = JSON.parse(xhr.responseText);
           resolve(response.secure_url);
@@ -82,17 +82,21 @@ export default function Uploader({ value, onChange }: Props) {
     e.preventDefault();
   };
 
+  React.useEffect(() => {
+    if (value) {
+      setPreview(value);
+    }
+  }, [value]);
+
   return (
     <div className="space-y-4">
-      <Label htmlFor="file-upload">
-        Product Image<span className="text-red-500">*</span>
-      </Label>
       <div
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         className={cn(
-          'border border-dashed rounded-xl p-2 transition hover:bg-muted flex items-center justify-center cursor-pointer w-48 h-48 mx-auto',
-          preview ? 'border-green-400' : 'border-gray-300'
+          'border border-dashed rounded-xl p-2 transition hover:bg-muted flex items-center justify-center cursor-pointer size-48 mx-auto',
+          preview ? 'border-green-400' : 'border-gray-300',
+          error && 'border-red-500'
         )}
       >
         <Input
@@ -111,6 +115,7 @@ export default function Uploader({ value, onChange }: Props) {
               src={preview}
               alt="Preview"
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover rounded-lg"
             />
           ) : (
@@ -120,12 +125,6 @@ export default function Uploader({ value, onChange }: Props) {
           )}
         </label>
       </div>
-
-      {uploadPct !== null && (
-        <div className="text-sm text-muted-foreground text-center">
-          Uploading: {uploadPct}%
-        </div>
-      )}
     </div>
   );
 }

@@ -4,7 +4,7 @@ import axiosInstance from '@/lib/axios';
 import { ProductRequest, ProductTypes } from './type';
 
 export const getAllProducts = async (
-  params: BaseFilterParams
+  params?: BaseFilterParams
 ): Promise<APIPaginationResponse<ProductTypes[]>> => {
   const res = await axiosInstance.get('/api/product', { params });
   return res.data;
