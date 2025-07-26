@@ -3,7 +3,7 @@ import React from 'react';
 
 const Loading = () => {
   return (
-    <div className="p-6 space-y-8 animate-pulse">
+    <div className="py-6 space-y-8 animate-pulse">
       <Skeleton className="h-80 w-full rounded-xl" />
 
       <Skeleton className="h-12 w-full md:w-1/2 mx-auto" />
