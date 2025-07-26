@@ -94,7 +94,7 @@ export default function Uploader({
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         className={cn(
-          'border border-dashed rounded-xl p-2 transition hover:bg-muted flex items-center justify-center cursor-pointer w-48 h-48 mx-auto',
+          'border border-dashed rounded-xl p-2 transition hover:bg-muted flex items-center justify-center cursor-pointer size-48 mx-auto',
           preview ? 'border-green-400' : 'border-gray-300',
           error && 'border-red-500'
         )}
