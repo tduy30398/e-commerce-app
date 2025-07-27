@@ -33,10 +33,13 @@ interface ProductDashboardProps {
   data?: ProductTypes;
 }
 
-const defaultValues = {
+const defaultValues: FormData = {
   name: '',
   image: '',
   description: '',
+  promotionalPrice: undefined,
+  rating: 0,
+  price: 0,
 };
 
 const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
