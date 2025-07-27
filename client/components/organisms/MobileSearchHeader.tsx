@@ -10,14 +10,14 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Search } from 'lucide-react';
-import { useState } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/lib/constants';
+import React from 'react';
 
 const MobileSearchHeader = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
   const router = useRouter();
 
   const handleSubmitForm = async (event: React.FormEvent<HTMLFormElement>) => {
