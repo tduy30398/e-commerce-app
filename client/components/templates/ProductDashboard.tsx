@@ -5,7 +5,7 @@ import { ProductRequest, ProductTypes } from '@/actions/product/type';
 import { ROUTES } from '@/lib/constants';
 import { productFormSchema } from '@/lib/shemas';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { mutate } from 'swr';
@@ -51,11 +51,13 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
     mode: 'onChange',
     defaultValues: defaultValues,
   });
+
   const handleSuccess = () => {
     mutate('/api/product');
     methods.reset();
     router.push(ROUTES.ADMINPRODUCT);
   };
+
   const { trigger: createProductTrigger, isMutating } = useSWRMutation(
     '/api/product',
     createProduct,
@@ -80,6 +82,7 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
         toast.error('Update product failed');
       },
     });
+
   const onSubmit = async (data: FormData) => {
     try {
       const isValid = await methods.trigger();
@@ -105,7 +108,7 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (data) {
       methods.reset(data);
     } else {

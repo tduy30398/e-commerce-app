@@ -53,23 +53,26 @@ const ProductTable = () => {
     }
   );
 
-  const updatePage = (page: number) => {
-    const params = new URLSearchParams(searchParams);
-    params.set('page', page.toString());
-    router.replace(`?${params.toString()}`);
-  };
+  const updatePage = React.useCallback(
+    (page: number) => {
+      const params = new URLSearchParams(searchParams);
+      params.set('page', page.toString());
+      router.replace(`?${params.toString()}`);
+    },
+    [searchParams, router]
+  );
 
-  const handleNext = () => {
+  const handleNext = React.useCallback(() => {
     if (products && currentPage < products.pagination.totalPages) {
       updatePage(currentPage + 1);
     }
-  };
+  }, [currentPage, products, updatePage]);
 
-  const handlePrev = () => {
+  const handlePrev = React.useCallback(() => {
     if (currentPage > 1) {
       updatePage(currentPage - 1);
     }
-  };
+  }, [currentPage, updatePage]);
 
   const tableCoulmn: TableColumn[] = [
     {

@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import Selector from '../molecules/Selector';
 import Image from 'next/image';
 import { filterRatings } from '@/public/dummy/general';
+import { Separator } from '../ui/separator';
 
 interface ProductFilterProps {
   pendingRating: string;
@@ -33,23 +34,27 @@ const ProductFilter = ({
   return (
     <>
       {!isHideTitle && (
-        <div className="flex items-center justify-between border-b-[1px] border-b-gray-200 pb-6">
-          <h2 className="text-xl font-bold">Filters</h2>
-          <div className="relative size-8 ml-4">
-            <Image fill src="/icons/filter.svg" alt="filter" />
+        <>
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold">Filters</h2>
+            <div className="relative size-8 ml-4">
+              <Image fill src="/icons/filter.svg" alt="filter" />
+            </div>
           </div>
-        </div>
+          <Separator className="my-6" />
+        </>
       )}
-      <div className="mt-4 border-b-[1px] border-b-gray-200 pb-6">
-        <Label className="block text-xl font-bold mb-1">Rating range</Label>
-        <Selector
-          value={pendingRating}
-          onValueChange={setPendingRating}
-          options={filterRatings}
-          placeholder="Select Rating"
-        />
-      </div>
-      <div className="flex items-center mt-4 border-b-[1px] border-b-gray-200 pb-6">
+      <Label className="block text-xl font-bold mb-1 max-lg:mt-6">
+        Rating range
+      </Label>
+      <Selector
+        value={pendingRating}
+        onValueChange={setPendingRating}
+        options={filterRatings}
+        placeholder="Select Rating"
+      />
+      <Separator className="my-6" />
+      <div className="flex items-center">
         <Label htmlFor="promotional" className="block text-xl font-bold mb-1">
           Only discount
         </Label>
@@ -60,7 +65,8 @@ const ProductFilter = ({
           className="ml-4 cursor-pointer"
         />
       </div>
-      <div className="flex flex-col items-start mt-4 border-b-[1px] border-b-gray-200 pb-6">
+      <Separator className="my-6" />
+      <div className="flex flex-col items-start">
         <Label htmlFor="price-range" className="block text-xl font-bold mb-10">
           Price
         </Label>
@@ -76,9 +82,10 @@ const ProductFilter = ({
           className="w-full cursor-pointer"
         />
       </div>
+      <Separator className="my-6" />
       <Button
         onClick={handleApplyFilters}
-        className="main-button mt-8 w-full h-12 cursor-pointer"
+        className="main-button w-full h-12 cursor-pointer"
         disabled={disabled}
       >
         Apply Filter
