@@ -9,7 +9,13 @@ export default function NotFound() {
       <p className="mb-6 text-lg font-medium text-gray-600">
         Something went wrong.
       </p>
-      <Image src={'/images/404.png'} alt="404" width={655} height={290} />
+      <Image
+        priority
+        src={'/images/404.png'}
+        alt="404"
+        width={655}
+        height={290}
+      />
       <Link href={ROUTES.HOME} className="main-button mt-8">
         Go Home
       </Link>

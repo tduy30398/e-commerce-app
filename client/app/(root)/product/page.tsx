@@ -2,6 +2,10 @@ import ProductPageSkeleton from '@/components/molecules/ProductPageSkeleton';
 import ProductPage from '@/components/templates/ProductPage';
 import { Suspense } from 'react';
 
+export const metadata = {
+  title: 'Product List',
+};
+
 const Product = () => {
   return (
     <div className="section-container mb-36">

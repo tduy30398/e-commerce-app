@@ -1,11 +1,16 @@
 import React from 'react';
-import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
 import { Slider } from '../ui/slider';
 import { Button } from '../ui/button';
 import Selector from '../molecules/Selector';
 import Image from 'next/image';
 import { filterRatings } from '@/public/dummy/general';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '../ui/accordion';
 import { Separator } from '../ui/separator';
 
 interface ProductFilterProps {
@@ -32,7 +37,7 @@ const ProductFilter = ({
   disabled = false,
 }: ProductFilterProps) => {
   return (
-    <>
+    <Accordion type="multiple" defaultValue={['item-1', 'item-2', 'item-3']}>
       {!isHideTitle && (
         <>
           <div className="flex items-center justify-between">
@@ -41,56 +46,61 @@ const ProductFilter = ({
               <Image fill src="/icons/filter.svg" alt="filter" />
             </div>
           </div>
-          <Separator className="my-6" />
+          <Separator className="mt-6" />
         </>
       )}
-      <Label className="block text-xl font-bold mb-1 max-lg:mt-6">
-        Rating range
-      </Label>
-      <Selector
-        value={pendingRating}
-        onValueChange={setPendingRating}
-        options={filterRatings}
-        placeholder="Select Rating"
-      />
-      <Separator className="my-6" />
-      <div className="flex items-center">
-        <Label htmlFor="promotional" className="block text-xl font-bold mb-1">
+      <AccordionItem value="item-1">
+        <AccordionTrigger className="text-xl font-bold">
+          Rating range
+        </AccordionTrigger>
+        <AccordionContent>
+          <Selector
+            value={pendingRating}
+            onValueChange={setPendingRating}
+            options={filterRatings}
+            placeholder="Select Rating"
+          />
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger className="text-xl font-bold">
           Only discount
-        </Label>
-        <Switch
-          checked={pendingIsDiscount}
-          onCheckedChange={setPendingIsDiscount}
-          id="promotional"
-          className="ml-4 cursor-pointer"
-        />
-      </div>
-      <Separator className="my-6" />
-      <div className="flex flex-col items-start">
-        <Label htmlFor="price-range" className="block text-xl font-bold mb-10">
-          Price
-        </Label>
-        <Slider
-          id="price-range"
-          min={0}
-          max={500}
-          step={1}
-          value={pendingPriceRange}
-          onValueChange={(val: number[]) =>
-            setPendingPriceRange([val[0], val[1]])
-          }
-          className="w-full cursor-pointer"
-        />
-      </div>
-      <Separator className="my-6" />
+        </AccordionTrigger>
+        <AccordionContent>
+          <Switch
+            checked={pendingIsDiscount}
+            onCheckedChange={setPendingIsDiscount}
+            id="promotional"
+            className="cursor-pointer"
+          />
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-3">
+        <AccordionTrigger className="text-xl font-bold">
+          Price Range
+        </AccordionTrigger>
+        <AccordionContent>
+          <Slider
+            id="price-range"
+            min={0}
+            max={500}
+            step={1}
+            value={pendingPriceRange}
+            onValueChange={(val: number[]) =>
+              setPendingPriceRange([val[0], val[1]])
+            }
+            className="w-full cursor-pointer mt-8"
+          />
+        </AccordionContent>
+      </AccordionItem>
       <Button
         onClick={handleApplyFilters}
-        className="main-button w-full h-12 cursor-pointer"
+        className="main-button w-full h-12 cursor-pointer mt-8"
         disabled={disabled}
       >
         Apply Filter
       </Button>
-    </>
+    </Accordion>
   );
 };
 
