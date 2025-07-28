@@ -5,7 +5,7 @@ import PaginationCustom from '@/components/molecules/PaginationCustom';
 import ProductCard from '@/components/molecules/ProductCard';
 import { filterRatings } from '@/public/dummy/general';
 import Image from 'next/image';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import useSWR from 'swr';
 import FilterDrawer from '../organisms/FilterDrawer';
@@ -15,8 +15,15 @@ import { Skeleton } from '../ui/skeleton';
 const PAGE_SIZE = 9;
 
 const ProductPage = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get('query') || '';
+
+  const pageParam = searchParams.get('page');
+
+  const currentPage = React.useMemo(() => {
+    return pageParam ? parseInt(pageParam, 10) : 1;
+  }, [pageParam]);
 
   // Pending state
   const [pendingRating, setPendingRating] = React.useState(
@@ -28,7 +35,6 @@ const ProductPage = () => {
   >([50, 300]);
 
   // State
-  const [page, setPage] = React.useState(1);
   const [selectedRating, setSelectedRating] = React.useState(
     filterRatings[0].value
   );
@@ -37,16 +43,9 @@ const ProductPage = () => {
     50, 300,
   ]);
 
-  const handleApplyFilters = () => {
-    setSelectedRating(pendingRating);
-    setIsDiscount(pendingIsDiscount);
-    setPriceRange(pendingPriceRange);
-    setPage(1);
-  };
-
   const queryKey = [
     '/api/product',
-    page,
+    currentPage,
     selectedRating,
     isDiscount,
     priceRange,
@@ -61,7 +60,7 @@ const ProductPage = () => {
     queryKey,
     () =>
       getAllProducts({
-        page,
+        page: currentPage,
         limit: PAGE_SIZE,
         ...(query && { search: query }),
         ...(selectedRating !== 'all' && { minRating: Number(selectedRating) }),
@@ -74,17 +73,42 @@ const ProductPage = () => {
     }
   );
 
-  const handleNext = () => {
-    if (products?.pagination && page < products.pagination.totalPages) {
-      setPage((prev) => prev + 1);
-    }
-  };
+  const updatePage = React.useCallback(
+    (page: number) => {
+      const params = new URLSearchParams(searchParams);
+      params.set('page', page.toString());
+      router.replace(`?${params.toString()}`);
+    },
+    [searchParams, router]
+  );
 
-  const handlePrev = () => {
-    if (page > 1) {
-      setPage((prev) => prev - 1);
+  const handleApplyFilters = React.useCallback(() => {
+    setSelectedRating(pendingRating);
+    setIsDiscount(pendingIsDiscount);
+    setPriceRange(pendingPriceRange);
+    updatePage(1);
+  }, [pendingRating, pendingIsDiscount, pendingPriceRange, updatePage]);
+
+  const handleNext = React.useCallback(() => {
+    if (products && currentPage < products.pagination.totalPages) {
+      updatePage(currentPage + 1);
     }
-  };
+  }, [currentPage, products, updatePage]);
+
+  const handlePrev = React.useCallback(() => {
+    if (currentPage > 1) {
+      updatePage(currentPage - 1);
+    }
+  }, [currentPage, updatePage]);
+
+  React.useEffect(() => {
+    if (!pageParam) {
+      const params = new URLSearchParams(searchParams);
+      params.set('page', '1');
+      router.replace(`?${params.toString()}`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageParam]);
 
   if (error) {
     return <div>Error : {error.message}</div>;
@@ -153,8 +177,8 @@ const ProductPage = () => {
               onNext={handleNext}
               onPrev={handlePrev}
               totalPages={products?.pagination.totalPages || 1}
-              current={page}
-              setPage={setPage}
+              current={currentPage}
+              setPage={updatePage}
             />
           ) : (
             ''

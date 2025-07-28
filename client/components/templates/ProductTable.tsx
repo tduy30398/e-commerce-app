@@ -110,7 +110,8 @@ const ProductTable = () => {
       params.set('page', '1');
       router.replace(`?${params.toString()}`);
     }
-  }, [pageParam, router, searchParams]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageParam]);
 
   if (isValidating) {
     return <TableSkeleton />;
