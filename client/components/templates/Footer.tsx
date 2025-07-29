@@ -14,6 +14,7 @@ const Footer = () => {
             alt="logo"
             width={142}
             height={22}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="w-[126px] h-[18px] sm:w-[142px] sm:h-[22px]"
           />
           <p className="mt-6 text-base">

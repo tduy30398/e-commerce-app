@@ -43,7 +43,12 @@ const ProductFilter = ({
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold">Filters</h2>
             <div className="relative size-8 ml-4">
-              <Image fill src="/icons/filter.svg" alt="filter" />
+              <Image
+                fill
+                src="/icons/filter.svg"
+                alt="filter"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
             </div>
           </div>
           <Separator className="mt-6" />

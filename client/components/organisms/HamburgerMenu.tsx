@@ -31,6 +31,7 @@ const HamburgerMenu = () => {
                   fill
                   className="object-contain"
                   priority
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
             </SheetTitle>
@@ -39,7 +40,7 @@ const HamburgerMenu = () => {
             <X className="size-6 cursor-pointer" />
           </SheetClose>
         </div>
-        <nav className='mt-6'>
+        <nav className="mt-6">
           {navigateList.map((item, index) => (
             <SheetClose asChild key={index}>
               <Link href={item.link} className="hover:underline block">

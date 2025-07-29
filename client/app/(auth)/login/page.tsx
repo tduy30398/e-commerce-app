@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 import SocialLoginItem from '@/components/molecules/SocialLoginItem';
 
-const Register = () => {
+const Login = () => {
   const socialData = [
     {
       name: 'Google',
@@ -20,15 +20,15 @@ const Register = () => {
   ];
 
   return (
-    <div className="w-1/2 rounded-3xl p-8 bg-white flex-center flex-col gap-4">
+    <div className="w-1/2 rounded-3xl p-8 bg-white flex-center flex-col gap-6">
       <p className="text-4xl font-black">SIGN IN</p>
       <div>
-        <span className="text-xl font-medium">Already have an account?</span>
+        <span className="text-xl font-medium">Don&apos;t have an account?</span>
         <Link
           className="text-xl font-medium underline ml-2"
-          href={ROUTES.LOGIN}
+          href={ROUTES.REGISTER}
         >
-          Login
+          Register
         </Link>
       </div>
       {socialData.map((item) => (
@@ -38,4 +38,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

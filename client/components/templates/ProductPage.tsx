@@ -141,7 +141,12 @@ const ProductPage = () => {
               <FilterDrawer
                 trigger={
                   <div className="lg:hidden relative size-8 ml-4 cursor-pointer">
-                    <Image fill src="/icons/filter.svg" alt="filter" />
+                    <Image
+                      fill
+                      src="/icons/filter.svg"
+                      alt="filter"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
                   </div>
                 }
                 title="Filters"
