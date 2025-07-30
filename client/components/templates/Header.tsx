@@ -23,6 +23,7 @@ const Header = () => {
             alt="logo"
             fill
             className="object-contain"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority
           />
         </Link>
@@ -46,13 +47,19 @@ const Header = () => {
         <Link href={ROUTES.CART}>
           <ShoppingCart className="size-6 cursor-pointer" />
         </Link>
-        <Link href={ROUTES.PROFILE}>
+        {/* <Link href={ROUTES.PROFILE}>
           <Image
             src="/icons/profile.svg"
             alt="profile"
             width={24}
             height={24}
           />
+        </Link> */}
+        <Link
+          href={ROUTES.LOGIN}
+          className="text-black font-medium text-base hover:underline"
+        >
+          Login
         </Link>
       </div>
     </header>
