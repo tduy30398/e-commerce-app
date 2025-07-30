@@ -114,7 +114,8 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
     } else {
       methods.reset(defaultValues);
     }
-  }, [data, methods]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   return (
     <Form {...methods}>
