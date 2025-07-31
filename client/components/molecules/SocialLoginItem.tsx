@@ -9,7 +9,7 @@ interface SocialLoginItemProps {
 
 const SocialLoginItem = ({ icon, name }: SocialLoginItemProps) => {
   return (
-    <Button className="cursor-pointer bg-transparent hover:bg-black/10 h-[50px] w-full max-w-[330px] border-[1px] border-gray-200 rounded-2xl flex-center text-xl font-semibold">
+    <Button className="cursor-pointer bg-transparent hover:bg-black/10 h-[50px] w-full max-w-[330px] border-[1px] border-[#889397] rounded-2xl flex-center text-xl font-semibold">
       <div className="relative size-8">
         <Image
           fill

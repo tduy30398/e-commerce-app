@@ -185,3 +185,18 @@ export const filterRatings = [
     value: '1',
   },
 ];
+
+export const socialData = [
+  {
+    name: 'Google',
+    icon: '/icons/google.svg',
+  },
+  {
+    name: 'Facebook',
+    icon: '/icons/facebook.svg',
+  },
+  {
+    name: 'GitHub',
+    icon: '/icons/github.svg',
+  },
+];

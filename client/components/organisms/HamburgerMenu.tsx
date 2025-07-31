@@ -13,47 +13,62 @@ import Link from 'next/link';
 import { navigateList } from '@/public/dummy/general';
 import Image from 'next/image';
 import { Separator } from '../ui/separator';
+import { ROUTES } from '@/lib/constants';
 
 const HamburgerMenu = () => {
   return (
     <Sheet>
-      <SheetTrigger>
+      <SheetTrigger aria-label="Open menu">
         <Menu className="size-6 cursor-pointer" />
       </SheetTrigger>
-      <SheetContent side={'left'} className="w-full p-6" hideCloseIcon>
-        <div className="flex justify-between items-center">
-          <SheetHeader className="p-0">
-            <SheetTitle className="text-left">
-              <div className="relative w-[126px] h-[18px]">
-                <Image
-                  src="/icons/main-logo.svg"
-                  alt="logo"
-                  fill
-                  className="object-contain"
-                  priority
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </div>
-            </SheetTitle>
-          </SheetHeader>
-          <SheetClose>
-            <X className="size-6 cursor-pointer" />
-          </SheetClose>
-        </div>
-        <nav className="mt-6">
-          {navigateList.map((item, index) => (
-            <SheetClose asChild key={index}>
-              <Link href={item.link} className="hover:underline block">
-                <SheetDescription className="text-black font-bold text-xl">
-                  {item.title}
-                </SheetDescription>
-                {navigateList.length - 1 !== index && (
-                  <Separator className="my-4" />
-                )}
-              </Link>
+      <SheetContent
+        side="left"
+        className="w-full p-6 flex flex-col justify-between"
+        hideCloseIcon
+      >
+        <div>
+          <div className="flex justify-between items-center">
+            <SheetHeader className="p-0">
+              <SheetTitle className="text-left">
+                <div className="relative w-[126px] h-[18px]">
+                  <Image
+                    src="/icons/main-logo.svg"
+                    alt="logo"
+                    fill
+                    className="object-contain"
+                    priority
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+              </SheetTitle>
+            </SheetHeader>
+            <SheetClose asChild aria-label="Close menu">
+              <X className="size-6 cursor-pointer" />
             </SheetClose>
-          ))}
-        </nav>
+          </div>
+          <nav className="mt-8">
+            {navigateList.map((item, index) => (
+              <SheetClose asChild key={index}>
+                <Link href={item.link} className="hover:underline block">
+                  <SheetDescription className="text-black font-bold text-xl">
+                    {item.title}
+                  </SheetDescription>
+                  {navigateList.length - 1 !== index && (
+                    <Separator className="my-4" />
+                  )}
+                </Link>
+              </SheetClose>
+            ))}
+          </nav>
+        </div>
+        <SheetClose asChild>
+          <Link
+            href={ROUTES.LOGIN}
+            className="w-full cursor-pointer text-center bg-black text-white text-base font-medium rounded-4xl py-3 hover:bg-black/80"
+          >
+            Login
+          </Link>
+        </SheetClose>
       </SheetContent>
     </Sheet>
   );

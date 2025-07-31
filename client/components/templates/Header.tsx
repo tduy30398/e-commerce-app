@@ -57,7 +57,7 @@ const Header = () => {
         </Link> */}
         <Link
           href={ROUTES.LOGIN}
-          className="text-black font-medium text-base hover:underline"
+          className="text-black font-medium text-base hover:underline max-md:hidden"
         >
           Login
         </Link>
