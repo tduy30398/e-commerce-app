@@ -30,6 +30,9 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (data: FormData) => {
+    const isValid = await methods.trigger();
+    if (!isValid) return;
+
     console.log(data);
   };
 
