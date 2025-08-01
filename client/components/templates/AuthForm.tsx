@@ -3,6 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 import SocialLoginItem from '@/components/molecules/SocialLoginItem';
 import { socialData } from '@/public/dummy/general';
+import RegisterForm from '../organisms/RegisterForm';
 import LoginForm from '../organisms/LoginForm';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -41,7 +42,7 @@ const AuthForm = ({ type }: AuthFormProps) => {
           </p>
           <div className="border-b-[1px] border-gray-300 flex-1"></div>
         </div>
-        {type === 'login' ? <LoginForm /> : 'Register'}
+        {type === 'login' ? <LoginForm /> : <RegisterForm />}
       </div>
       <div className="hidden h-screen md:block md:w-2/5 lg:w-3/5 relative">
         <Image
