@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { ChevronDownIcon } from 'lucide-react';
+import { CalendarIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -20,6 +20,15 @@ interface DatePickerProps {
 
 export function DatePicker({ value, onChange, isError }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
+  const [displayMonth, setDisplayMonth] = React.useState<Date | undefined>(
+    value
+  );
+
+  React.useEffect(() => {
+    if (value) {
+      setDisplayMonth(value);
+    }
+  }, [value]);
 
   return (
     <div className="flex flex-col gap-3">
@@ -30,17 +39,19 @@ export function DatePicker({ value, onChange, isError }: DatePickerProps) {
             id="date"
             className={cn(
               'w-full justify-between border-[#889397] rounded-2xl font-normal text-base h-[50px]',
-              isError && 'border-red-500'
+              isError && 'border-red-500 text-red-500'
             )}
           >
-            {value ? value.toLocaleDateString() : 'Select date'}
-            <ChevronDownIcon />
+            {value ? value.toLocaleDateString('en-GB') : 'Select date'}
+            <CalendarIcon />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto overflow-hidden p-0" align="start">
           <Calendar
             mode="single"
             selected={value}
+            month={displayMonth}
+            onMonthChange={setDisplayMonth}
             captionLayout="dropdown"
             onSelect={(selectedDate) => {
               onChange(selectedDate);

@@ -53,13 +53,13 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
   });
 
   const handleSuccess = () => {
-    mutate('/api/product');
+    mutate('product');
     methods.reset();
     router.push(ROUTES.ADMINPRODUCT);
   };
 
   const { trigger: createProductTrigger, isMutating } = useSWRMutation(
-    '/api/product',
+    'product',
     createProduct,
     {
       onSuccess: () => {
@@ -73,7 +73,7 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
   );
 
   const { trigger: updateProductTrigger, isMutating: updateLoading } =
-    useSWRMutation('/api/product', updateProduct, {
+    useSWRMutation('product', updateProduct, {
       onSuccess: () => {
         handleSuccess();
         toast.success('Product updated');

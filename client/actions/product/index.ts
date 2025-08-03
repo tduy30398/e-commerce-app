@@ -6,12 +6,12 @@ import { ProductRequest, ProductTypes } from './type';
 export const getAllProducts = async (
   params?: BaseFilterParams
 ): Promise<APIPaginationResponse<ProductTypes[]>> => {
-  const res = await axiosInstance.get('/api/product', { params });
+  const res = await axiosInstance.get('product', { params });
   return res.data;
 };
 
 export const getProductDetail = async (id: string): Promise<ProductTypes> => {
-  const res = await axiosInstance.get(`/api/product/${id}`);
+  const res = await axiosInstance.get(`product/${id}`);
   return res.data;
 };
 

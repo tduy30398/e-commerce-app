@@ -39,7 +39,7 @@ const ProductTable = () => {
     return pageParam ? parseInt(pageParam, 10) : 1;
   }, [pageParam]);
 
-  const queryKey = ['/api/product', currentPage];
+  const queryKey = ['product', currentPage];
 
   const {
     data: products,

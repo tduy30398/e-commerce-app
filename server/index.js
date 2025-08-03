@@ -1,12 +1,14 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const dotenv = require("dotenv");
+require("dotenv").config();
 const mongoose = require("mongoose");
-const userRoutes = require("./routes/user");
 const productRoutes = require("./routes/product");
+const authRoutes = require("./routes/auth");
+const cookieParser = require("cookie-parser");
+// const authMiddleware = require("./middleware/authMiddleware");
 
-dotenv.config();
+app.use(cookieParser());
 app.use(express.json());
 
 const allowedOrigins = [
@@ -33,7 +35,7 @@ app.get("/", (_, res) => {
   res.send("Server is running");
 });
 
-app.use("/api/user", userRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api/product", productRoutes);
 
 const PORT = process.env.PORT || 3001;
