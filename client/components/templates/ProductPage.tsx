@@ -44,7 +44,7 @@ const ProductPage = () => {
   ]);
 
   const queryKey = [
-    '/api/product',
+    'product',
     currentPage,
     selectedRating,
     isDiscount,

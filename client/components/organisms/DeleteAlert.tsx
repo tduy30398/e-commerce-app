@@ -28,7 +28,7 @@ const DeleteAlert: React.FC<DeleteAlertProps> = ({ id, queryKey }) => {
     trigger: deleteProductTrigger,
     isMutating: deleteLoading,
     error: deleteError,
-  } = useSWRMutation('/api/product', deleteProduct, {
+  } = useSWRMutation('product', deleteProduct, {
     onSuccess: () => {
       mutate(queryKey);
       toast.success('Delete product success');
