@@ -44,11 +44,19 @@ router.post("/register", async (req, res) => {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: "Lax",
       maxAge: 8 * 60 * 60 * 1000,
     });
 
-    res.status(201).json({ accessToken });
+    res.status(201).json({
+      accessToken,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        birthday: user.birthday,
+      },
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -73,7 +81,7 @@ router.post("/login", async (req, res) => {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: "Lax",
       maxAge: 8 * 60 * 60 * 1000,
     });
 
@@ -117,8 +125,16 @@ router.post("/refresh-token", async (req, res) => {
 
 router.post("/logout", async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) {
+    return res.status(400).json({ message: "No refresh token provided" });
+  }
+
   try {
     const decoded = jwt.verify(refreshToken, JWT_SECRET);
+    if (!decoded) {
+      return res.status(400).json({ message: "Invalid token" });
+    }
     const user = await User.findById(decoded.userId);
     if (user) {
       user.refreshToken = null;
@@ -128,9 +144,11 @@ router.post("/logout", async (req, res) => {
     res.clearCookie("refreshToken", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: "Lax",
     });
+    return res.status(200).json({ message: "Logged out" });
   } catch (err) {
+    console.error(err);
     res.status(400).json({ message: "Invalid token" });
   }
 });

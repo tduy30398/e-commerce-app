@@ -18,10 +18,18 @@ import { Input } from '../ui/input';
 import { PasswordInput } from '../molecules/PasswordInput';
 import { Button } from '../ui/button';
 import { DatePicker } from './DatePicker';
+import { toast } from 'sonner';
+import useSWRMutation from 'swr/mutation';
+import { registerService } from '@/actions/authenticate';
+import { setAccessTokenStorage } from '@/lib/storage';
+import { ROUTES } from '@/lib/constants';
+import { useRouter } from 'next/navigation';
+import { NEXT_PUBLIC_API_BASE_URL } from '@/lib/axios';
 
 type FormData = z.infer<typeof registerFormSchema>;
 
 const RegisterForm = () => {
+  const router = useRouter();
   const methods = useForm<FormData>({
     resolver: zodResolver(registerFormSchema),
     mode: 'onChange',
@@ -33,11 +41,28 @@ const RegisterForm = () => {
     },
   });
 
+  const { trigger: registerTrigger, isMutating } = useSWRMutation(
+    `${NEXT_PUBLIC_API_BASE_URL}auth/register`,
+    registerService,
+    {
+      onSuccess: (data) => {
+        setAccessTokenStorage(data.accessToken);
+        router.push(ROUTES.HOME);
+      },
+      onError: () => {
+        toast.error('Register failed');
+      },
+    }
+  );
+
   const onSubmit = async (data: FormData) => {
     const isValid = await methods.trigger();
     if (!isValid) return;
 
-    console.log(data);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { confirmPassword, ...rest } = data;
+
+    registerTrigger(rest);
   };
 
   return (
@@ -142,6 +167,7 @@ const RegisterForm = () => {
           )}
         />
         <Button
+          disabled={isMutating}
           type="submit"
           className="cursor-pointer main-button w-full mt-4 max-md:mt-4 max-md:mb-9 h-[50px]"
         >

@@ -16,10 +16,18 @@ import z from 'zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { PasswordInput } from '../molecules/PasswordInput';
+import useSWRMutation from 'swr/mutation';
+import { setAccessTokenStorage } from '@/lib/storage';
+import { loginService } from '@/actions/authenticate';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/lib/constants';
+import { NEXT_PUBLIC_API_BASE_URL } from '@/lib/axios';
 
 type FormData = z.infer<typeof loginFormSchema>;
 
 const LoginForm = () => {
+  const router = useRouter();
   const methods = useForm<FormData>({
     resolver: zodResolver(loginFormSchema),
     mode: 'onChange',
@@ -29,11 +37,25 @@ const LoginForm = () => {
     },
   });
 
+  const { trigger: loginTrigger, isMutating } = useSWRMutation(
+    `${NEXT_PUBLIC_API_BASE_URL}auth/login`,
+    loginService,
+    {
+      onSuccess: (data) => {
+        setAccessTokenStorage(data.accessToken);
+        router.push(ROUTES.HOME);
+      },
+      onError: () => {
+        toast.error('Login failed');
+      },
+    }
+  );
+
   const onSubmit = async (data: FormData) => {
     const isValid = await methods.trigger();
     if (!isValid) return;
 
-    console.log(data);
+    loginTrigger(data);
   };
 
   return (
@@ -81,6 +103,7 @@ const LoginForm = () => {
           )}
         />
         <Button
+          disabled={isMutating}
           type="submit"
           className="cursor-pointer main-button w-full mt-4 max-md:mt-4 h-[50px]"
         >
