@@ -5,14 +5,16 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 
+export const NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 let accessToken: string | null = null;
 
-export const setAccessToken = (token: string) => {
+export const setAccessToken = (token: string | null) => {
   accessToken = token;
 };
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || '',
+  baseURL: NEXT_PUBLIC_API_BASE_URL,
   withCredentials: true,
 });
 
