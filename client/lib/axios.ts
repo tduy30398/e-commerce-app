@@ -1,4 +1,3 @@
-import { refreshTokenService } from '@/actions/authenticate';
 import axios, {
   AxiosRequestConfig,
   AxiosResponse,
@@ -39,9 +38,13 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const data = await refreshTokenService();
+        const data: AxiosResponse<{ accessToken: string }> = await axios.post(
+          `${NEXT_PUBLIC_API_BASE_URL}auth/refresh-token`,
+          {},
+          { withCredentials: true }
+        );
 
-        const newAccessToken = data.accessToken;
+        const newAccessToken = data.data.accessToken;
         setAccessToken(newAccessToken);
 
         originalRequest.headers = {
@@ -52,7 +55,6 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } catch (err) {
         console.error('Refresh token failed:', err);
-        // window.location.href = '/login';
       }
     }
 
