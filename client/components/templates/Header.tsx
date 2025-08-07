@@ -1,11 +1,11 @@
 import { ROUTES } from '@/lib/constants';
 import { navigateList } from '@/public/dummy/general';
-import { ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import SearchForm from '../molecules/SearchForm';
 import HamburgerMenu from '../organisms/HamburgerMenu';
-import MobileSearchHeader from '../organisms/MobileSearchHeader';
+import React from 'react';
+import RightHeader from '../organisms/RightHeader';
 
 const Header = () => {
   return (
@@ -40,28 +40,7 @@ const Header = () => {
         </nav>
       </div>
       <SearchForm />
-      <div className="flex items-center sm:ml-10 gap-4 shrink-0">
-        <div className="sm:hidden size-6">
-          <MobileSearchHeader />
-        </div>
-        <Link href={ROUTES.CART}>
-          <ShoppingCart className="size-6 cursor-pointer" />
-        </Link>
-        {/* <Link href={ROUTES.PROFILE}>
-          <Image
-            src="/icons/profile.svg"
-            alt="profile"
-            width={24}
-            height={24}
-          />
-        </Link> */}
-        <Link
-          href={ROUTES.LOGIN}
-          className="text-black font-medium text-base hover:underline max-md:hidden"
-        >
-          Login
-        </Link>
-      </div>
+      <RightHeader />
     </header>
   );
 };

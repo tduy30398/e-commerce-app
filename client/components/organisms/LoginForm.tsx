@@ -1,6 +1,15 @@
 'use client';
 
-import React from 'react';
+import axiosInstance, { setAccessToken } from '@/lib/axios';
+import { ROUTES } from '@/lib/constants';
+import { loginFormSchema } from '@/lib/shemas';
+import { setAccessTokenStorage } from '@/lib/storage';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import z from 'zod';
+import { PasswordInput } from '../molecules/PasswordInput';
+import { Button } from '../ui/button';
 import {
   Form,
   FormControl,
@@ -9,17 +18,17 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { loginFormSchema } from '@/lib/shemas';
-import z from 'zod';
 import { Input } from '../ui/input';
-import { Button } from '../ui/button';
-import { PasswordInput } from '../molecules/PasswordInput';
+import { AxiosResponse, isAxiosError } from 'axios';
+import { toast } from 'sonner';
+import React from 'react';
+import { AuthResponse, LoginRequest } from '@/actions/authenticate/type';
 
 type FormData = z.infer<typeof loginFormSchema>;
 
 const LoginForm = () => {
+  const [isLoading, setIsLoading] = React.useState(false);
+  const router = useRouter();
   const methods = useForm<FormData>({
     resolver: zodResolver(loginFormSchema),
     mode: 'onChange',
@@ -30,10 +39,40 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (data: FormData) => {
-    const isValid = await methods.trigger();
-    if (!isValid) return;
+    try {
+      setIsLoading(true);
+      const res: AxiosResponse<AuthResponse> = await axiosInstance.post(
+        '/auth/login',
+        data as LoginRequest
+      );
 
-    console.log(data);
+      if (res?.statusText === 'OK' && res?.status === 200) {
+        setAccessTokenStorage(res.data.accessToken);
+        setAccessToken(res.data.accessToken);
+        router.push(ROUTES.HOME);
+      }
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const errData = error.response?.data;
+        const field = errData?.field;
+        const message = errData?.message ?? 'An error occurred';
+        if (field === 'email') {
+          methods.setError('email', {
+            message: message,
+          });
+        } else if (field === 'password') {
+          methods.setError('password', {
+            message: message,
+          });
+        } else {
+          toast.error(message);
+        }
+      } else {
+        toast.error('Unexpected error occurred');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -82,6 +121,7 @@ const LoginForm = () => {
         />
         <Button
           type="submit"
+          disabled={isLoading}
           className="cursor-pointer main-button w-full mt-4 max-md:mt-4 h-[50px]"
         >
           Login

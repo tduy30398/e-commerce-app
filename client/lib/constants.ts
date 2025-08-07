@@ -7,3 +7,7 @@ export const ROUTES = {
   PRODUCT: '/product',
   ADMINPRODUCT: '/admin/product',
 };
+
+export const STORAGE = {
+  ACCESS_TOKEN: 'ECOMMERCE_ACCESS_TOKEN',
+};
