@@ -1,11 +1,19 @@
 'use client';
 
 import { registerFormSchema } from '@/lib/shemas';
+import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 
+import axiosInstance, { setAccessToken } from '@/lib/axios';
+import { ROUTES } from '@/lib/constants';
+import { setAccessTokenStorage } from '@/lib/storage';
+import { AxiosResponse } from 'axios';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import { z } from 'zod';
+import { PasswordInput } from '../molecules/PasswordInput';
+import { Button } from '../ui/button';
 import {
   Form,
   FormControl,
@@ -15,20 +23,13 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
-import { PasswordInput } from '../molecules/PasswordInput';
-import { Button } from '../ui/button';
 import { DatePicker } from './DatePicker';
-import { toast } from 'sonner';
-import useSWRMutation from 'swr/mutation';
-import { registerService } from '@/actions/authenticate';
-import { setAccessTokenStorage } from '@/lib/storage';
-import { ROUTES } from '@/lib/constants';
-import { useRouter } from 'next/navigation';
-import { NEXT_PUBLIC_API_BASE_URL } from '@/lib/axios';
+import { AuthResponse, RegisterRequest } from '@/actions/authenticate/type';
 
 type FormData = z.infer<typeof registerFormSchema>;
 
 const RegisterForm = () => {
+  const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
   const methods = useForm<FormData>({
     resolver: zodResolver(registerFormSchema),
@@ -41,25 +42,27 @@ const RegisterForm = () => {
     },
   });
 
-  const { trigger: registerTrigger, isMutating } = useSWRMutation(
-    `${NEXT_PUBLIC_API_BASE_URL}auth/register`,
-    registerService,
-    {
-      onSuccess: (data) => {
-        setAccessTokenStorage(data.accessToken);
-        router.push(ROUTES.HOME);
-      },
-      onError: () => {
-        toast.error('Register failed');
-      },
-    }
-  );
-
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { confirmPassword, ...rest } = data;
 
-    registerTrigger(rest);
+    try {
+      setIsLoading(true);
+      const res: AxiosResponse<AuthResponse> = await axiosInstance.post(
+        '/auth/register',
+        rest as RegisterRequest
+      );
+
+      if (res?.status === 201) {
+        setAccessTokenStorage(res.data.accessToken);
+        setAccessToken(res.data.accessToken);
+        router.push(ROUTES.HOME);
+      }
+    } catch {
+      toast.error('An error occurred');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -164,7 +167,7 @@ const RegisterForm = () => {
           )}
         />
         <Button
-          disabled={isMutating}
+          disabled={isLoading}
           type="submit"
           className="cursor-pointer main-button w-full mt-4 max-md:mt-4 max-md:mb-9 h-[50px]"
         >
