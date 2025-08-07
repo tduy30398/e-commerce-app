@@ -54,19 +54,19 @@ export const footerDummy = [
     links: [
       {
         title: 'About',
-        link: '/about',
+        link: '/',
       },
       {
         title: 'Features',
-        link: '/features',
+        link: '/',
       },
       {
         title: 'Works',
-        link: '/works',
+        link: '/',
       },
       {
         title: 'Careers',
-        link: '/careers',
+        link: '/',
       },
     ],
   },
@@ -75,19 +75,19 @@ export const footerDummy = [
     links: [
       {
         title: 'Customer Support',
-        link: '/customer-support',
+        link: '/',
       },
       {
         title: 'Delivery Details',
-        link: '/delivery-details',
+        link: '/',
       },
       {
         title: 'Terms & Conditions',
-        link: '/terms-conditions',
+        link: '/',
       },
       {
         title: 'Privacy Policy',
-        link: '/privacy-policy',
+        link: '/',
       },
     ],
   },
@@ -96,19 +96,19 @@ export const footerDummy = [
     links: [
       {
         title: 'Account',
-        link: '/account',
+        link: '/',
       },
       {
         title: 'Payment',
-        link: '/payment',
+        link: '/',
       },
       {
         title: 'Order',
-        link: '/order',
+        link: '/',
       },
       {
         title: 'Shipping',
-        link: '/shipping',
+        link: '/',
       },
     ],
   },
@@ -117,19 +117,19 @@ export const footerDummy = [
     links: [
       {
         title: 'Free eBooks',
-        link: '/free-ebooks',
+        link: '/',
       },
       {
         title: 'Development Tutorial',
-        link: '/development-tutorial',
+        link: '/',
       },
       {
         title: 'How to - Blog',
-        link: '/how-to-blog',
+        link: '/',
       },
       {
         title: 'Youtube Playlist',
-        link: '/youtube-playlist',
+        link: '/',
       },
     ],
   },
