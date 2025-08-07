@@ -55,10 +55,7 @@ const RegisterForm = () => {
     }
   );
 
-  const onSubmit = async (data: FormData) => {
-    const isValid = await methods.trigger();
-    if (!isValid) return;
-
+  const onSubmit = (data: FormData) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { confirmPassword, ...rest } = data;
 

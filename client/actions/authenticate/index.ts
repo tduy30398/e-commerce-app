@@ -1,26 +1,17 @@
 'use server';
 
-import { NEXT_PUBLIC_API_BASE_URL, setAccessToken } from '@/lib/axios';
+import axiosInstance, {
+  NEXT_PUBLIC_API_BASE_URL,
+  setAccessToken,
+} from '@/lib/axios';
+import { AuthResponse, RegisterRequest } from './type';
 import axios from 'axios';
-import { AuthResponse, LoginRequest, RegisterRequest } from './type';
 
 export const registerService = async (
   url: string,
   { arg }: { arg: RegisterRequest }
 ): Promise<AuthResponse> => {
-  const res = await axios.post(url, arg, {
-    withCredentials: true,
-  });
-
-  setAccessToken(res.data.accessToken);
-  return res.data;
-};
-
-export const loginService = async (
-  url: string,
-  { arg }: { arg: LoginRequest }
-): Promise<AuthResponse> => {
-  const res = await axios.post(url, arg, {
+  const res = await axiosInstance.post(url, arg, {
     withCredentials: true,
   });
 

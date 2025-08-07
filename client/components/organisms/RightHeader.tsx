@@ -1,12 +1,14 @@
 'use client';
 
-import React from 'react';
-import MobileSearchHeader from './MobileSearchHeader';
-import Link from 'next/link';
 import { ROUTES } from '@/lib/constants';
-import { ShoppingCart } from 'lucide-react';
 import { getAccessTokenStorage, removeAccessTokenStorage } from '@/lib/storage';
+import { ShoppingCart } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React from 'react';
+import { toast } from 'sonner';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Button } from '../ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,30 +17,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { Button } from '../ui/button';
-import useSWRMutation from 'swr/mutation';
-import { toast } from 'sonner';
-import { logoutService } from '@/actions/authenticate';
-import { useRouter } from 'next/navigation';
-import { NEXT_PUBLIC_API_BASE_URL } from '@/lib/axios';
+import MobileSearchHeader from './MobileSearchHeader';
+import axiosInstance, { setAccessToken } from '@/lib/axios';
 
 const RightHeader = () => {
   const router = useRouter();
   const [token, setToken] = React.useState<string | null>(null);
 
-  const { trigger: logoutTrigger, isMutating } = useSWRMutation(
-    `${NEXT_PUBLIC_API_BASE_URL}auth/logout`,
-    logoutService,
-    {
-      onSuccess: () => {
+  const logoutService = async () => {
+    try {
+      const res = await axiosInstance.post('/auth/logout');
+      if (res?.statusText === 'OK' && res?.status === 200) {
         removeAccessTokenStorage();
+        setToken(null);
+        setAccessToken(null);
         router.push(ROUTES.HOME);
-      },
-      onError: (err) => {
-        toast.error(err?.message || 'Logout failed');
-      },
+        toast.success('Logout successfully');
+      }
+    } catch {
+      toast.error('Logout failed');
     }
-  );
+  };
 
   React.useEffect(() => {
     const accessToken = getAccessTokenStorage();
@@ -70,8 +69,7 @@ const RightHeader = () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Button
-                onClick={() => logoutTrigger()}
-                disabled={isMutating}
+                onClick={() => logoutService()}
                 className="text-md cursor-pointer font-medium bg-transparent w-full text-black justify-start outline-none hover:bg-transparent"
               >
                 Log out
