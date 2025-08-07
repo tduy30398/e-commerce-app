@@ -1,7 +1,6 @@
 'use client';
 
 import { ROUTES } from '@/lib/constants';
-import { getAccessTokenStorage, removeAccessTokenStorage } from '@/lib/storage';
 import { ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -18,19 +17,19 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import MobileSearchHeader from './MobileSearchHeader';
-import axiosInstance, { setAccessToken } from '@/lib/axios';
+import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
+import { useAuthStore } from '@/store/useAuthStore';
 
 const RightHeader = () => {
   const router = useRouter();
-  const [token, setToken] = React.useState<string | null>(null);
+  const { accessToken, clearAccessToken } = useAuthStore();
 
   const logoutService = async () => {
     try {
       const res = await axiosInstance.post('/auth/logout');
-      if (res?.statusText === 'OK' && res?.status === 200) {
-        removeAccessTokenStorage();
-        setToken(null);
-        setAccessToken(null);
+      if (res?.status === 200) {
+        clearAccessToken();
+        setAccessTokenHeader(null);
         router.push(ROUTES.HOME);
         toast.success('Logout successfully');
       }
@@ -38,11 +37,6 @@ const RightHeader = () => {
       toast.error('Logout failed');
     }
   };
-
-  React.useEffect(() => {
-    const accessToken = getAccessTokenStorage();
-    setToken(accessToken);
-  }, []);
 
   return (
     <div className="flex items-center sm:ml-10 gap-4 shrink-0">
@@ -52,7 +46,7 @@ const RightHeader = () => {
       <Link href={ROUTES.CART}>
         <ShoppingCart className="size-6 cursor-pointer" />
       </Link>
-      {token ? (
+      {accessToken ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer">

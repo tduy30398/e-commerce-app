@@ -5,9 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import axiosInstance, { setAccessToken } from '@/lib/axios';
+import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
 import { ROUTES } from '@/lib/constants';
-import { setAccessTokenStorage } from '@/lib/storage';
 import { AxiosResponse } from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -25,10 +24,12 @@ import {
 import { Input } from '../ui/input';
 import { DatePicker } from './DatePicker';
 import { AuthResponse, RegisterRequest } from '@/actions/authenticate/type';
+import { useAuthStore } from '@/store/useAuthStore';
 
 type FormData = z.infer<typeof registerFormSchema>;
 
 const RegisterForm = () => {
+  const { setAccessToken } = useAuthStore();
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
   const methods = useForm<FormData>({
@@ -54,8 +55,8 @@ const RegisterForm = () => {
       );
 
       if (res?.status === 201) {
-        setAccessTokenStorage(res.data.accessToken);
         setAccessToken(res.data.accessToken);
+        setAccessTokenHeader(res.data.accessToken);
         router.push(ROUTES.HOME);
       }
     } catch {
