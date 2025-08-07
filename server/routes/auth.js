@@ -50,12 +50,6 @@ router.post("/register", async (req, res) => {
 
     res.status(201).json({
       accessToken,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        birthday: user.birthday,
-      },
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -92,12 +86,6 @@ router.post("/login", async (req, res) => {
 
     res.json({
       accessToken,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        birthday: user.birthday,
-      },
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
