@@ -46,7 +46,7 @@ const LoginForm = () => {
         data as LoginRequest
       );
 
-      if (res?.statusText === 'OK' && res?.status === 200) {
+      if (res?.status === 200) {
         setAccessTokenStorage(res.data.accessToken);
         setAccessToken(res.data.accessToken);
         router.push(ROUTES.HOME);
