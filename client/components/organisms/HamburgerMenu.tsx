@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import {
   Sheet,
@@ -14,8 +16,30 @@ import { navigateList } from '@/public/dummy/general';
 import Image from 'next/image';
 import { Separator } from '../ui/separator';
 import { ROUTES } from '@/lib/constants';
+import { Button } from '../ui/button';
+import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/store/useAuthStore';
 
 const HamburgerMenu = () => {
+  const router = useRouter();
+  const { accessToken, clearAccessToken } = useAuthStore();
+
+  const logoutService = async () => {
+    try {
+      const res = await axiosInstance.post('/auth/logout');
+      if (res?.status === 200) {
+        clearAccessToken();
+        setAccessTokenHeader(null);
+        router.push(ROUTES.HOME);
+        toast.success('Logout successfully');
+      }
+    } catch {
+      toast.error('Logout failed');
+    }
+  };
+
   return (
     <Sheet>
       <SheetTrigger aria-label="Open menu">
@@ -62,12 +86,21 @@ const HamburgerMenu = () => {
           </nav>
         </div>
         <SheetClose asChild>
-          <Link
-            href={ROUTES.LOGIN}
-            className="w-full cursor-pointer text-center bg-black text-white text-base font-medium rounded-4xl py-3 hover:bg-black/80"
-          >
-            Login
-          </Link>
+          {accessToken ? (
+            <Button
+              onClick={logoutService}
+              className="w-full cursor-pointer text-center bg-black text-white text-base font-medium rounded-4xl py-3 hover:bg-black/80"
+            >
+              Log out
+            </Button>
+          ) : (
+            <Link
+              href={ROUTES.LOGIN}
+              className="w-full cursor-pointer text-center bg-black text-white text-base font-medium rounded-4xl py-3 hover:bg-black/80"
+            >
+              Login
+            </Link>
+          )}
         </SheetClose>
       </SheetContent>
     </Sheet>

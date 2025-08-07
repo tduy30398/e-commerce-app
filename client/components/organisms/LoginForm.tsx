@@ -1,9 +1,8 @@
 'use client';
 
-import axiosInstance, { setAccessToken } from '@/lib/axios';
+import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
 import { ROUTES } from '@/lib/constants';
 import { loginFormSchema } from '@/lib/shemas';
-import { setAccessTokenStorage } from '@/lib/storage';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -23,10 +22,12 @@ import { AxiosResponse, isAxiosError } from 'axios';
 import { toast } from 'sonner';
 import React from 'react';
 import { AuthResponse, LoginRequest } from '@/actions/authenticate/type';
+import { useAuthStore } from '@/store/useAuthStore';
 
 type FormData = z.infer<typeof loginFormSchema>;
 
 const LoginForm = () => {
+  const { setAccessToken } = useAuthStore();
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
   const methods = useForm<FormData>({
@@ -47,8 +48,8 @@ const LoginForm = () => {
       );
 
       if (res?.status === 200) {
-        setAccessTokenStorage(res.data.accessToken);
         setAccessToken(res.data.accessToken);
+        setAccessTokenHeader(res.data.accessToken);
         router.push(ROUTES.HOME);
       }
     } catch (error) {

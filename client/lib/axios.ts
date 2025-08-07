@@ -8,7 +8,7 @@ export const NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 let accessToken: string | null = null;
 
-export const setAccessToken = (token: string | null) => {
+export const setAccessTokenHeader = (token: string | null) => {
   accessToken = token;
 };
 
@@ -45,7 +45,7 @@ axiosInstance.interceptors.response.use(
         );
 
         const newAccessToken = data.data.accessToken;
-        setAccessToken(newAccessToken);
+        setAccessTokenHeader(newAccessToken);
 
         originalRequest.headers = {
           ...originalRequest.headers,
