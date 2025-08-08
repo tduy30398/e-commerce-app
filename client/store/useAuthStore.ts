@@ -4,11 +4,11 @@ import { STORAGE } from '@/lib/constants';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-type AuthState = {
+interface AuthState {
   accessToken: string | null;
   setAccessToken: (token: string) => void;
   clearAccessToken: () => void;
-};
+}
 
 export const useAuthStore = create<AuthState>()(
   persist(

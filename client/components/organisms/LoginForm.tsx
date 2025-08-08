@@ -21,13 +21,19 @@ import { Input } from '../ui/input';
 import { AxiosResponse, isAxiosError } from 'axios';
 import { toast } from 'sonner';
 import React from 'react';
-import { AuthResponse, LoginRequest } from '@/actions/authenticate/type';
+import {
+  AuthResponse,
+  LoginRequest,
+  UserProfile,
+} from '@/actions/authenticate/type';
 import { useAuthStore } from '@/store/useAuthStore';
+import useProfileStore from '@/store/useProfileStore';
 
 type FormData = z.infer<typeof loginFormSchema>;
 
 const LoginForm = () => {
   const { setAccessToken } = useAuthStore();
+  const { setProfileData } = useProfileStore();
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
   const methods = useForm<FormData>({
@@ -43,13 +49,21 @@ const LoginForm = () => {
     try {
       setIsLoading(true);
       const res: AxiosResponse<AuthResponse> = await axiosInstance.post(
-        '/auth/login',
+        'auth/login',
         data as LoginRequest
       );
 
-      if (res?.status === 200) {
+      if (res.status === 200) {
         setAccessToken(res.data.accessToken);
         setAccessTokenHeader(res.data.accessToken);
+        const profileRes: AxiosResponse<UserProfile> = await axiosInstance.get(
+          'profile'
+        );
+
+        if (profileRes.status === 200) {
+          setProfileData(profileRes.data);
+        }
+
         router.push(ROUTES.HOME);
       }
     } catch (error) {

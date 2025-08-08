@@ -17,7 +17,7 @@ export const navigateList: NavigateListProps[] = [
   },
   {
     title: 'Download',
-    link: '/app',
+    link: '/',
   },
   {
     title: 'Dashboard',

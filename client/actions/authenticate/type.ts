@@ -12,3 +12,10 @@ export interface RegisterRequest {
 export interface AuthResponse {
   accessToken: string;
 }
+
+export interface UserProfile {
+  email: string;
+  name: string;
+  avatar: string;
+  birthday: Date;
+}
