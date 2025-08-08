@@ -15,7 +15,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '../ui/alert-dialog';
-import { deleteProduct } from '@/app/actions/product';
+import { deleteProduct } from '@/actions/product';
 import useSWRMutation from 'swr/mutation';
 
 interface DeleteAlertProps {

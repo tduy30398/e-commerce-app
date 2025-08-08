@@ -1,6 +1,6 @@
 'use client';
 
-import { getAllProducts } from '@/app/actions/product';
+import { getAllProducts } from '@/actions/product';
 import PaginationCustom from '@/components/molecules/PaginationCustom';
 import ProductCard from '@/components/molecules/ProductCard';
 import { filterRatings } from '@/public/dummy/general';

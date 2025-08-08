@@ -13,7 +13,7 @@ import { Eye } from 'lucide-react';
 import { ROUTES } from '@/lib/constants';
 import useSWR from 'swr';
 import React from 'react';
-import { getAllProducts } from '@/app/actions/product';
+import { getAllProducts } from '@/actions/product';
 import TableSkeleton from '@/components/molecules/TableSkeleton';
 import DeleteAlert from '@/components/organisms/DeleteAlert';
 import PaginationCustom from '@/components/molecules/PaginationCustom';

@@ -23,7 +23,7 @@ import {
 } from '../ui/form';
 import { Input } from '../ui/input';
 import { DatePicker } from './DatePicker';
-import { AuthResponse, RegisterRequest } from '@/app/actions/authenticate/type';
+import { AuthResponse, RegisterRequest } from '@/actions/authenticate/type';
 import { useAuthStore } from '@/store/useAuthStore';
 
 type FormData = z.infer<typeof registerFormSchema>;
