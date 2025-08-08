@@ -21,17 +21,20 @@ import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
+import useProfileStore from '@/store/useProfileStore';
 
 const HamburgerMenu = () => {
   const router = useRouter();
   const { accessToken, clearAccessToken } = useAuthStore();
+  const { clearProfileData } = useProfileStore();
 
   const logoutService = async () => {
     try {
       const res = await axiosInstance.post('auth/logout');
       if (res?.status === 200) {
-        clearAccessToken();
         setAccessTokenHeader(null);
+        clearAccessToken();
+        clearProfileData();
         router.push(ROUTES.HOME);
         toast.success('Logout successfully');
       }

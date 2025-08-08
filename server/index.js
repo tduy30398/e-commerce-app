@@ -4,10 +4,11 @@ const cors = require("cors");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-// const authMiddleware = require("./middleware/authMiddleware");
+const authMiddleware = require("./middleware/authMiddleware");
 
 const productRoutes = require("./routes/product");
 const authRoutes = require("./routes/auth");
+const profileRoutes = require("./routes/profile");
 
 app.use(cookieParser());
 app.use(express.json());
@@ -36,6 +37,10 @@ app.get("/", (_, res) => {
   res.send("Server is running");
 });
 
+// Protected routes
+app.use("/api/profile", authMiddleware, profileRoutes);
+
+// Public routes
 app.use("/api/auth", authRoutes);
 app.use("/api/product", productRoutes);
 

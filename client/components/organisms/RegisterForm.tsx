@@ -23,12 +23,18 @@ import {
 } from '../ui/form';
 import { Input } from '../ui/input';
 import { DatePicker } from './DatePicker';
-import { AuthResponse, RegisterRequest } from '@/actions/authenticate/type';
+import {
+  AuthResponse,
+  RegisterRequest,
+  UserProfile,
+} from '@/actions/authenticate/type';
 import { useAuthStore } from '@/store/useAuthStore';
+import useProfileStore from '@/store/useProfileStore';
 
 type FormData = z.infer<typeof registerFormSchema>;
 
 const RegisterForm = () => {
+  const { setProfileData } = useProfileStore();
   const { setAccessToken } = useAuthStore();
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
@@ -50,13 +56,19 @@ const RegisterForm = () => {
     try {
       setIsLoading(true);
       const res: AxiosResponse<AuthResponse> = await axiosInstance.post(
-        '/auth/register',
+        'auth/register',
         rest as RegisterRequest
       );
 
-      if (res?.status === 201) {
+      if (res.status === 201) {
         setAccessToken(res.data.accessToken);
         setAccessTokenHeader(res.data.accessToken);
+        const profileRes: AxiosResponse<UserProfile> = await axiosInstance.get(
+          'profile'
+        );
+        if (profileRes.status === 200) {
+          setProfileData(profileRes.data);
+        }
         router.push(ROUTES.HOME);
       }
     } catch {

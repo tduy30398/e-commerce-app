@@ -13,7 +13,7 @@ if (!JWT_SECRET) {
 
 const generateTokens = (userId) => {
   const accessToken = jwt.sign({ userId }, JWT_SECRET, {
-    expiresIn: "30m",
+    expiresIn: "5m",
   });
   const refreshToken = jwt.sign({ userId }, JWT_SECRET, {
     expiresIn: "8h",
@@ -106,7 +106,7 @@ router.post("/refresh-token", async (req, res) => {
     }
 
     const newAccessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
-      expiresIn: "30m",
+      expiresIn: "5m",
     });
     res.json({ accessToken: newAccessToken });
   } catch (err) {

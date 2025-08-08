@@ -19,17 +19,20 @@ import {
 import MobileSearchHeader from './MobileSearchHeader';
 import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
 import { useAuthStore } from '@/store/useAuthStore';
+import useProfileStore from '@/store/useProfileStore';
 
 const RightHeader = () => {
   const router = useRouter();
   const { accessToken, clearAccessToken } = useAuthStore();
+  const { clearProfileData } = useProfileStore();
 
   const logoutService = async () => {
     try {
       const res = await axiosInstance.post('auth/logout');
       if (res?.status === 200) {
-        clearAccessToken();
         setAccessTokenHeader(null);
+        clearAccessToken();
+        clearProfileData();
         router.push(ROUTES.HOME);
         toast.success('Logout successfully');
       }
@@ -43,7 +46,7 @@ const RightHeader = () => {
       <div className="sm:hidden size-6">
         <MobileSearchHeader />
       </div>
-      <Link href={ROUTES.CART}>
+      <Link href="/">
         <ShoppingCart className="size-6 cursor-pointer" />
       </Link>
       {accessToken ? (
@@ -56,8 +59,8 @@ const RightHeader = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-40" align="center">
             <DropdownMenuGroup>
-              <DropdownMenuItem className="text-md font-medium">
-                Profile
+              <DropdownMenuItem className="text-md font-medium cursor-pointer">
+                <Link href={ROUTES.PROFILE}>Profile</Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
