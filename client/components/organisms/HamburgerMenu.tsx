@@ -89,7 +89,7 @@ const HamburgerMenu = () => {
           {accessToken ? (
             <Button
               onClick={logoutService}
-              className="w-full cursor-pointer text-center bg-black text-white text-base font-medium rounded-4xl py-3 hover:bg-black/80"
+              className="w-full cursor-pointer text-center bg-black text-white text-base font-medium rounded-4xl py-3 h-12 hover:bg-black/80"
             >
               Log out
             </Button>
