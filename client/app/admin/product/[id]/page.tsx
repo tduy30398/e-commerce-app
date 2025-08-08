@@ -1,5 +1,5 @@
-import { getAllProducts, getProductDetail } from '@/actions/product';
-import { ProductTypes } from '@/actions/product/type';
+import { getAllProducts, getProductDetail } from '@/app/actions/product';
+import { ProductTypes } from '@/app/actions/product/type';
 import ProductDashboard from '@/components/templates/ProductDashboard';
 
 export async function generateStaticParams() {

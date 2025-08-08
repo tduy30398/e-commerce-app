@@ -17,25 +17,25 @@ import Image from 'next/image';
 import { Separator } from '../ui/separator';
 import { ROUTES } from '@/lib/constants';
 import { Button } from '../ui/button';
-import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
+import { setAccessTokenHeader } from '@/lib/axios';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
+import { logoutAction } from '@/app/actions/authenticate/auth';
 
 const HamburgerMenu = () => {
   const router = useRouter();
   const { accessToken, clearAccessToken } = useAuthStore();
 
   const logoutService = async () => {
-    try {
-      const res = await axiosInstance.post('/auth/logout');
-      if (res?.status === 200) {
-        clearAccessToken();
-        setAccessTokenHeader(null);
-        router.push(ROUTES.HOME);
-        toast.success('Logout successfully');
-      }
-    } catch {
+    const success = await logoutAction();
+
+    if (success) {
+      clearAccessToken();
+      setAccessTokenHeader(null);
+      router.push(ROUTES.HOME);
+      toast.success('Logout successfully');
+    } else {
       toast.error('Logout failed');
     }
   };
