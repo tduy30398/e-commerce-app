@@ -2,7 +2,7 @@ import React from 'react';
 import ProductCard from '../molecules/ProductCard';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/constants';
-import { getAllProducts } from '@/actions/product';
+import { getAllProducts } from '@/app/actions/product';
 
 const PAGE_SIZE = 4;
 

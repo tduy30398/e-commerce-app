@@ -1,7 +1,7 @@
 'use client';
 
-import { createProduct, updateProduct } from '@/actions/product';
-import { ProductRequest, ProductTypes } from '@/actions/product/type';
+import { createProduct, updateProduct } from '@/app/actions/product';
+import { ProductRequest, ProductTypes } from '@/app/actions/product/type';
 import { ROUTES } from '@/lib/constants';
 import { productFormSchema } from '@/lib/shemas';
 import { useRouter } from 'next/navigation';

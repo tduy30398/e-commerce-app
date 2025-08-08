@@ -21,7 +21,7 @@ import { Input } from '../ui/input';
 import { AxiosResponse, isAxiosError } from 'axios';
 import { toast } from 'sonner';
 import React from 'react';
-import { AuthResponse, LoginRequest } from '@/actions/authenticate/type';
+import { AuthResponse, LoginRequest } from '@/app/actions/authenticate/type';
 import { useAuthStore } from '@/store/useAuthStore';
 
 type FormData = z.infer<typeof loginFormSchema>;

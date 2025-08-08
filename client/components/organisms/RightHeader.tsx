@@ -17,23 +17,23 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import MobileSearchHeader from './MobileSearchHeader';
-import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
+import { setAccessTokenHeader } from '@/lib/axios';
 import { useAuthStore } from '@/store/useAuthStore';
+import { logoutAction } from '@/app/actions/authenticate/auth';
 
 const RightHeader = () => {
   const router = useRouter();
   const { accessToken, clearAccessToken } = useAuthStore();
 
   const logoutService = async () => {
-    try {
-      const res = await axiosInstance.post('/auth/logout');
-      if (res?.status === 200) {
-        clearAccessToken();
-        setAccessTokenHeader(null);
-        router.push(ROUTES.HOME);
-        toast.success('Logout successfully');
-      }
-    } catch {
+    const success = await logoutAction();
+
+    if (success) {
+      clearAccessToken();
+      setAccessTokenHeader(null);
+      router.push(ROUTES.HOME);
+      toast.success('Logout successfully');
+    } else {
       toast.error('Logout failed');
     }
   };
