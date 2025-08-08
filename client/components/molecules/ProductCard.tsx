@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Star } from 'lucide-react';
 import { formattedCapitalize, calculatePercentage } from '@/lib/utils';
-import { ProductTypes } from '@/app/actions/product/type';
+import { ProductTypes } from '@/actions/product/type';
 
 const ProductCard: React.FC<ProductTypes> = ({
   name,
