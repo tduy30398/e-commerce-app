@@ -1,41 +1,34 @@
 'use client';
 
-import React from 'react';
+import { logoutUserService } from '@/actions/authenticate';
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  SheetClose,
 } from '@/components/ui/sheet';
-import { Menu, X } from 'lucide-react';
-import Link from 'next/link';
-import { navigateList } from '@/public/dummy/general';
-import Image from 'next/image';
-import { Separator } from '../ui/separator';
+import axiosInstance from '@/lib/axios';
 import { ROUTES } from '@/lib/constants';
-import { Button } from '../ui/button';
-import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
+import { navigateList } from '@/public/dummy/general';
 import { useAuthStore } from '@/store/useAuthStore';
-import useProfileStore from '@/store/useProfileStore';
+import { Menu, X } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { toast } from 'sonner';
+import { Button } from '../ui/button';
+import { Separator } from '../ui/separator';
 
 const HamburgerMenu = () => {
-  const router = useRouter();
-  const { accessToken, clearAccessToken } = useAuthStore();
-  const { clearProfileData } = useProfileStore();
+  const { accessToken } = useAuthStore();
 
   const logoutService = async () => {
     try {
       const res = await axiosInstance.post('auth/logout');
       if (res?.status === 200) {
-        setAccessTokenHeader(null);
-        clearAccessToken();
-        clearProfileData();
-        router.push(ROUTES.HOME);
+        logoutUserService();
         toast.success('Logout successfully');
       }
     } catch {

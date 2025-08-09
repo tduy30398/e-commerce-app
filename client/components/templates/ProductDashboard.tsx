@@ -221,7 +221,8 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
             render={({ field, formState }) => (
               <FormItem className="md:col-span-2">
                 <FormLabel>
-                  Product Image<span className="text-red-500">*</span>
+                  Product Image (Max size: 2MB)
+                  <span className="text-red-500">*</span>
                 </FormLabel>
                 {uploadPct && <Progress value={uploadPct} />}
                 <FormControl>
@@ -230,6 +231,7 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
                     onChange={field.onChange}
                     error={formState.errors.image?.message}
                     handleSetPct={setUploadPct}
+                    className="w-fit mx-auto"
                   />
                 </FormControl>
                 <FormMessage className="text-center" />

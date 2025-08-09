@@ -3,7 +3,6 @@
 import { ROUTES } from '@/lib/constants';
 import { ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import { toast } from 'sonner';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
@@ -17,23 +16,20 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import MobileSearchHeader from './MobileSearchHeader';
-import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
+import axiosInstance from '@/lib/axios';
 import { useAuthStore } from '@/store/useAuthStore';
 import useProfileStore from '@/store/useProfileStore';
+import { logoutUserService } from '@/actions/authenticate';
 
 const RightHeader = () => {
-  const router = useRouter();
-  const { accessToken, clearAccessToken } = useAuthStore();
-  const { profileData, clearProfileData } = useProfileStore();
+  const { accessToken } = useAuthStore();
+  const { profileData } = useProfileStore();
 
   const logoutService = async () => {
     try {
       const res = await axiosInstance.post('auth/logout');
       if (res?.status === 200) {
-        setAccessTokenHeader(null);
-        clearAccessToken();
-        clearProfileData();
-        router.push(ROUTES.HOME);
+        logoutUserService();
         toast.success('Logout successfully');
       }
     } catch {
@@ -53,7 +49,11 @@ const RightHeader = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer">
-              <AvatarImage src={profileData?.avatar || ''} alt="avatar" />
+              <AvatarImage
+                className="object-contain"
+                src={profileData?.avatar || ''}
+                alt="avatar"
+              />
               <AvatarFallback className="bg-[#00ffff]">
                 {profileData?.name?.charAt(0)}
               </AvatarFallback>

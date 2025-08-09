@@ -26,12 +26,14 @@ import z from 'zod';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/lib/constants';
 import { toast } from 'sonner';
+import { useAuthStore } from '@/store/useAuthStore';
 
 type FormData = z.infer<typeof profileFormSchema>;
 
 const Profile = () => {
   const router = useRouter();
   const { profileData, setProfileData } = useProfileStore();
+  const { accessToken } = useAuthStore();
   const [uploadPct, setUploadPct] = React.useState<number | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -93,6 +95,13 @@ const Profile = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData]);
 
+  React.useEffect(() => {
+    if (!accessToken) {
+      router.push(ROUTES.LOGIN);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Form {...method}>
       <form onSubmit={method.handleSubmit(onSubmit)}>
@@ -104,6 +113,7 @@ const Profile = () => {
               render={({ field, formState }) => (
                 <FormItem className="md:col-span-2">
                   {uploadPct && <Progress value={uploadPct} />}
+                  <FormLabel>Avatar (Max size: 2MB)</FormLabel>
                   <FormControl>
                     <Uploader
                       value={field.value}
@@ -111,6 +121,7 @@ const Profile = () => {
                       error={formState.errors.avatar?.message}
                       handleSetPct={setUploadPct}
                       roundedFull
+                      className="w-fit mx-auto"
                     />
                   </FormControl>
                   <FormMessage className="text-center" />
@@ -176,7 +187,7 @@ const Profile = () => {
             <Button
               type="submit"
               className="cursor-pointer main-button h-12 mt-8 max-md:mt-8 max-md:w-full"
-              disabled={isLoading}
+              disabled={isLoading || uploadPct !== null}
             >
               Save
             </Button>
