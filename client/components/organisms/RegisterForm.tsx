@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 
 import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
 import { ROUTES } from '@/lib/constants';
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, isAxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -71,8 +71,21 @@ const RegisterForm = () => {
         }
         router.push(ROUTES.HOME);
       }
-    } catch {
-      toast.error('An error occurred');
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const errData = error.response?.data;
+        const field = errData?.field;
+        const message = errData?.message ?? 'An error occurred';
+        if (field === 'email') {
+          methods.setError('email', {
+            message: message,
+          });
+        } else {
+          toast.error(message);
+        }
+      } else {
+        toast.error('Unexpected error occurred');
+      }
     } finally {
       setIsLoading(false);
     }

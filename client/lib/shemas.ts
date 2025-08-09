@@ -48,3 +48,12 @@ export const registerFormSchema = z
     message: 'Confirm password must match',
     path: ['confirmPassword'],
   });
+
+export const profileFormSchema = z.object({
+  name: z.string().nonempty('Name is required'),
+  email: z.string().email('Invalid email'),
+  birthday: z.date({
+    error: 'Date is required',
+  }),
+  avatar: z.string().optional().nullable(),
+});
