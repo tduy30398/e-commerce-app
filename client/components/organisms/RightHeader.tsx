@@ -24,7 +24,7 @@ import useProfileStore from '@/store/useProfileStore';
 const RightHeader = () => {
   const router = useRouter();
   const { accessToken, clearAccessToken } = useAuthStore();
-  const { clearProfileData } = useProfileStore();
+  const { profileData, clearProfileData } = useProfileStore();
 
   const logoutService = async () => {
     try {
@@ -53,13 +53,18 @@ const RightHeader = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer">
-              <AvatarImage src="https://github.com/shadcn.png" alt="avatar" />
-              <AvatarFallback>FB</AvatarFallback>
+              <AvatarImage src={profileData?.avatar || ''} alt="avatar" />
+              <AvatarFallback className="bg-[#00ffff]">
+                {profileData?.name?.charAt(0)}
+              </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-40" align="center">
             <DropdownMenuGroup>
-              <DropdownMenuItem className="text-md font-medium cursor-pointer">
+              <DropdownMenuItem
+                asChild
+                className="text-md font-medium cursor-pointer"
+              >
                 <Link href={ROUTES.PROFILE}>Profile</Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>

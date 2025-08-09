@@ -11,14 +11,21 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
 
 interface DatePickerProps {
   value?: Date;
   onChange: (date: Date | undefined) => void;
   isError?: boolean;
+  className?: string;
 }
 
-export function DatePicker({ value, onChange, isError }: DatePickerProps) {
+export function DatePicker({
+  value,
+  onChange,
+  isError,
+  className,
+}: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
   const [displayMonth, setDisplayMonth] = React.useState<Date | undefined>(
     value
@@ -39,10 +46,11 @@ export function DatePicker({ value, onChange, isError }: DatePickerProps) {
             id="date"
             className={cn(
               'w-full justify-between border-[#889397] rounded-2xl font-normal text-base h-[50px]',
-              isError && 'border-red-500 text-red-500'
+              isError && 'border-red-500 text-red-500',
+              className
             )}
           >
-            {value ? value.toLocaleDateString('en-GB') : 'Select date'}
+            {value ? format(value, 'dd/MM/yyyy') : 'Select date'}
             <CalendarIcon />
           </Button>
         </PopoverTrigger>

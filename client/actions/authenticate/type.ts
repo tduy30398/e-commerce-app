@@ -17,5 +17,5 @@ export interface UserProfile {
   email: string;
   name: string;
   avatar: string;
-  birthday: Date;
+  birthday: string;
 }

@@ -7,10 +7,11 @@ import { cn } from '@/lib/utils';
 import React from 'react';
 
 type Props = {
-  value?: string;
+  value?: string | null;
   onChange: (url: string) => void;
   error?: string;
   handleSetPct: (pct: number | null) => void;
+  roundedFull?: boolean;
 };
 
 export default function Uploader({
@@ -18,6 +19,7 @@ export default function Uploader({
   onChange,
   error,
   handleSetPct,
+  roundedFull = false,
 }: Props) {
   const [preview, setPreview] = React.useState<string | null>(null);
 
@@ -96,7 +98,8 @@ export default function Uploader({
         className={cn(
           'border border-dashed rounded-xl p-2 transition hover:bg-muted flex items-center justify-center cursor-pointer size-48 mx-auto',
           preview ? 'border-green-400' : 'border-gray-300',
-          error && 'border-red-500'
+          error && 'border-red-500',
+          roundedFull && 'rounded-full'
         )}
       >
         <Input
@@ -116,7 +119,10 @@ export default function Uploader({
               alt="Preview"
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover rounded-lg"
+              className={cn(
+                'object-cover rounded-lg',
+                roundedFull && 'rounded-full'
+              )}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-sm text-muted-foreground">
