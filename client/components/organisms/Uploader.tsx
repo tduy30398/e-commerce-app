@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import React from 'react';
+import { toast } from 'sonner';
 
 type Props = {
   value?: string | null;
@@ -12,7 +13,10 @@ type Props = {
   error?: string;
   handleSetPct: (pct: number | null) => void;
   roundedFull?: boolean;
+  className?: string;
 };
+
+const maxSizeInBytes = 2 * 1024 * 1024; // 2 MB
 
 export default function Uploader({
   value,
@@ -20,6 +24,7 @@ export default function Uploader({
   error,
   handleSetPct,
   roundedFull = false,
+  className,
 }: Props) {
   const [preview, setPreview] = React.useState<string | null>(null);
 
@@ -71,7 +76,14 @@ export default function Uploader({
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) handleFile(file);
+
+    if (file) {
+      if (file?.size > maxSizeInBytes) {
+        toast.error('File is too large. Maximum size is 2 MB.');
+      } else {
+        handleFile(file);
+      }
+    }
   };
 
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
@@ -91,12 +103,12 @@ export default function Uploader({
   }, [value]);
 
   return (
-    <div className="space-y-4">
+    <div className={cn('space-y-4', className)}>
       <div
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         className={cn(
-          'border border-dashed rounded-xl p-2 transition hover:bg-muted flex items-center justify-center cursor-pointer size-48 mx-auto',
+          'border border-dashed rounded-xl p-2 transition hover:bg-muted flex items-center justify-center cursor-pointer size-48',
           preview ? 'border-green-400' : 'border-gray-300',
           error && 'border-red-500',
           roundedFull && 'rounded-full'

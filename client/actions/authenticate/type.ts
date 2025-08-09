@@ -18,4 +18,5 @@ export interface UserProfile {
   name: string;
   avatar: string;
   birthday: string;
+  role: string;
 }

@@ -1,3 +1,4 @@
+import { logoutUserService } from '@/actions/authenticate';
 import axios, {
   AxiosRequestConfig,
   AxiosResponse,
@@ -53,8 +54,8 @@ axiosInstance.interceptors.response.use(
         };
 
         return axiosInstance(originalRequest);
-      } catch (err) {
-        console.error('Refresh token failed:', err);
+      } catch {
+        logoutUserService();
       }
     }
 
