@@ -18,6 +18,7 @@ import TableSkeleton from '@/components/molecules/TableSkeleton';
 import DeleteAlert from '@/components/organisms/DeleteAlert';
 import PaginationCustom from '@/components/molecules/PaginationCustom';
 import { useRouter, useSearchParams } from 'next/navigation';
+import useProfileStore from '@/store/useProfileStore';
 
 interface DataTableProps {
   [key: string]: string | number;
@@ -34,6 +35,7 @@ const ProductTable = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');
+  const { profileData } = useProfileStore();
 
   const currentPage = React.useMemo(() => {
     return pageParam ? parseInt(pageParam, 10) : 1;
@@ -123,12 +125,14 @@ const ProductTable = () => {
     <>
       <div className="flex justify-between">
         <h2 className="text-2xl font-bold mb-6">Products List</h2>
-        <Link
-          href={`${ROUTES.ADMINPRODUCT}/create`}
-          className="bg-black text-white px-10 py-2 rounded-4xl h-9 leading-[18px]"
-        >
-          Create
-        </Link>
+        {profileData?.role === 'admin' && (
+          <Link
+            href={`${ROUTES.ADMINPRODUCT}/create`}
+            className="bg-black text-white px-10 py-2 rounded-4xl h-9 leading-[18px]"
+          >
+            Create
+          </Link>
+        )}
       </div>
       <Table>
         <TableHeader>
@@ -162,7 +166,9 @@ const ProductTable = () => {
                 >
                   <Eye className="size-4" />
                 </Link>
-                <DeleteAlert id={String(item.id)} queryKey={queryKey} />
+                {profileData?.role === 'admin' && (
+                  <DeleteAlert id={String(item.id)} queryKey={queryKey} />
+                )}
               </TableCell>
             </TableRow>
           ))}
