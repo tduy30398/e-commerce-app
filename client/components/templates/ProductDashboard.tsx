@@ -25,6 +25,7 @@ import { Progress } from '../ui/progress';
 import Uploader from '../organisms/Uploader';
 import { Textarea } from '../ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
+import useProfileStore from '@/store/useProfileStore';
 
 type FormData = z.infer<typeof productFormSchema>;
 
@@ -44,6 +45,7 @@ const defaultValues: FormData = {
 
 const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
   const router = useRouter();
+  const { profileData } = useProfileStore();
 
   const [uploadPct, setUploadPct] = React.useState<number | null>(null);
   const methods = useForm<FormData>({
@@ -122,13 +124,15 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
           <h2 className="text-2xl font-bold">Product Detail</h2>
-          <Button
-            type="submit"
-            className="max-md:hidden main-button cursor-pointer md:w-auto max-md:mt-4"
-            disabled={isMutating || updateLoading || uploadPct !== null}
-          >
-            {id !== 'create' ? 'Update' : 'Create'}
-          </Button>
+          {profileData?.role === 'admin' && (
+            <Button
+              type="submit"
+              className="max-md:hidden main-button cursor-pointer md:w-auto max-md:mt-4"
+              disabled={isMutating || updateLoading || uploadPct !== null}
+            >
+              {id !== 'create' ? 'Update' : 'Create'}
+            </Button>
+          )}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Name */}
