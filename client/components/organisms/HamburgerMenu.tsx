@@ -10,7 +10,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import axiosInstance from '@/lib/axios';
 import { ROUTES } from '@/lib/constants';
 import { navigateList } from '@/public/dummy/general';
 import { Menu, X } from 'lucide-react';
@@ -28,8 +27,11 @@ const HamburgerMenu = () => {
 
   const logoutService = async () => {
     try {
-      const res = await axiosInstance.post('auth/logout');
-      if (res?.status === 200) {
+      const res = await fetch('/api/logout', {
+        method: 'POST',
+      });
+
+      if (res.status === 200) {
         logoutUserService();
         toast.success('Logout successfully');
         router.push(ROUTES.HOME);
