@@ -20,9 +20,11 @@ import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import useProfileStore from '@/store/useProfileStore';
+import { useRouter } from 'next/navigation';
 
 const HamburgerMenu = () => {
   const { accessToken } = useProfileStore();
+  const router = useRouter();
 
   const logoutService = async () => {
     try {
@@ -30,6 +32,7 @@ const HamburgerMenu = () => {
       if (res?.status === 200) {
         logoutUserService();
         toast.success('Logout successfully');
+        router.push(ROUTES.HOME);
       }
     } catch {
       toast.error('Logout failed');
