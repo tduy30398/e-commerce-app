@@ -13,7 +13,7 @@ if (!JWT_SECRET) {
 
 const generateTokens = (userId) => {
   const accessToken = jwt.sign({ userId }, JWT_SECRET, {
-    expiresIn: "5m",
+    expiresIn: "30m",
   });
   const refreshToken = jwt.sign({ userId }, JWT_SECRET, {
     expiresIn: "8h",
@@ -98,7 +98,7 @@ router.post("/refresh-token", async (req, res) => {
     }
 
     const newAccessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
-      expiresIn: "5m",
+      expiresIn: "30m",
     });
     res.json({ accessToken: newAccessToken });
   } catch (err) {
@@ -109,33 +109,26 @@ router.post("/refresh-token", async (req, res) => {
 });
 
 router.post("/logout", async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-
-  if (!refreshToken) {
-    return res.status(400).json({ message: "No refresh token provided" });
-  }
-
   try {
-    const decoded = jwt.verify(refreshToken, JWT_SECRET);
-    if (!decoded) {
-      return res.status(400).json({ message: "Invalid token" });
-    }
-    const user = await User.findById(decoded.userId);
-    if (user) {
-      user.refreshToken = null;
-      await user.save();
+    const refreshToken = req.cookies.refreshToken;
+
+    if (refreshToken) {
+      await User.findOneAndUpdate(
+        { refreshToken },
+        { $unset: { refreshToken: null } }
+      );
     }
 
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      secure: true,
-      sameSite: "None",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
     });
 
-    return res.status(200).json({ message: "Logged out" });
+    res.json({ message: "Logged out successfully" });
   } catch (err) {
-    console.error(err);
-    res.status(400).json({ message: "Invalid token" });
+    res.status(500).json({ error: err.message });
   }
 });
 

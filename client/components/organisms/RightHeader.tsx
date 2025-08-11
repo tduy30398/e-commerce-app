@@ -1,7 +1,6 @@
 'use client';
 
 import { logoutUserService } from '@/actions/authenticate';
-import axiosInstance from '@/lib/axios';
 import { ROUTES } from '@/lib/constants';
 import useProfileStore from '@/store/useProfileStore';
 import { ShoppingCart } from 'lucide-react';
@@ -26,8 +25,10 @@ const RightHeader = () => {
 
   const logoutService = async () => {
     try {
-      const res = await axiosInstance.post('auth/logout');
-      if (res?.status === 200) {
+      const res = await fetch('/api/logout', {
+        method: 'POST',
+      });
+      if (res.status === 200) {
         logoutUserService();
         toast.success('Logout successfully');
         router.push(ROUTES.HOME);
