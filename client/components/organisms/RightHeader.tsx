@@ -28,6 +28,7 @@ const RightHeader = () => {
       const res = await fetch('/api/logout', {
         method: 'POST',
       });
+
       if (res.status === 200) {
         logoutUserService();
         toast.success('Logout successfully');
