@@ -1,9 +1,12 @@
 'use client';
 
+import { logoutUserService } from '@/actions/authenticate';
+import axiosInstance from '@/lib/axios';
 import { ROUTES } from '@/lib/constants';
+import useProfileStore from '@/store/useProfileStore';
 import { ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
@@ -16,12 +19,10 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import MobileSearchHeader from './MobileSearchHeader';
-import axiosInstance from '@/lib/axios';
-import useProfileStore from '@/store/useProfileStore';
-import { logoutUserService } from '@/actions/authenticate';
 
 const RightHeader = () => {
   const { profileData, accessToken } = useProfileStore();
+  const router = useRouter();
 
   const logoutService = async () => {
     try {
@@ -29,6 +30,7 @@ const RightHeader = () => {
       if (res?.status === 200) {
         logoutUserService();
         toast.success('Logout successfully');
+        router.push(ROUTES.HOME);
       }
     } catch {
       toast.error('Logout failed');
