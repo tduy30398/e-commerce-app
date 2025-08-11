@@ -13,16 +13,16 @@ import {
 import axiosInstance from '@/lib/axios';
 import { ROUTES } from '@/lib/constants';
 import { navigateList } from '@/public/dummy/general';
-import { useAuthStore } from '@/store/useAuthStore';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
+import useProfileStore from '@/store/useProfileStore';
 
 const HamburgerMenu = () => {
-  const { accessToken } = useAuthStore();
+  const { accessToken } = useProfileStore();
 
   const logoutService = async () => {
     try {

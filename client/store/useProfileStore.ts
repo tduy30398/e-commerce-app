@@ -1,12 +1,17 @@
-import { UserProfile } from '@/actions/authenticate/type';
-import { STORAGE } from '@/lib/constants';
-import { create } from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
+import { UserProfile } from '@/actions/authenticate/type'
+import { STORAGE } from '@/lib/constants'
+import { create } from 'zustand'
+import { devtools, persist } from 'zustand/middleware'
 
 interface ProfileState {
-  profileData: UserProfile | null;
-  setProfileData: (profileData: UserProfile) => void;
-  clearProfileData: () => void;
+  profileData: UserProfile | null
+  accessToken: string | null
+  setProfileData: (profileData: UserProfile) => void
+  setAccessToken: (token: string) => void
+  setAuth: (profileData: UserProfile, token: string) => void
+  clearProfileData: () => void
+  clearAccessToken: () => void
+  clearAuth: () => void
 }
 
 const useProfileStore = create<ProfileState>()(
@@ -14,8 +19,19 @@ const useProfileStore = create<ProfileState>()(
     persist(
       (set) => ({
         profileData: null,
+        accessToken: null,
+
         setProfileData: (profileData) => set({ profileData }),
+        setAccessToken: (token) => set({ accessToken: token }),
+
+        setAuth: (profileData, token) =>
+          set({ profileData, accessToken: token }),
+
         clearProfileData: () => set({ profileData: null }),
+        clearAccessToken: () => set({ accessToken: null }),
+
+        clearAuth: () =>
+          set({ profileData: null, accessToken: null }),
       }),
       {
         name: STORAGE.PROFILE,
@@ -25,6 +41,6 @@ const useProfileStore = create<ProfileState>()(
       name: STORAGE.PROFILE,
     }
   )
-);
+)
 
-export default useProfileStore;
+export default useProfileStore

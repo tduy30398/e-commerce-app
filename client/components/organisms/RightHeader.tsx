@@ -17,13 +17,11 @@ import {
 } from '../ui/dropdown-menu';
 import MobileSearchHeader from './MobileSearchHeader';
 import axiosInstance from '@/lib/axios';
-import { useAuthStore } from '@/store/useAuthStore';
 import useProfileStore from '@/store/useProfileStore';
 import { logoutUserService } from '@/actions/authenticate';
 
 const RightHeader = () => {
-  const { accessToken } = useAuthStore();
-  const { profileData } = useProfileStore();
+  const { profileData, accessToken } = useProfileStore();
 
   const logoutService = async () => {
     try {
