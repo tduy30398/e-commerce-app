@@ -1,10 +1,9 @@
 import { setAccessTokenHeader } from '@/lib/axios';
-import { useAuthStore } from '@/store/useAuthStore';
+import { ROUTES } from '@/lib/constants';
 import useProfileStore from '@/store/useProfileStore';
 
 export const logoutUserService = () => {
   setAccessTokenHeader(null);
-  useAuthStore.getState().clearAccessToken();
-  useProfileStore.getState().clearProfileData();
-  window.location.href = '/';
+  useProfileStore.getState().clearAuth();
+  window.location.href = ROUTES.HOME;
 };

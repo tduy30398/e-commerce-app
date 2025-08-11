@@ -26,14 +26,12 @@ import z from 'zod';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/lib/constants';
 import { toast } from 'sonner';
-import { useAuthStore } from '@/store/useAuthStore';
 
 type FormData = z.infer<typeof profileFormSchema>;
 
 const Profile = () => {
   const router = useRouter();
-  const { profileData, setProfileData } = useProfileStore();
-  const { accessToken } = useAuthStore();
+  const { profileData, accessToken, setProfileData } = useProfileStore();
   const [uploadPct, setUploadPct] = React.useState<number | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
 

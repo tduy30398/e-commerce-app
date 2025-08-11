@@ -26,14 +26,12 @@ import {
   LoginRequest,
   UserProfile,
 } from '@/actions/authenticate/type';
-import { useAuthStore } from '@/store/useAuthStore';
 import useProfileStore from '@/store/useProfileStore';
 
 type FormData = z.infer<typeof loginFormSchema>;
 
 const LoginForm = () => {
-  const { setAccessToken } = useAuthStore();
-  const { setProfileData } = useProfileStore();
+  const { setAuth } = useProfileStore();
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
   const methods = useForm<FormData>({
@@ -54,14 +52,13 @@ const LoginForm = () => {
       );
 
       if (res.status === 200) {
-        setAccessToken(res.data.accessToken);
         setAccessTokenHeader(res.data.accessToken);
         const profileRes: AxiosResponse<UserProfile> = await axiosInstance.get(
           'profile'
         );
 
         if (profileRes.status === 200) {
-          setProfileData(profileRes.data);
+          setAuth(profileRes.data, res.data.accessToken);
         }
 
         router.push(ROUTES.HOME);
