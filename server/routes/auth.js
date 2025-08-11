@@ -13,7 +13,7 @@ if (!JWT_SECRET) {
 
 const generateTokens = (userId) => {
   const accessToken = jwt.sign({ userId }, JWT_SECRET, {
-    expiresIn: "30m",
+    expiresIn: "5m",
   });
   const refreshToken = jwt.sign({ userId }, JWT_SECRET, {
     expiresIn: "8h",
@@ -44,15 +44,9 @@ router.post("/register", async (req, res) => {
     user.refreshToken = refreshToken;
     await user.save();
 
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 8 * 60 * 60 * 1000,
-    });
-
     res.status(201).json({
       accessToken,
+      refreshToken,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -80,15 +74,9 @@ router.post("/login", async (req, res) => {
     user.refreshToken = refreshToken;
     await user.save();
 
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 8 * 60 * 60 * 1000,
-    });
-
     res.json({
       accessToken,
+      refreshToken,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -97,6 +85,7 @@ router.post("/login", async (req, res) => {
 
 router.post("/refresh-token", async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
+
   if (!refreshToken)
     return res.status(401).json({ message: "Refresh token missing" });
 
@@ -109,7 +98,7 @@ router.post("/refresh-token", async (req, res) => {
     }
 
     const newAccessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
-      expiresIn: "30m",
+      expiresIn: "5m",
     });
     res.json({ accessToken: newAccessToken });
   } catch (err) {
@@ -142,6 +131,7 @@ router.post("/logout", async (req, res) => {
       secure: true,
       sameSite: "None",
     });
+
     return res.status(200).json({ message: "Logged out" });
   } catch (err) {
     console.error(err);

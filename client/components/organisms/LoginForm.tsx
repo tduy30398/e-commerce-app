@@ -21,11 +21,7 @@ import { Input } from '../ui/input';
 import { AxiosResponse, isAxiosError } from 'axios';
 import { toast } from 'sonner';
 import React from 'react';
-import {
-  AuthResponse,
-  LoginRequest,
-  UserProfile,
-} from '@/actions/authenticate/type';
+import { UserProfile } from '@/actions/authenticate/type';
 import useProfileStore from '@/store/useProfileStore';
 
 type FormData = z.infer<typeof loginFormSchema>;
@@ -46,19 +42,23 @@ const LoginForm = () => {
   const onSubmit = async (data: FormData) => {
     try {
       setIsLoading(true);
-      const res: AxiosResponse<AuthResponse> = await axiosInstance.post(
-        'auth/login',
-        data as LoginRequest
-      );
+
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const resData: { accessToken: string } = await res.json();
 
       if (res.status === 200) {
-        setAccessTokenHeader(res.data.accessToken);
+        setAccessTokenHeader(resData.accessToken);
         const profileRes: AxiosResponse<UserProfile> = await axiosInstance.get(
           'profile'
         );
 
         if (profileRes.status === 200) {
-          setAuth(profileRes.data, res.data.accessToken);
+          setAuth(profileRes.data, resData.accessToken);
         }
 
         router.push(ROUTES.HOME);
