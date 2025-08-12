@@ -1,6 +1,6 @@
 'use client';
 
-import { UserProfile } from '@/actions/authenticate/type';
+import { UpdateUserProfile, UserProfile } from '@/actions/authenticate/type';
 import { DatePicker } from '@/components/organisms/DatePicker';
 import Uploader from '@/components/organisms/Uploader';
 import { Button } from '@/components/ui/button';
@@ -47,10 +47,13 @@ const Profile = () => {
   const onSubmit = async (data: FormData) => {
     try {
       setIsLoading(true);
-      const submitData = {
-        ...data,
+
+      const submitData: UpdateUserProfile = {
+        name: data.name,
+        avatar: data.avatar || null,
         birthday: data.birthday.toISOString(),
       };
+
       const res: AxiosResponse<UserProfile> = await axiosInstance.patch(
         'profile',
         submitData
@@ -139,6 +142,7 @@ const Profile = () => {
                       className="h-12 text-lg! border-[#889397]"
                       value={field.value}
                       onChange={field.onChange}
+                      disabled
                     />
                   </FormControl>
                   <FormMessage />

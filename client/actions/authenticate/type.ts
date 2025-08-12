@@ -21,3 +21,9 @@ export interface UserProfile {
   birthday: string;
   role: string;
 }
+
+export interface UpdateUserProfile {
+  name: string;
+  avatar: string | null;
+  birthday: string;
+}
