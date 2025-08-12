@@ -1,11 +1,11 @@
-import { AuthResponse } from '@/actions/authenticate/type';
+import { AuthResponse, LoginRequest } from '@/actions/authenticate/type';
 import axiosInstance from '@/lib/axios';
 import { AxiosResponse } from 'axios';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   try {
-    const data = await req.json();
+    const data: LoginRequest = await req.json();
 
     const backendRes: AxiosResponse<AuthResponse> = await axiosInstance.post(
       'auth/login',

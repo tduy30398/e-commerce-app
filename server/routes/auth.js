@@ -100,6 +100,7 @@ router.post("/refresh-token", async (req, res) => {
     const newAccessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
       expiresIn: "30m",
     });
+
     res.json({ accessToken: newAccessToken });
   } catch (err) {
     return res

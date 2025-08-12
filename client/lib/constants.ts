@@ -9,6 +9,5 @@ export const ROUTES = {
 };
 
 export const STORAGE = {
-  ACCESS_TOKEN: 'ECOMMERCE_ACCESS_TOKEN',
   PROFILE: 'ECOMMERCE_PROFILE',
 };
