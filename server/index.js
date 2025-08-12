@@ -4,14 +4,14 @@ const cors = require("cors");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-const authMiddleware = require("./middleware/authMiddleware");
-
-const productRoutes = require("./routes/product");
-const authRoutes = require("./routes/auth");
-const profileRoutes = require("./routes/profile");
 
 app.use(cookieParser());
 app.use(express.json());
+
+const authMiddleware = require("./middleware/authMiddleware");
+const productRoutes = require("./routes/product");
+const authRoutes = require("./routes/auth");
+const profileRoutes = require("./routes/profile");
 
 const allowedOrigins = [
   "http://localhost:3000",
