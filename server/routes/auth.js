@@ -116,7 +116,7 @@ router.post("/logout", async (req, res) => {
     if (refreshToken) {
       await User.findOneAndUpdate(
         { refreshToken },
-        { $unset: { refreshToken: null } }
+        { $set: { refreshToken: null } }
       );
     }
 
@@ -127,7 +127,7 @@ router.post("/logout", async (req, res) => {
       path: "/",
     });
 
-    res.json({ message: "Logged out successfully" });
+    res.status(200).json({ message: "Logged out successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
