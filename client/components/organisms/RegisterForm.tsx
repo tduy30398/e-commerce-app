@@ -53,12 +53,12 @@ const RegisterForm = () => {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(rest),
       });
 
       const resData: { accessToken: string } = await res.json();
 
-      if (res.status === 201) {
+      if (res.status === 200) {
         setAccessTokenHeader(resData.accessToken);
         const profileRes: AxiosResponse<UserProfile> = await axiosInstance.get(
           'profile'
