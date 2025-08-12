@@ -74,7 +74,7 @@ router.post("/login", async (req, res) => {
     user.refreshToken = refreshToken;
     await user.save();
 
-    res.json({
+    res.status(200).json({
       accessToken,
       refreshToken,
     });

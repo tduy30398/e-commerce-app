@@ -27,7 +27,7 @@ const HamburgerMenu = () => {
 
   const logoutService = async () => {
     try {
-      const res = await fetch('/api/logout', {
+      const res = await fetch('/api/auth/logout', {
         method: 'POST',
       });
 
