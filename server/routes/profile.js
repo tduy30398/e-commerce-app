@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
 
 router.patch("/", async (req, res) => {
   try {
-    const allowedUpdates = ["name", "email", "avatar", "birthday"];
+    const allowedUpdates = ["name", "avatar", "birthday"];
     const updates = {};
 
     allowedUpdates.forEach((field) => {
@@ -29,15 +29,6 @@ router.patch("/", async (req, res) => {
         updates[field] = req.body[field];
       }
     });
-
-    if (updates.email) {
-      const existingUser = await User.findOne({ email: updates.email });
-      if (existingUser && existingUser._id.toString() !== req.user.userId) {
-        return res
-          .status(400)
-          .json({ message: "Email already in use", field: "email" });
-      }
-    }
 
     const updatedUser = await User.findByIdAndUpdate(
       req.user.userId,
