@@ -15,7 +15,7 @@ export async function POST(req: Request) {
       }
     );
 
-    if (backendRes.status !== 200) {
+    if (backendRes.status !== 201) {
       return NextResponse.json(backendRes.data, { status: backendRes.status });
     }
 
