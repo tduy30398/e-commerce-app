@@ -66,18 +66,9 @@ const Profile = () => {
       }
     } catch (error) {
       if (isAxiosError(error)) {
-        const errData = error.response?.data;
-        const field = errData?.field;
-        const message = errData?.message ?? 'An error occurred';
-        if (field === 'email') {
-          method.setError('email', {
-            message: message,
-          });
-        } else {
-          toast.error(message);
-        }
+        toast.error(error.response?.data?.message || 'An error occurred');
       } else {
-        toast.error('Unexpected error occurred');
+        toast.error('An unexpected error occurred');
       }
     } finally {
       setIsLoading(false);

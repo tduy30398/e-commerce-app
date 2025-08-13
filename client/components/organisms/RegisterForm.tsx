@@ -30,8 +30,9 @@ type FormData = z.infer<typeof registerFormSchema>;
 
 const RegisterForm = () => {
   const { setAuth } = useProfileStore();
-  const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
+
+  const [isLoading, setIsLoading] = React.useState(false);
   const methods = useForm<FormData>({
     resolver: zodResolver(registerFormSchema),
     mode: 'onChange',
@@ -55,6 +56,11 @@ const RegisterForm = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(rest),
       });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw { isAxiosError: true, response: { data: errData } };
+      }
 
       const resData: { accessToken: string } = await res.json();
 

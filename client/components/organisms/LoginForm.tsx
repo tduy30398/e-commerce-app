@@ -28,8 +28,9 @@ type FormData = z.infer<typeof loginFormSchema>;
 
 const LoginForm = () => {
   const { setAuth } = useProfileStore();
-  const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
+
+  const [isLoading, setIsLoading] = React.useState(false);
   const methods = useForm<FormData>({
     resolver: zodResolver(loginFormSchema),
     mode: 'onChange',
@@ -48,6 +49,11 @@ const LoginForm = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw { isAxiosError: true, response: { data: errData } };
+      }
 
       const resData: { accessToken: string } = await res.json();
 
