@@ -3,16 +3,21 @@ import Image from 'next/image';
 import { Star } from 'lucide-react';
 import { formattedCapitalize, calculatePercentage } from '@/lib/utils';
 import { ProductTypes } from '@/actions/product/type';
+import Link from 'next/link';
 
 const ProductCard: React.FC<ProductTypes> = ({
   name,
   image,
   rating,
   price,
+  _id,
   promotionalPrice,
 }) => {
   return (
-    <div className="border border-transparent hover:border-cyan-500 cursor-pointer rounded-lg sm:p-4">
+    <Link
+      href={`/product/${_id}`}
+      className="border border-transparent hover:border-cyan-500 cursor-pointer rounded-lg sm:p-4"
+    >
       <div className="relative bg-[#F0EEED] rounded-2xl h-40 sm:h-60 mb-4 overflow-hidden">
         <Image
           src={image}
@@ -49,7 +54,7 @@ const ProductCard: React.FC<ProductTypes> = ({
           ''
         )}
       </div>
-    </div>
+    </Link>
   );
 };
 
