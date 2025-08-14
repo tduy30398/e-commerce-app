@@ -77,7 +77,11 @@ const RightHeader = () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Button
-                onClick={() => (session ? signOut({ callbackUrl: ROUTES.HOME }) : logoutService())}
+                onClick={() =>
+                  session
+                    ? signOut({ callbackUrl: ROUTES.HOME })
+                    : logoutService()
+                }
                 className="text-md cursor-pointer font-medium bg-transparent w-full text-black justify-start outline-none hover:bg-transparent"
               >
                 Log out
