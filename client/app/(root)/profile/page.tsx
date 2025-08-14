@@ -26,22 +26,26 @@ import z from 'zod';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/lib/constants';
 import { toast } from 'sonner';
+import { useSession } from 'next-auth/react';
 
 type FormData = z.infer<typeof profileFormSchema>;
 
 const Profile = () => {
   const router = useRouter();
-  const { profileData, accessToken, setProfileData } = useProfileStore();
+  const { data: session } = useSession();
+  const { profileData, setProfileData } = useProfileStore();
   const [uploadPct, setUploadPct] = React.useState<number | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
+
+  const defaultValues = {
+    name: '',
+    email: '',
+  };
 
   const method = useForm<FormData>({
     resolver: zodResolver(profileFormSchema),
     mode: 'onChange',
-    defaultValues: {
-      name: '',
-      email: '',
-    },
+    defaultValues,
   });
 
   const onSubmit = async (data: FormData) => {
@@ -83,16 +87,17 @@ const Profile = () => {
         birthday: parseISO(profileData.birthday),
         avatar: profileData.avatar,
       });
+    } else if (session) {
+      method.reset({
+        name: session.user?.name || '',
+        email: session.user?.email || '',
+        avatar: session.user?.image || '',
+      });
+    } else {
+      method.reset(defaultValues);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileData]);
-
-  React.useEffect(() => {
-    if (!accessToken) {
-      router.push(ROUTES.LOGIN);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [profileData, session]);
 
   return (
     <Form {...method}>
@@ -108,6 +113,7 @@ const Profile = () => {
                   <FormLabel>Avatar (Max size: 2MB)</FormLabel>
                   <FormControl>
                     <Uploader
+                      disabled={!!session}
                       value={field.value}
                       onChange={field.onChange}
                       error={formState.errors.avatar?.message}
@@ -151,6 +157,7 @@ const Profile = () => {
                       className="h-12 text-lg! border-[#889397]"
                       value={field.value}
                       onChange={field.onChange}
+                      disabled={!!session}
                     />
                   </FormControl>
                   <FormMessage />
@@ -169,6 +176,7 @@ const Profile = () => {
                       value={field.value}
                       isError={!!fieldState.error?.message}
                       className="rounded-md h-12"
+                      disabled={!!session}
                     />
                   </FormControl>
                   <FormMessage />
@@ -176,15 +184,17 @@ const Profile = () => {
               )}
             />
           </div>
-          <div className="flex justify-end">
-            <Button
-              type="submit"
-              className="cursor-pointer main-button h-12 mt-8 max-md:mt-8 max-md:w-full"
-              disabled={isLoading || uploadPct !== null}
-            >
-              Save
-            </Button>
-          </div>
+          {!session && (
+            <div className="flex justify-end">
+              <Button
+                type="submit"
+                className="cursor-pointer main-button h-12 mt-8 max-md:mt-8 max-md:w-full"
+                disabled={isLoading || uploadPct !== null}
+              >
+                Save
+              </Button>
+            </div>
+          )}
         </div>
       </form>
     </Form>

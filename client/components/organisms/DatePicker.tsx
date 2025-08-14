@@ -18,6 +18,7 @@ interface DatePickerProps {
   onChange: (date: Date | undefined) => void;
   isError?: boolean;
   className?: string;
+  disabled?: boolean;
 }
 
 export function DatePicker({
@@ -25,6 +26,7 @@ export function DatePicker({
   onChange,
   isError,
   className,
+  disabled = false,
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
   const [displayMonth, setDisplayMonth] = React.useState<Date | undefined>(
@@ -42,6 +44,7 @@ export function DatePicker({
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
+            disabled={disabled}
             variant="outline"
             id="date"
             className={cn(

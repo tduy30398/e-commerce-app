@@ -14,6 +14,7 @@ type Props = {
   handleSetPct: (pct: number | null) => void;
   roundedFull?: boolean;
   className?: string;
+  disabled?: boolean;
 };
 
 const maxSizeInBytes = 2 * 1024 * 1024; // 2 MB
@@ -25,6 +26,7 @@ export default function Uploader({
   handleSetPct,
   roundedFull = false,
   className,
+  disabled = false,
 }: Props) {
   const [preview, setPreview] = React.useState<string | null>(null);
 
@@ -120,6 +122,7 @@ export default function Uploader({
           accept="image/*"
           className="hidden"
           onChange={handleInputChange}
+          disabled={disabled}
         />
         <label
           htmlFor="file-upload"

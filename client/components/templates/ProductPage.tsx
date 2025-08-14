@@ -11,13 +11,13 @@ import useSWR from 'swr';
 import FilterDrawer from '../organisms/FilterDrawer';
 import ProductFilter from '../organisms/ProductFilter';
 import { Skeleton } from '../ui/skeleton';
-
-const PAGE_SIZE = 9;
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const ProductPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get('query') || '';
+  const isMobile = useIsMobile();
 
   const pageParam = searchParams.get('page');
 
@@ -50,6 +50,7 @@ const ProductPage = () => {
     isDiscount,
     priceRange,
     query,
+    isMobile
   ];
 
   const {
@@ -61,7 +62,7 @@ const ProductPage = () => {
     () =>
       getAllProducts({
         page: currentPage,
-        limit: PAGE_SIZE,
+        limit: isMobile ? 6 : 9,
         ...(query && { search: query }),
         ...(selectedRating !== 'all' && { minRating: Number(selectedRating) }),
         onSale: isDiscount,
