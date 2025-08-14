@@ -18,10 +18,12 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import MobileSearchHeader from './MobileSearchHeader';
+import { signOut, useSession } from 'next-auth/react';
 
 const RightHeader = () => {
   const { profileData, accessToken } = useProfileStore();
   const router = useRouter();
+  const { data: session } = useSession();
 
   const logoutService = async () => {
     try {
@@ -47,17 +49,19 @@ const RightHeader = () => {
       <Link href="/">
         <ShoppingCart className="size-6 cursor-pointer" />
       </Link>
-      {accessToken ? (
+      {accessToken || session ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer">
               <AvatarImage
                 className="object-contain"
-                src={profileData?.avatar || ''}
+                src={profileData?.avatar || session?.user?.image || ''}
                 alt="avatar"
               />
               <AvatarFallback className="bg-[#00ffff]">
-                {profileData?.name?.charAt(0)}
+                {profileData?.name?.charAt(0) ||
+                  session?.user?.name?.charAt(0) ||
+                  ''}
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
@@ -73,7 +77,7 @@ const RightHeader = () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Button
-                onClick={() => logoutService()}
+                onClick={() => (session ? signOut({ callbackUrl: ROUTES.HOME }) : logoutService())}
                 className="text-md cursor-pointer font-medium bg-transparent w-full text-black justify-start outline-none hover:bg-transparent"
               >
                 Log out

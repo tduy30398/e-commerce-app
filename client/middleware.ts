@@ -1,23 +1,27 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { ROUTES } from './lib/constants';
+import { auth } from './auth';
 
 const protectedRoutes = ['/profile'];
 const authRoutes = ['/login', '/register'];
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
+  const session = await auth();
   const refreshToken = request.cookies.get('refreshToken');
+
+  const isLogged = refreshToken || session;
 
   const { pathname } = request.nextUrl;
 
   if (
-    !refreshToken &&
+    !isLogged &&
     (protectedRoutes.includes(pathname) || pathname.startsWith('/admin'))
   ) {
     return NextResponse.redirect(new URL(ROUTES.LOGIN, request.url));
   }
 
-  if (refreshToken && authRoutes.includes(pathname)) {
+  if (isLogged && authRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL(ROUTES.HOME, request.url));
   }
 

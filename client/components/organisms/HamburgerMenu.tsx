@@ -20,10 +20,12 @@ import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import useProfileStore from '@/store/useProfileStore';
 import { useRouter } from 'next/navigation';
+import { signOut, useSession } from 'next-auth/react';
 
 const HamburgerMenu = () => {
   const { accessToken } = useProfileStore();
   const router = useRouter();
+  const { data: session } = useSession();
 
   const logoutService = async () => {
     try {
@@ -86,9 +88,9 @@ const HamburgerMenu = () => {
           </nav>
         </div>
         <SheetClose asChild>
-          {accessToken ? (
+          {accessToken || session ? (
             <Button
-              onClick={logoutService}
+              onClick={() => (session ? signOut({ callbackUrl: ROUTES.HOME }) : logoutService())}
               className="w-full cursor-pointer text-center bg-black text-white text-base font-medium rounded-4xl py-3 h-12 hover:bg-black/80"
             >
               Log out
