@@ -12,6 +12,7 @@ import FilterDrawer from '../organisms/FilterDrawer';
 import ProductFilter from '../organisms/ProductFilter';
 import { Skeleton } from '../ui/skeleton';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Separator } from '../ui/separator';
 
 const ProductPage = () => {
   const router = useRouter();
@@ -50,7 +51,7 @@ const ProductPage = () => {
     isDiscount,
     priceRange,
     query,
-    isMobile
+    isMobile,
   ];
 
   const {
@@ -178,6 +179,7 @@ const ProductPage = () => {
               </p>
             )}
           </div>
+          <Separator className="mt-5" />
           {products?.data && products?.data.length > 0 ? (
             <PaginationCustom
               onNext={handleNext}
@@ -194,7 +196,7 @@ const ProductPage = () => {
         <div className="lg:col-span-2 xl:col-span-3">
           <Skeleton className="h-12 w-full mb-4" />
           <div className="grid gap-2 grid-cols-2 xl:grid-cols-3 lg:gap-4">
-            {Array.from({ length: 4 }).map((_, i) => (
+            {Array.from({ length: isMobile ? 6 : 9 }).map((_, i) => (
               <div key={i} className="space-y-3">
                 <Skeleton className="h-48 w-full rounded-xl" />
                 <Skeleton className="h-4 w-3/4" />

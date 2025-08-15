@@ -33,7 +33,7 @@ type FormData = z.infer<typeof profileFormSchema>;
 const Profile = () => {
   const router = useRouter();
   const { data: session } = useSession();
-  const { profileData, setProfileData } = useProfileStore();
+  const { profileData, accessToken, setProfileData } = useProfileStore();
   const [uploadPct, setUploadPct] = React.useState<number | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -98,6 +98,13 @@ const Profile = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, session]);
+
+  React.useEffect(() => {
+    if (!accessToken && !session) {
+      router.push(ROUTES.LOGIN);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accessToken, session]);
 
   return (
     <Form {...method}>
@@ -164,25 +171,26 @@ const Profile = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={method.control}
-              name="birthday"
-              render={({ field, fieldState }) => (
-                <FormItem>
-                  <FormLabel>Birthday</FormLabel>
-                  <FormControl>
-                    <DatePicker
-                      onChange={field.onChange}
-                      value={field.value}
-                      isError={!!fieldState.error?.message}
-                      className="rounded-md h-12"
-                      disabled={!!session}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {!session && (
+              <FormField
+                control={method.control}
+                name="birthday"
+                render={({ field, fieldState }) => (
+                  <FormItem>
+                    <FormLabel>Birthday</FormLabel>
+                    <FormControl>
+                      <DatePicker
+                        onChange={field.onChange}
+                        value={field.value}
+                        isError={!!fieldState.error?.message}
+                        className="rounded-md h-12"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
           </div>
           {!session && (
             <div className="flex justify-end">
