@@ -168,7 +168,7 @@ const ProductPage = () => {
               </FilterDrawer>
             </div>
           </div>
-          <div className="grid grid-cols-2 xl:grid-cols-3 gap-y-6 gap-x-3 lg:gap-5">
+          <div className="grid grid-cols-2 xl:grid-cols-3 gap-y-6 gap-x-3 lg:gap-2 md:-mx-2">
             {products?.data && products?.data.length > 0 ? (
               products.data.map((product) => (
                 <ProductCard key={product._id} {...product} />

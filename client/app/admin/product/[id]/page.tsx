@@ -1,14 +1,6 @@
-import { getAllProducts, getProductDetail } from '@/actions/product';
+import { getProductDetail } from '@/actions/product';
 import { ProductTypes } from '@/actions/product/type';
 import ProductDashboard from '@/components/templates/ProductDashboard';
-
-export async function generateStaticParams() {
-  const products = await getAllProducts();
-
-  return products.data.map((product) => ({
-    id: product._id,
-  }));
-}
 
 const ProductDetail = async ({
   params,
