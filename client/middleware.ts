@@ -1,18 +1,22 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { ROUTES } from './lib/constants';
-import { auth } from './auth';
+import { getToken } from "next-auth/jwt";
 
 const protectedRoutes = ['/profile'];
 const authRoutes = ['/login', '/register'];
 
 export async function middleware(request: NextRequest) {
-  const session = await auth();
+  const token = await getToken({ req: request, secret: process.env.AUTH_SECRET });
   const refreshToken = request.cookies.get('refreshToken');
 
-  const isLogged = refreshToken || session;
+  const isLogged = refreshToken || token;
 
   const { pathname } = request.nextUrl;
+
+  console.log('token', token);
+  console.log('refreshToken', refreshToken);
+  console.log('pathname', pathname);
 
   if (
     !isLogged &&
