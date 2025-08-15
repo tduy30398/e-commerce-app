@@ -1,16 +1,15 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { ROUTES } from './lib/constants';
-import { getToken } from "next-auth/jwt";
-
+import { auth } from './auth';
 const protectedRoutes = ['/profile'];
 const authRoutes = ['/login', '/register'];
 
 export async function middleware(request: NextRequest) {
-  const token = await getToken({ req: request, secret: process.env.AUTH_SECRET });
+  const session = await auth();
   const refreshToken = request.cookies.get('refreshToken');
 
-  const isLogged = refreshToken || token;
+  const isLogged = refreshToken || session;
 
   const { pathname } = request.nextUrl;
 
