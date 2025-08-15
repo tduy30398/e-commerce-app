@@ -14,10 +14,6 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  console.log('token', token);
-  console.log('refreshToken', refreshToken);
-  console.log('pathname', pathname);
-
   if (
     !isLogged &&
     (protectedRoutes.includes(pathname) || pathname.startsWith('/admin'))
