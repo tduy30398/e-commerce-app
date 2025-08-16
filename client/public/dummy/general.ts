@@ -200,3 +200,33 @@ export const socialData = [
     icon: '/icons/github.svg',
   },
 ];
+
+export const selectorData = [
+  {
+    label: 'Small',
+    value: 1,
+  },
+  {
+    label: 'Medium',
+    value: 2,
+  },
+  {
+    label: 'Large',
+    value: 3,
+  },
+];
+
+export const colorSelectorData = [
+  {
+    color: 'fb2c36',
+    value: 1,
+  },
+  {
+    color: '86a0dd',
+    value: 2,
+  },
+  {
+    color: 'a6ee39',
+    value: 3,
+  },
+];

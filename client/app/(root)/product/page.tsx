@@ -8,11 +8,9 @@ export const metadata = {
 
 const Product = () => {
   return (
-    <div className="section-container mb-36">
-      <Suspense fallback={<ProductPageSkeleton />}>
-        <ProductPage />
-      </Suspense>
-    </div>
+    <Suspense fallback={<ProductPageSkeleton />}>
+      <ProductPage />
+    </Suspense>
   );
 };
 

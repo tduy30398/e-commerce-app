@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 
 import {
   Breadcrumb,
@@ -14,10 +14,22 @@ import {
 } from '@/components/ui/breadcrumb';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/constants';
+import useSWR from 'swr';
+import { getProductDetail } from '@/actions/product';
 
 export function DynamicBreadcrumb() {
   const pathname = usePathname();
+  const params = useParams<{ id: string }>();
   const pathSegments = pathname.split('/').filter(Boolean);
+
+  const { data, isLoading } = useSWR(
+    params.id ? ['product-detail', params.id] : null,
+    () => getProductDetail(params.id!),
+    {
+      revalidateOnFocus: false,
+      refreshInterval: 0,
+    }
+  );
 
   return (
     <Breadcrumb
@@ -37,8 +49,20 @@ export function DynamicBreadcrumb() {
         {pathSegments.map((segment, index) => {
           const href = `/${pathSegments.slice(0, index + 1).join('/')}`;
           const isLast = index === pathSegments.length - 1;
-          const displayName =
-            segment.charAt(0).toUpperCase() + segment.slice(1);
+          const isProductDetail =
+            pathSegments[0] === 'product' && segment === params.id;
+
+          let displayName: string;
+
+          if (isProductDetail) {
+            if (isLoading) {
+              displayName = 'Loading...';
+            } else {
+              displayName = data?.name || segment || '';
+            }
+          } else {
+            displayName = segment.charAt(0).toUpperCase() + segment.slice(1);
+          }
 
           return (
             <React.Fragment key={href}>

@@ -12,7 +12,7 @@ const NewArrivals = async () => {
   return (
     <section className="section-container flex flex-col items-center mt-12 md:mt-[72px] mb-36">
       <h2 className="text-3xl md:text-5xl font-extrabold">NEW ARRIVALS</h2>
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8 md:mt-14 mb-9 w-full">
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-6 gap-x-3 lg:gap-2 mt-8 md:mt-14 mb-9 w-full">
         {products?.data?.length > 0 ? (
           products.data.map((product) => (
             <ProductCard key={product._id} {...product} />

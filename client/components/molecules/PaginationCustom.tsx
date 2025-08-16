@@ -26,6 +26,7 @@ const PaginationCustom: React.FC<PaginationCustomProps> = ({
   setPage,
 }) => {
   const isMobile = useIsMobile();
+
   const visiblePages = React.useMemo(() => {
     const pages: (number | 'ellipsis')[] = [];
 
@@ -43,7 +44,15 @@ const PaginationCustom: React.FC<PaginationCustomProps> = ({
       return pages;
     }
 
-    pages.push(1, 'ellipsis', current - 1, current, current + 1, 'ellipsis', totalPages);
+    pages.push(
+      1,
+      'ellipsis',
+      current - 1,
+      current,
+      current + 1,
+      'ellipsis',
+      totalPages
+    );
     return pages;
   }, [totalPages, current]);
 
