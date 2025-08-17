@@ -12,6 +12,7 @@ const authMiddleware = require("./middleware/authMiddleware");
 const productRoutes = require("./routes/product");
 const authRoutes = require("./routes/auth");
 const profileRoutes = require("./routes/profile");
+const reviewRoutes = require("./routes/review");
 
 const allowedOrigins = [
   "http://localhost:3000",
@@ -43,6 +44,7 @@ app.use("/api/profile", authMiddleware, profileRoutes);
 // Public routes
 app.use("/api/auth", authRoutes);
 app.use("/api/product", productRoutes);
+app.use("/api/review", reviewRoutes);
 
 const PORT = process.env.PORT || 3001;
 
