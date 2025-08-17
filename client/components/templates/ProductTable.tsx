@@ -86,6 +86,10 @@ const ProductTable = () => {
       label: 'Name',
     },
     {
+      key: 'description',
+      label: 'Description',
+    },
+    {
       key: 'price',
       label: 'Price',
     },
@@ -101,6 +105,10 @@ const ProductTable = () => {
     return products.data.map((product) => ({
       id: product._id,
       name: product.name,
+      description:
+        product.description.length > 20
+          ? product.description.slice(0, 20) + '...'
+          : product.description,
       price: product.price,
       rating: product.rating,
     }));
