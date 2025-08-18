@@ -4,7 +4,6 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
-import { ROUTES } from './constants';
 
 export const NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -57,7 +56,6 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } catch {
         logoutUserService();
-        window.location.href = ROUTES.LOGIN;
       }
     }
 

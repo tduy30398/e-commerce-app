@@ -2,6 +2,7 @@
 
 import axiosInstance from '@/lib/axios';
 import { ProductRequest, ProductTypes } from './type';
+import { revalidateTag } from 'next/cache';
 
 export const getAllProducts = async (
   params?: BaseFilterParams
@@ -38,3 +39,7 @@ export const deleteProduct = async (
 ): Promise<void> => {
   await axiosInstance.delete(`${url}/${arg.id}`);
 };
+
+export async function revalidateReviews() {
+  revalidateTag('reviews');
+}

@@ -10,19 +10,20 @@ import { colorSelectorData, selectorData } from '@/public/dummy/general';
 import Image from 'next/image';
 import React, { Suspense } from 'react';
 
-async function getProduct(id: string) {
-  const product = await getProductDetail(id);
-  return product;
-}
-
 const ProductDetail = async ({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) => {
   const { id } = await params;
-  const { promotionalPrice, price, rating, name, image, description } =
-    await getProduct(id);
+  const {
+    promotionalPrice,
+    price,
+    rating,
+    name,
+    image,
+    description,
+  } = await getProductDetail(id);
 
   return (
     <div className="mt-5 lg:mt-9">

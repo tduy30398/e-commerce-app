@@ -11,6 +11,7 @@ import { useParams } from 'next/navigation';
 import useSWRMutation from 'swr/mutation';
 import { createReview } from '@/actions/review';
 import { toast } from 'sonner';
+import { revalidateReviews } from '@/actions/product';
 
 const AddReview = () => {
   const { profileData, accessToken } = useProfileStore();
@@ -27,9 +28,10 @@ const AddReview = () => {
 
   const { trigger: createReviewTrigger, isMutating: createReviewLoading } =
     useSWRMutation('review', createReview, {
-      onSuccess: () => {
+      onSuccess: async () => {
+        await revalidateReviews();
         method.reset();
-        toast.success('Review created');
+        toast.success('Review added');
       },
       onError: () => {
         toast.error('Create review failed');
@@ -51,12 +53,12 @@ const AddReview = () => {
       <form
         onSubmit={method.handleSubmit(onSubmit)}
         className={cn(
-          'w-full border rounded-2xl p-2 md:p-4 shadow-sm',
+          'w-full border rounded-2xl p-2 md:p-4 shadow-sm mt-6 md:mt-9',
           accessToken ? '' : 'hidden'
         )}
       >
         <div className="flex items-start gap-2">
-          <Avatar className="cursor-pointer size-10 border p-1 border-gray-300">
+          <Avatar className="size-10 border border-gray-300">
             <AvatarImage
               className="object-cover"
               src={profileData?.avatar || ''}
