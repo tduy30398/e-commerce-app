@@ -52,9 +52,9 @@ const RightHeader = () => {
       {accessToken || session ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Avatar className="cursor-pointer">
+            <Avatar className="cursor-pointer border border-gray-300 size-9">
               <AvatarImage
-                className="object-contain"
+                className="object-cover"
                 src={profileData?.avatar || session?.user?.image || ''}
                 alt="avatar"
               />

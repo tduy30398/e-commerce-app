@@ -1,5 +1,6 @@
 import axiosInstance from '@/lib/axios';
 import { ReviewRequest, ReviewType } from './type';
+import { unstable_cache } from 'next/cache';
 
 export const createReview = async (
   url: string,
@@ -9,7 +10,11 @@ export const createReview = async (
   await axiosInstance.post(`${url}/${id}`, data);
 };
 
-export const getReviews = async (productId: string): Promise<ReviewType[]> => {
-  const res = await axiosInstance.get(`review/${productId}`);
-  return res.data;
-};
+export const getReviews = unstable_cache(
+  async (productId: string): Promise<ReviewType[]> => {
+    const res = await axiosInstance.get(`review/${productId}`);
+    return res.data;
+  },
+  ['reviews'],
+  { tags: ['reviews'] }
+);

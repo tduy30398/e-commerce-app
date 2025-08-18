@@ -118,4 +118,4 @@ const PaginationCustom: React.FC<PaginationCustomProps> = ({
   );
 };
 
-export default PaginationCustom;
+export default React.memo(PaginationCustom);

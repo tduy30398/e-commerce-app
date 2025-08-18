@@ -5,9 +5,10 @@ import React from 'react';
 interface StarRatingProps {
   rating: number;
   className?: string;
+  isHideText?: boolean;
 }
 
-const StarRating = ({ rating, className }: StarRatingProps) => {
+const StarRating = ({ rating, className, isHideText }: StarRatingProps) => {
   return (
     <div className={cn('flex items-center', className)}>
       {[...Array(5)].map((_, index) => {
@@ -39,7 +40,9 @@ const StarRating = ({ rating, className }: StarRatingProps) => {
           );
         }
       })}
-      <span className="ml-2 text-base">{rating.toFixed(1)}/5</span>
+      {!isHideText && (
+        <span className="ml-2 text-base">{rating.toFixed(1)}/5</span>
+      )}
     </div>
   );
 };

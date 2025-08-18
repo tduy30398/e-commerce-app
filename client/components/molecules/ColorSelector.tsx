@@ -11,7 +11,7 @@ interface ColorSelectorProps {
 }
 
 const ColorSelector = ({ data }: ColorSelectorProps) => {
-  const [selectedColor, setSelectedColor] = React.useState(1);
+  const [selectedColor, setSelectedColor] = React.useState(data[0].value);
 
   return (
     <div className="flex items-center gap-4 mt-3">
