@@ -10,11 +10,13 @@ export const createReview = async (
   await axiosInstance.post(`${url}/${id}`, data);
 };
 
-export const getReviews = unstable_cache(
-  async (productId: string): Promise<ReviewType[]> => {
-    const res = await axiosInstance.get(`review/${productId}`);
-    return res.data;
-  },
-  ['reviews'],
-  { tags: ['reviews'] }
-);
+export function getReviews(productId: string) {
+  return unstable_cache(
+    async (): Promise<ReviewType[]> => {
+      const res = await axiosInstance.get(`review/${productId}`);
+      return res.data;
+    },
+    [`reviews-${productId}`],
+    { tags: [`reviews-${productId}`] }
+  )();
+}

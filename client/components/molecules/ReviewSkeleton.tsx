@@ -24,10 +24,6 @@ const ReviewSkeleton = () => {
         <Skeleton className="h-4 w-2/3" />
       </div>
 
-      <div className="w-full flex justify-center">
-        <Skeleton className="h-6 w-20 mt-4 rounded-md" />
-      </div>
-
       <Skeleton className="h-4 w-24 mt-4" />
     </div>
   )

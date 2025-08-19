@@ -40,6 +40,6 @@ export const deleteProduct = async (
   await axiosInstance.delete(`${url}/${arg.id}`);
 };
 
-export async function revalidateReviews() {
-  revalidateTag('reviews');
+export async function revalidateReviews(productId: string) {
+  revalidateTag(`reviews-${productId}`);
 }
