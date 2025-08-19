@@ -13,24 +13,29 @@ import { createReview } from '@/actions/review';
 import { toast } from 'sonner';
 import { revalidateReviews } from '@/actions/product';
 import { Form, FormControl, FormField, FormItem } from '../ui/form';
+import StarRatingInput from './StarRatingInput';
+
+interface FormReviewProps {
+  review: string;
+  rating: number;
+}
 
 const AddReview = () => {
   const { profileData, accessToken } = useProfileStore();
   const params = useParams<{ id: string }>();
 
-  const method = useForm<{
-    review: string;
-  }>({
+  const method = useForm<FormReviewProps>({
     mode: 'onChange',
     defaultValues: {
       review: '',
+      rating: 0,
     },
   });
 
   const { trigger: createReviewTrigger, isMutating: createReviewLoading } =
     useSWRMutation('review', createReview, {
       onSuccess: async () => {
-        await revalidateReviews();
+        await revalidateReviews(params.id!);
         method.reset();
         toast.success('Review added');
       },
@@ -39,12 +44,12 @@ const AddReview = () => {
       },
     });
 
-  const onSubmit = async (data: { review: string }) => {
+  const onSubmit = async (data: FormReviewProps) => {
     createReviewTrigger({
       id: params.id!,
       data: {
         comment: data.review,
-        rating: 4,
+        rating: data.rating,
       },
     });
   };
@@ -58,7 +63,7 @@ const AddReview = () => {
           accessToken ? '' : 'hidden'
         )}
       >
-        <div className="flex items-start gap-2">
+        <div className="flex items-center gap-4">
           <Avatar className="size-10 border border-gray-300">
             <AvatarImage
               className="object-cover"
@@ -69,34 +74,44 @@ const AddReview = () => {
               {profileData?.name?.charAt(0) || ''}
             </AvatarFallback>
           </Avatar>
-          <div className="flex-1">
-            <FormField
-              name="review"
-              control={method.control}
-              render={({ field: { onChange, value } }) => (
-                <FormItem>
-                  <FormControl>
-                    <Textarea
-                      onChange={onChange}
-                      value={value}
-                      placeholder="Write your review..."
-                      className="w-full rounded-xl px-4 py-2 text-sm border border-gray-200 focus:ring-2 focus:ring-cyan-400 focus:outline-none"
-                      rows={4}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <div className="flex justify-end mt-2">
-              <Button
-                className="rounded-xl bg-black hover:bg-black/80 px-6 py-1 text-white cursor-pointer"
-                size="sm"
-                disabled={!method.watch('review') || createReviewLoading}
-              >
-                Post
-              </Button>
-            </div>
-          </div>
+          <FormField
+            name="rating"
+            control={method.control}
+            render={({ field: { onChange, value } }) => (
+              <FormItem>
+                <FormControl>
+                  <StarRatingInput value={value} onChange={onChange} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </div>
+        <FormField
+          name="review"
+          control={method.control}
+          render={({ field: { onChange, value } }) => (
+            <FormItem className="mt-2 md:mt-4">
+              <FormControl>
+                <Textarea
+                  onChange={onChange}
+                  value={value}
+                  placeholder="Write your review..."
+                  className="w-full rounded-xl px-4 py-2 text-sm border border-gray-200 focus:ring-2 focus:ring-cyan-400 focus:outline-none"
+                  rows={4}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <div className="flex justify-end mt-2">
+          <Button
+            type="submit"
+            className="rounded-xl bg-black hover:bg-black/80 px-6 py-1 text-white cursor-pointer"
+            size="sm"
+            disabled={!method.watch('review') || createReviewLoading}
+          >
+            Post
+          </Button>
         </div>
       </form>
     </Form>

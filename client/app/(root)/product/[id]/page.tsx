@@ -73,7 +73,15 @@ const ProductDetail = async ({
         </div>
       </div>
       <Separator className="my-4 md:my-6" />
-      <Suspense fallback={<ReviewSkeleton />}>
+      <Suspense
+        fallback={
+          <div className="flex flex-col gap-4">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <ReviewSkeleton key={i} />
+            ))}
+          </div>
+        }
+      >
         <Reviews productId={id} />
       </Suspense>
       <AddReview />

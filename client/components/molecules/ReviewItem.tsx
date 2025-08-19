@@ -17,7 +17,7 @@ const ReviewItem = ({ review }: ReviewItemProps) => {
   const [expanded, setExpanded] = React.useState(false);
   const isMobile = useIsMobile();
 
-  const MAX_LENGTH = isMobile ? 150 : 500;
+  const MAX_LENGTH = isMobile ? 143 : 512;
   const isLong = review?.comment?.length > MAX_LENGTH;
   const displayedText =
     !expanded && isLong
