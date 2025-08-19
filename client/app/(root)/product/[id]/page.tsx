@@ -1,5 +1,6 @@
 import { getProductDetail } from '@/actions/product';
 import ColorSelector from '@/components/molecules/ColorSelector';
+import ReviewSkeleton from '@/components/molecules/ReviewSkeleton';
 import SizeSelector from '@/components/molecules/SizeSelector';
 import StarRating from '@/components/molecules/StarRating';
 import AddReview from '@/components/organisms/AddReview';
@@ -72,7 +73,7 @@ const ProductDetail = async ({
         </div>
       </div>
       <Separator className="my-4 md:my-6" />
-      <Suspense fallback={<p>Loading...</p>}>
+      <Suspense fallback={<ReviewSkeleton />}>
         <Reviews productId={id} />
       </Suspense>
       <AddReview />
