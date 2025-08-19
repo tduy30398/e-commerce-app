@@ -45,7 +45,7 @@ const ProductTable = () => {
 
   const {
     data: products,
-    isValidating,
+    isLoading,
     error,
   } = useSWR(
     queryKey,
@@ -110,7 +110,7 @@ const ProductTable = () => {
           ? product.description.slice(0, 20) + '...'
           : product.description,
       price: product.price,
-      rating: product.rating,
+      rating: product.rating.toFixed(1),
     }));
   }, [products]);
 
@@ -123,7 +123,7 @@ const ProductTable = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageParam]);
 
-  if (isValidating) {
+  if (isLoading) {
     return <TableSkeleton />;
   }
 
