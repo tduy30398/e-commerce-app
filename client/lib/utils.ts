@@ -16,3 +16,5 @@ export const calculatePercentage = (num1: number, num2: number) => {
   }
   return Math.round(100 - (num1 / num2) * 100);
 };
+
+export const delay = async (ms: number) => new Promise(resolve => setTimeout(resolve, ms));

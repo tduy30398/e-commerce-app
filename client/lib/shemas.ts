@@ -7,10 +7,6 @@ export const productFormSchema = z
       .string()
       .nonempty('Image is required')
       .url('Image must be a valid URL'),
-    rating: z
-      .number({ error: 'Rating is required' })
-      .min(1, 'Rating must be greater than or equal to 1')
-      .max(5, 'Rating must be less than or equal to 5'),
     price: z
       .number({ error: 'Price is required' })
       .min(1, 'Price must be greater than or equal to 1'),

@@ -39,7 +39,6 @@ const defaultValues: FormData = {
   image: '',
   description: '',
   promotionalPrice: undefined,
-  rating: 0,
   price: 0,
 };
 
@@ -92,7 +91,6 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
 
       const submitData: ProductRequest = {
         price: data.price,
-        rating: data.rating,
         description: data.description,
         image: data.image,
         name: data.name,
@@ -146,30 +144,6 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
                 </FormLabel>
                 <FormControl>
                   <Input value={field.value} onChange={field.onChange} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Rating */}
-          <FormField
-            control={methods.control}
-            name="rating"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Rating (1-5)<span className="text-red-500">*</span>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    step={0.1}
-                    min={1}
-                    max={5}
-                    value={field.value}
-                    onChange={(val) => field.onChange(val.target.valueAsNumber)}
-                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
