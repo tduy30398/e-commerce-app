@@ -30,7 +30,7 @@ const ReviewItem = ({ review }: ReviewItemProps) => {
       className="border-[1px] border-black/10 p-4 md:p-6 rounded-2xl"
     >
       <StarRating isHideText rating={review.rating} />
-      <div className="flex items-center gap-4 mt-6">
+      <div className="flex items-center gap-4 mt-4 md:mt-6">
         <Avatar className="size-10 border border-gray-300">
           <AvatarImage
             className="object-cover"
@@ -45,7 +45,7 @@ const ReviewItem = ({ review }: ReviewItemProps) => {
           {review?.user?.name || ''}
         </h3>
       </div>
-      <Separator className="my-4" />
+      <Separator className="my-2 md:my-4" />
       <p className="text-sm md:text-base font-medium text-black/80 leading-relaxed">
         {displayedText}
       </p>

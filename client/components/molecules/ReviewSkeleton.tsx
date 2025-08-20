@@ -11,12 +11,12 @@ const ReviewSkeleton = () => {
         ))}
       </div>
 
-      <div className="flex items-center gap-4 mt-6">
+      <div className="flex items-center mt-4 md:mt-6">
         <Skeleton className="h-10 w-10 rounded-full" />
         <Skeleton className="h-5 w-32" />
       </div>
 
-      <Separator className="my-4" />
+      <Separator className="my-2 md:my-4" />
 
       <div className="space-y-2">
         <Skeleton className="h-4 w-full" />
