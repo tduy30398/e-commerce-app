@@ -3,6 +3,8 @@
 import axiosInstance from '@/lib/axios';
 import { ProductRequest, ProductTypes } from './type';
 import { revalidateTag } from 'next/cache';
+// import { ReviewType } from '../review/type';
+// import { unstable_cacheTag as cacheTag } from 'next/cache';
 
 export const getAllProducts = async (
   params?: BaseFilterParams
@@ -40,6 +42,13 @@ export const deleteProduct = async (
   await axiosInstance.delete(`${url}/${arg.id}`);
 };
 
-export async function revalidateReviews(productId: string) {
+// export const getReviews = async (productId: string): Promise<ReviewType[]> => {
+//   'use cache';
+//   cacheTag(`reviews-${productId}`);
+//   const res = await axiosInstance.get(`review/${productId}`);
+//   return res.data;
+// };
+
+export const revalidateReviews = async (productId: string) => {
   revalidateTag(`reviews-${productId}`);
-}
+};

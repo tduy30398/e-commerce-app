@@ -13,7 +13,6 @@ export interface ProductTypes {
 export interface ProductRequest {
   name: string;
   image: string;
-  rating: number;
   price: number;
   description: string;
   promotionalPrice?: number;

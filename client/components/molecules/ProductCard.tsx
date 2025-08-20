@@ -27,7 +27,7 @@ const ProductCard: React.FC<ProductTypes> = ({
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>
-      <h4 className="mt-4 text-xs md:text-xl font-semibold line-clamp-1">
+      <h4 className="mt-4 text-xs md:text-xl font-semibold truncate">
         {formattedCapitalize(name)}
       </h4>
       <StarRating rating={rating} className="mt-2" />

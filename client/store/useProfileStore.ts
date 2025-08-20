@@ -9,8 +9,6 @@ interface ProfileState {
   setProfileData: (profileData: UserProfile) => void
   setAccessToken: (token: string) => void
   setAuth: (profileData: UserProfile, token: string) => void
-  clearProfileData: () => void
-  clearAccessToken: () => void
   clearAuth: () => void
 }
 
@@ -26,9 +24,6 @@ const useProfileStore = create<ProfileState>()(
 
         setAuth: (profileData, token) =>
           set({ profileData, accessToken: token }),
-
-        clearProfileData: () => set({ profileData: null }),
-        clearAccessToken: () => set({ accessToken: null }),
 
         clearAuth: () =>
           set({ profileData: null, accessToken: null }),

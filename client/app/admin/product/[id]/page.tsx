@@ -23,11 +23,7 @@ const ProductDetail = async ({
     productDetail = await getProductDetail(id);
   }
 
-  return (
-    <>
-      <ProductDashboard id={id} data={productDetail} />
-    </>
-  );
+  return <ProductDashboard id={id} data={productDetail} />;
 };
 
 export default ProductDetail;

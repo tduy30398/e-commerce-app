@@ -1,6 +1,6 @@
-import { getReviews } from '@/actions/review';
 import React from 'react';
 import ReviewItem from '../molecules/ReviewItem';
+import { getReviews } from '@/actions/review';
 
 interface ReviewsProps {
   productId: string;
@@ -10,7 +10,7 @@ const Reviews = async ({ productId }: ReviewsProps) => {
   const reviews = await getReviews(productId);
 
   return (
-    <div className="mt-8 flex flex-col gap-4">
+    <div className="mt-6 md:mt-8 flex flex-col gap-4">
       {reviews.length > 0 ? (
         reviews.map((review) => <ReviewItem key={review._id} review={review} />)
       ) : (
