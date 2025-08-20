@@ -15,6 +15,7 @@ export interface AuthResponse {
 }
 
 export interface UserProfile {
+  _id: string;
   email: string;
   name: string;
   avatar: string;

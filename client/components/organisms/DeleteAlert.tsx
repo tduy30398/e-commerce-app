@@ -64,7 +64,7 @@ const DeleteAlert: React.FC<DeleteAlertProps> = ({ id, queryKey }) => {
           <AlertDialogAction
             disabled={deleteLoading}
             onClick={() => deleteProductTrigger({ id })}
-            className="cursor-pointer"
+            className="cursor-pointer bg-[#f5232f] hover:bg-[#f28d92]"
           >
             Delete
           </AlertDialogAction>
