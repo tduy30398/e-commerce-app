@@ -1,14 +1,13 @@
 'use client';
 
 import { createProduct, updateProduct } from '@/actions/product';
-import { ProductRequest, ProductTypes } from '@/actions/product/type';
+import {  ProductTypes } from '@/actions/product/type';
 import { ROUTES } from '@/lib/constants';
 import { productFormSchema } from '@/lib/shemas';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { mutate } from 'swr';
 import useSWRMutation from 'swr/mutation';
 import z from 'zod';
 import {
@@ -54,7 +53,6 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
   });
 
   const handleSuccess = () => {
-    mutate('product');
     methods.reset();
     router.push(ROUTES.ADMINPRODUCT);
   };
@@ -85,26 +83,10 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
     });
 
   const onSubmit = async (data: FormData) => {
-    try {
-      const isValid = await methods.trigger();
-      if (!isValid) return;
-
-      const submitData: ProductRequest = {
-        price: data.price,
-        description: data.description,
-        image: data.image,
-        name: data.name,
-        promotionalPrice: data.promotionalPrice,
-      };
-
-      if (id !== 'create') {
-        updateProductTrigger({ id: id!, data: submitData });
-      } else {
-        await createProductTrigger(submitData);
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error('Something went wrong');
+    if (id !== 'create') {
+      updateProductTrigger({ id: id!, data });
+    } else {
+      createProductTrigger(data);
     }
   };
 

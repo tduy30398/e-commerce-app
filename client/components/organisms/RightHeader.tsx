@@ -19,11 +19,13 @@ import {
 } from '../ui/dropdown-menu';
 import MobileSearchHeader from './MobileSearchHeader';
 import { signOut, useSession } from 'next-auth/react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const RightHeader = () => {
   const { profileData, accessToken } = useProfileStore();
   const router = useRouter();
   const { data: session } = useSession();
+  const isMobile = useIsMobile();
 
   const logoutService = async () => {
     try {
@@ -65,7 +67,7 @@ const RightHeader = () => {
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-40" align="center">
+          <DropdownMenuContent className={isMobile ? 'w-20 mr-2' : 'w-40'} align="center">
             <DropdownMenuGroup>
               <DropdownMenuItem
                 asChild

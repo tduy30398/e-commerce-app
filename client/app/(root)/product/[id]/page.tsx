@@ -4,6 +4,7 @@ import ReviewSkeleton from '@/components/molecules/ReviewSkeleton';
 import SizeSelector from '@/components/molecules/SizeSelector';
 import StarRating from '@/components/molecules/StarRating';
 import AddReview from '@/components/organisms/AddReview';
+import RelatedProduct from '@/components/organisms/RelatedProduct';
 import Reviews from '@/components/organisms/Reviews';
 import { Separator } from '@/components/ui/separator';
 import { calculatePercentage } from '@/lib/utils';
@@ -17,14 +18,9 @@ const ProductDetail = async ({
   params: Promise<{ id: string }>;
 }) => {
   const { id } = await params;
-  const {
-    promotionalPrice,
-    price,
-    rating,
-    name,
-    image,
-    description,
-  } = await getProductDetail(id);
+  const productDetail = await getProductDetail(id);
+  const { promotionalPrice, price, rating, name, image, description } =
+    productDetail.product;
 
   return (
     <div className="mt-5 lg:mt-9">
@@ -85,6 +81,11 @@ const ProductDetail = async ({
         <Reviews productId={id} />
       </Suspense>
       <AddReview />
+      <RelatedProduct
+        className="mt-12 md:mt-16"
+        products={productDetail.relatedProducts}
+        title="You might also like"
+      />
     </div>
   );
 };
