@@ -8,6 +8,7 @@ import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import StarRating from './StarRating';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Ellipsis } from 'lucide-react';
 
 interface ReviewItemProps {
   review: ReviewType;
@@ -15,6 +16,7 @@ interface ReviewItemProps {
 
 const ReviewItem = ({ review }: ReviewItemProps) => {
   const [expanded, setExpanded] = React.useState(false);
+  const [hover, setHover] = React.useState<boolean>(false);
   const isMobile = useIsMobile();
 
   const MAX_LENGTH = isMobile ? 143 : 512;
@@ -28,8 +30,13 @@ const ReviewItem = ({ review }: ReviewItemProps) => {
     <div
       key={review._id}
       className="border-[1px] border-black/10 p-4 md:p-6 rounded-2xl"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
     >
-      <StarRating isHideText rating={review.rating} />
+      <div className="flex items-center justify-between">
+        <StarRating isHideText rating={review.rating} />
+        {hover && <Ellipsis className='size-5'/>}
+      </div>
       <div className="flex items-center gap-4 mt-4 md:mt-6">
         <Avatar className="size-10 border border-gray-300">
           <AvatarImage
