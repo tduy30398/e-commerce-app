@@ -8,6 +8,12 @@ export interface ProductTypes {
   createdAt: string;
   updatedAt: string;
   promotionalPrice?: number;
+  numReviews: number;
+}
+
+export interface ProductTypesDetail {
+  product: ProductTypes;
+  relatedProducts: ProductTypes[];
 }
 
 export interface ProductRequest {

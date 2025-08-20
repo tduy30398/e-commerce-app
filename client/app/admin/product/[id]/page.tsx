@@ -20,7 +20,8 @@ const ProductDetail = async ({
   let productDetail: ProductTypes | undefined;
 
   if (id !== 'create') {
-    productDetail = await getProductDetail(id);
+    const product = await getProductDetail(id);
+    productDetail = product.product;
   }
 
   return <ProductDashboard id={id} data={productDetail} />;

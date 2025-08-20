@@ -1,7 +1,7 @@
 'use server';
 
 import axiosInstance from '@/lib/axios';
-import { ProductRequest, ProductTypes } from './type';
+import { ProductRequest, ProductTypes, ProductTypesDetail } from './type';
 import { revalidateTag } from 'next/cache';
 // import { ReviewType } from '../review/type';
 // import { unstable_cacheTag as cacheTag } from 'next/cache';
@@ -13,7 +13,7 @@ export const getAllProducts = async (
   return res.data;
 };
 
-export const getProductDetail = async (id: string): Promise<ProductTypes> => {
+export const getProductDetail = async (id: string): Promise<ProductTypesDetail> => {
   const res = await axiosInstance.get(`product/${id}`);
   return res.data;
 };

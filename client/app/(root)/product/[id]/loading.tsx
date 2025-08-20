@@ -67,6 +67,16 @@ const Loading = () => {
       </div>
 
       <Separator className="my-6" />
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-36 section-container">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="space-y-3">
+            <Skeleton className="h-36 md:h-72 w-full rounded-lg" />
+            <Skeleton className="h-4 w-3/4" />
+            <Skeleton className="h-4 w-1/2" />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

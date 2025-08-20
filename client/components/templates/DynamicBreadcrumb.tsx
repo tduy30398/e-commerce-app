@@ -58,7 +58,7 @@ export function DynamicBreadcrumb() {
             if (isLoading) {
               displayName = 'Loading...';
             } else {
-              displayName = data?.name || segment || '';
+              displayName = data?.product.name || segment || '';
             }
           } else {
             displayName = segment.charAt(0).toUpperCase() + segment.slice(1);
