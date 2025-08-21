@@ -27,20 +27,15 @@ const DeleteAlert: React.FC<DeleteAlertProps> = ({ id, queryKey }) => {
   const {
     trigger: deleteProductTrigger,
     isMutating: deleteLoading,
-    error: deleteError,
   } = useSWRMutation('product', deleteProduct, {
     onSuccess: () => {
       mutate(queryKey);
       toast.success('Delete product success');
     },
     onError: () => {
-      toast.error('Update product failed');
+      toast.error('Delete product failed');
     },
   });
-
-  if (deleteError) {
-    toast.error('Delete product failed');
-  }
 
   return (
     <AlertDialog>
@@ -64,7 +59,7 @@ const DeleteAlert: React.FC<DeleteAlertProps> = ({ id, queryKey }) => {
           <AlertDialogAction
             disabled={deleteLoading}
             onClick={() => deleteProductTrigger({ id })}
-            className="cursor-pointer"
+            className="cursor-pointer bg-[#f5232f] hover:bg-[#f28d92]"
           >
             Delete
           </AlertDialogAction>

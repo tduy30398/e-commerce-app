@@ -1,21 +1,62 @@
 'use client';
 
+import React from 'react';
 import { ReviewType } from '@/actions/review/type';
 import { format } from 'date-fns';
-import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import StarRating from './StarRating';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Ellipsis, SquarePen, Trash2 } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+import useProfileStore from '@/store/useProfileStore';
+import { cn } from '@/lib/utils';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '../ui/alert-dialog';
+import { toast } from 'sonner';
+import useSWRMutation from 'swr/mutation';
+import { deleteReview } from '@/actions/review';
+import { revalidateReviews } from '@/actions/product';
 
 interface ReviewItemProps {
   review: ReviewType;
+  productId: string;
 }
 
-const ReviewItem = ({ review }: ReviewItemProps) => {
+const ReviewItem = ({ review, productId }: ReviewItemProps) => {
+  const { profileData } = useProfileStore();
+
   const [expanded, setExpanded] = React.useState(false);
+  const [openDialog, setOpenDialog] = React.useState(false);
   const isMobile = useIsMobile();
+
+  const {
+    trigger: deleteReviewTrigger,
+    isMutating: deleteLoading,
+  } = useSWRMutation('review', deleteReview, {
+    onSuccess: async () => {
+      await revalidateReviews(productId);
+      toast.success('Delete review success');
+    },
+    onError: () => {
+      toast.error('Delete review failed');
+    },
+  });
 
   const MAX_LENGTH = isMobile ? 143 : 512;
   const isLong = review?.comment?.length > MAX_LENGTH;
@@ -25,11 +66,62 @@ const ReviewItem = ({ review }: ReviewItemProps) => {
       : review.comment;
 
   return (
-    <div
-      key={review._id}
-      className="border-[1px] border-black/10 p-4 md:p-6 rounded-2xl"
-    >
-      <StarRating isHideText rating={review.rating} />
+    <div className="border-[1px] border-black/10 p-4 md:p-6 rounded-2xl group">
+      <div className="flex items-center justify-between">
+        <StarRating isHideText rating={review.rating} />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              className={cn(
+                'opacity-100 md:opacity-0 md:group-hover:opacity-100 outline-none data-[state=open]:opacity-100 transition-opacity',
+                profileData?._id === review?.user?._id ? '' : 'hidden'
+              )}
+            >
+              <Ellipsis className="size-5 cursor-pointer" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuGroup>
+              <DropdownMenuItem className="cursor-pointer">
+                <SquarePen className="mr-1 size-4" />
+                <p className="font-medium">Edit</p>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => setOpenDialog(true)}
+                className="hover:bg-[#e02e2a23] focus:bg-[#e02e2a23] cursor-pointer"
+              >
+                <Trash2 className="mr-1 size-4 text-[#ff8583]" />
+                <p className="font-medium text-[#ff8583]">Delete</p>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <AlertDialog open={openDialog} onOpenChange={setOpenDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Are you sure to delete this review?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-black">
+              This action cannot be undone. This will permanently delete your
+              record from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="cursor-pointer">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              disabled={deleteLoading}
+              onClick={() => deleteReviewTrigger({ id: review?._id })}
+              className="cursor-pointer bg-[#f5232f] hover:bg-[#f28d92]"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <div className="flex items-center gap-4 mt-4 md:mt-6">
         <Avatar className="size-10 border border-gray-300">
           <AvatarImage
