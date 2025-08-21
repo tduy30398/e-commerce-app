@@ -2,10 +2,11 @@ export const ROUTES = {
   HOME: '/',
   LOGIN: '/login',
   PROFILE: '/profile',
+  PROFILE_OAUTH: '/profile-oauth',
   REGISTER: '/register',
   CART: '/cart',
   PRODUCT: '/product',
-  ADMINPRODUCT: '/admin/product',
+  ADMIN_PRODUCT: '/admin/product',
 };
 
 export const STORAGE = {

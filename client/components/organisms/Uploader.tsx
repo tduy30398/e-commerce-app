@@ -9,9 +9,9 @@ import { toast } from 'sonner';
 
 type Props = {
   value?: string | null;
-  onChange: (url: string) => void;
+  onChange?: (url: string) => void;
   error?: string;
-  handleSetPct: (pct: number | null) => void;
+  handleSetPct?: (pct: number | null) => void;
   roundedFull?: boolean;
   className?: string;
   disabled?: boolean;
@@ -43,12 +43,12 @@ export default function Uploader({
 
       xhr.upload.onprogress = (e) => {
         if (e.lengthComputable) {
-          handleSetPct(Math.round((e.loaded / e.total) * 100));
+          handleSetPct?.(Math.round((e.loaded / e.total) * 100));
         }
       };
 
       xhr.onload = () => {
-        handleSetPct(null);
+        handleSetPct?.(null);
         if (xhr.status === 200) {
           const response = JSON.parse(xhr.responseText);
           resolve(response.secure_url);
@@ -69,10 +69,10 @@ export default function Uploader({
 
     try {
       const uploadedUrl = await uploadToCloudinary(file);
-      onChange(uploadedUrl);
+      onChange?.(uploadedUrl);
     } catch (err) {
       console.error(err);
-      onChange('');
+      onChange?.('');
     }
   };
 

@@ -135,7 +135,7 @@ const ProductTable = () => {
         <h2 className="text-2xl font-bold mb-6">Products List</h2>
         {profileData?.role === 'admin' && (
           <Link
-            href={`${ROUTES.ADMINPRODUCT}/create`}
+            href={`${ROUTES.ADMIN_PRODUCT}/create`}
             className="bg-black text-white px-10 py-2 rounded-4xl h-9 leading-[18px]"
           >
             Create
@@ -169,7 +169,7 @@ const ProductTable = () => {
               ))}
               <TableCell className="flex gap-2">
                 <Link
-                  href={`${ROUTES.ADMINPRODUCT}/${item.id}`}
+                  href={`${ROUTES.ADMIN_PRODUCT}/${item.id}`}
                   className="cursor-pointer"
                 >
                   <Eye className="size-4" />

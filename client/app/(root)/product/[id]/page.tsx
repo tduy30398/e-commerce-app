@@ -12,11 +12,24 @@ import { colorSelectorData, selectorData } from '@/public/dummy/general';
 import Image from 'next/image';
 import React, { Suspense } from 'react';
 
+interface ProductDetailProps {
+  params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: ProductDetailProps) {
+  const { id } = await params;
+  const productDetail = await getProductDetail(id);
+  return {
+    title: productDetail.product.name,
+    description: productDetail.product.description,
+  };
+};
+
 const ProductDetail = async ({
   params,
-}: {
-  params: Promise<{ id: string }>;
-}) => {
+}: ProductDetailProps) => {
   const { id } = await params;
   const productDetail = await getProductDetail(id);
   const { promotionalPrice, price, rating, name, image, description } =
