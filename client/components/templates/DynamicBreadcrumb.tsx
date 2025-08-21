@@ -12,7 +12,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { cn } from '@/lib/utils';
+import { cn, formatKebabSegment } from '@/lib/utils';
 import { ROUTES } from '@/lib/constants';
 import useSWR from 'swr';
 import { getProductDetail } from '@/actions/product';
@@ -61,7 +61,7 @@ export function DynamicBreadcrumb() {
               displayName = data?.product.name || segment || '';
             }
           } else {
-            displayName = segment.charAt(0).toUpperCase() + segment.slice(1);
+            displayName = formatKebabSegment(segment);
           }
 
           return (

@@ -20,7 +20,7 @@ const items = [
   {
     id: 1,
     title: 'Products',
-    url: ROUTES.ADMINPRODUCT,
+    url: ROUTES.ADMIN_PRODUCT,
     icon: Inbox,
   },
 ];
@@ -33,7 +33,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="my-4">
-            <Link href={ROUTES.ADMINPRODUCT} className="text-xl font-bold">
+            <Link href={ROUTES.ADMIN_PRODUCT} className="text-xl font-bold">
               DASHBOARD
             </Link>
           </SidebarGroupLabel>

@@ -73,7 +73,7 @@ const RightHeader = () => {
                 asChild
                 className="text-md font-medium cursor-pointer"
               >
-                <Link href={ROUTES.PROFILE}>Profile</Link>
+                <Link href={session ? ROUTES.PROFILE_OAUTH : ROUTES.PROFILE}>Profile</Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

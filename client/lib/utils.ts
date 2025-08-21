@@ -17,4 +17,12 @@ export const calculatePercentage = (num1: number, num2: number) => {
   return Math.round(100 - (num1 / num2) * 100);
 };
 
-export const delay = async (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+export const delay = async (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
+export const formatKebabSegment = (segment: string) => {
+  return segment
+    .split('-') // split by hyphen
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // capitalize each word
+    .join(' ');
+};

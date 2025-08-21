@@ -54,7 +54,7 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
 
   const handleSuccess = () => {
     methods.reset();
-    router.push(ROUTES.ADMINPRODUCT);
+    router.push(ROUTES.ADMIN_PRODUCT);
   };
 
   const { trigger: createProductTrigger, isMutating } = useSWRMutation(

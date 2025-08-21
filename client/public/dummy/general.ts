@@ -21,7 +21,7 @@ export const navigateList: NavigateListProps[] = [
   },
   {
     title: 'Dashboard',
-    link: ROUTES.ADMINPRODUCT,
+    link: ROUTES.ADMIN_PRODUCT,
   },
 ];
 
