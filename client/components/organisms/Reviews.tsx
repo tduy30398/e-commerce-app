@@ -10,13 +10,15 @@ const Reviews = async ({ productId }: ReviewsProps) => {
   const reviews = await getReviews(productId);
 
   return (
-    <div className="mt-6 md:mt-8 flex flex-col gap-4">
+    <section className="mt-6 md:mt-8 flex flex-col gap-4">
       {reviews.length > 0 ? (
-        reviews.map((review) => <ReviewItem key={review._id} review={review} />)
+        reviews.map((review) => (
+          <ReviewItem productId={productId} key={review._id} review={review} />
+        ))
       ) : (
         <p className="text-center text-xl font-semibold">No reviews yet.</p>
       )}
-    </div>
+    </section>
   );
 };
 

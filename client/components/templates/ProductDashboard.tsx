@@ -82,7 +82,7 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
       },
     });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = (data: FormData) => {
     if (id !== 'create') {
       updateProductTrigger({ id: id!, data });
     } else {

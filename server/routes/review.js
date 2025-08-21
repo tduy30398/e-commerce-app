@@ -40,4 +40,27 @@ router.get("/:productId", async (req, res) => {
   }
 });
 
+router.delete("/:reviewId", authMiddleware, async (req, res) => {
+  try {
+    const { reviewId } = req.params;
+    const userId = req.user.userId;
+
+    const review = await Review.findById(reviewId);
+    if (!review) {
+      return res.status(404).json({ message: "Review not found" });
+    }
+
+    // only allow the author to delete their review
+    if (review.user.toString() !== userId) {
+      return res.status(403).json({ message: "Not authorized to delete this review" });
+    }
+
+    await review.deleteOne();
+
+    res.status(200).json({ message: "Review deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;

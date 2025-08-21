@@ -56,10 +56,8 @@ reviewSchema.post("save", function () {
 });
 
 // Middleware: after remove
-reviewSchema.post("findOneAndDelete", function (doc) {
-  if (doc) {
-    doc.constructor.calcAverageRating(doc.product);
-  }
+reviewSchema.post("deleteOne", { document: true, query: false }, async function () {
+  await this.constructor.calcAverageRating(this.product);
 });
 
 // Middleware: after update

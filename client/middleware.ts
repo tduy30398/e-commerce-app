@@ -16,16 +16,17 @@ export async function middleware(request: NextRequest) {
 
   const isLogged = Boolean(refreshToken || token);
 
-  const { pathname } = request.nextUrl;
+  let path = request.nextUrl.pathname;
 
-  if (
-    !isLogged &&
-    (protectedRoutes.includes(pathname) || pathname.startsWith('/admin'))
-  ) {
+  if (path !== '/' && path.endsWith('/')) {
+    path = path.slice(0, -1);
+  }
+
+  if (!isLogged && (protectedRoutes.includes(path) || path.startsWith('/admin'))) {
     return NextResponse.redirect(new URL(ROUTES.LOGIN, request.url));
   }
 
-  if (isLogged && authRoutes.includes(pathname)) {
+  if (isLogged && authRoutes.includes(path)) {
     return NextResponse.redirect(new URL(ROUTES.HOME, request.url));
   }
 
@@ -33,5 +34,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/profile', '/login', '/register', '/admin/:path*'],
+  matcher: ['/profile', '/login', '/register', '/admin', '/admin/:path*'],
 };
