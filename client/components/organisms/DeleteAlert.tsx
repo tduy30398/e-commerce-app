@@ -15,6 +15,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '../ui/alert-dialog';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { deleteProduct } from '@/actions/product';
 import useSWRMutation from 'swr/mutation';
 
@@ -24,24 +25,29 @@ interface DeleteAlertProps {
 }
 
 const DeleteAlert: React.FC<DeleteAlertProps> = ({ id, queryKey }) => {
-  const {
-    trigger: deleteProductTrigger,
-    isMutating: deleteLoading,
-  } = useSWRMutation('product', deleteProduct, {
-    onSuccess: () => {
-      mutate(queryKey);
-      toast.success('Delete product success');
-    },
-    onError: () => {
-      toast.error('Delete product failed');
-    },
-  });
+  const { trigger: deleteProductTrigger, isMutating: deleteLoading } =
+    useSWRMutation('product', deleteProduct, {
+      onSuccess: () => {
+        mutate(queryKey);
+        toast.success('Delete product success');
+      },
+      onError: () => {
+        toast.error('Delete product failed');
+      },
+    });
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Trash2 className="cursor-pointer size-4" />
-      </AlertDialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <AlertDialogTrigger asChild>
+            <Trash2 className="cursor-pointer size-5" />
+          </AlertDialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Delete</p>
+        </TooltipContent>
+      </Tooltip>
       <AlertDialogContent className="top-10 left-1/2 -translate-x-1/2 translate-y-0">
         <AlertDialogHeader>
           <AlertDialogTitle>

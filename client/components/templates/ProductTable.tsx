@@ -19,6 +19,7 @@ import DeleteAlert from '@/components/organisms/DeleteAlert';
 import PaginationCustom from '@/components/molecules/PaginationCustom';
 import { useRouter, useSearchParams } from 'next/navigation';
 import useProfileStore from '@/store/useProfileStore';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 interface DataTableProps {
   [key: string]: string | number;
@@ -168,12 +169,19 @@ const ProductTable = () => {
                 </TableCell>
               ))}
               <TableCell className="flex gap-2">
-                <Link
-                  href={`${ROUTES.ADMIN_PRODUCT}/${item.id}`}
-                  className="cursor-pointer"
-                >
-                  <Eye className="size-4" />
-                </Link>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href={`${ROUTES.ADMIN_PRODUCT}/${item.id}`}
+                      className="cursor-pointer"
+                    >
+                      <Eye className="size-5" />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Detail</p>
+                  </TooltipContent>
+                </Tooltip>
                 {profileData?.role === 'admin' && (
                   <DeleteAlert id={String(item.id)} queryKey={queryKey} />
                 )}
