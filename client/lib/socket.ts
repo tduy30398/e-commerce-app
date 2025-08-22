@@ -1,19 +1,17 @@
-"use client";
+'use client';
 
-import { io, Socket } from "socket.io-client";
+import { Cart } from '@/components/organisms/RightHeader';
+import { io, Socket } from 'socket.io-client';
 
 // Events client can emit to server
 export interface ClientToServerEvents {
-  "cart:add": (payload: { productId: string; quantity: number }) => void;
-  "cart:remove": (payload: { productId: string }) => void;
+  'cart:add': (payload: { productId: string; quantity: number }) => void;
+  'cart:remove': (payload: { productId: string }) => void;
 }
 
 // Events server emits to client
 export interface ServerToClientEvents {
-  "cart:updated": (cart: {
-    userId: string;
-    items: { productId: string; quantity: number }[];
-  }) => void;
+  'cart:updated': (cart: Cart) => void;
 }
 
 let socket: Socket<ServerToClientEvents, ClientToServerEvents> | null = null;
@@ -36,5 +34,3 @@ export const disconnectSocket = () => {
 };
 
 export const getSocket = () => socket;
-
-

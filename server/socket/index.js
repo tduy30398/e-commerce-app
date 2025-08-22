@@ -40,12 +40,14 @@ const initSocket = (server, allowedOrigins) => {
       );
 
       if (existingItem) {
-        existingItem.quantity += quantity;
+        existingItem.quantity = quantity;
       } else {
         cart.items.push({ productId, quantity });
       }
 
       await cart.save();
+
+      await cart.populate("items.productId");
 
       io.to(`user_${socket.user.userId}`).emit("cart:updated", cart);
     });
@@ -60,6 +62,8 @@ const initSocket = (server, allowedOrigins) => {
       );
 
       await cart.save();
+
+      await cart.populate("items.productId");
 
       io.to(`user_${socket.user.userId}`).emit("cart:updated", cart);
     });

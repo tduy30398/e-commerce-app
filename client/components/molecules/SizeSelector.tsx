@@ -20,8 +20,9 @@ const SizeSelector = ({ data }: SizeSelectorProps) => {
           onClick={() => setSelectedSize(item.value)}
           key={item.value}
           className={cn(
-            'w-fit h-10 cursor-pointer rounded-[20px] bg-[#f0f0f0] px-4 flex-center',
-            selectedSize === item.value && 'bg-primary text-white'
+            'w-fit h-12 cursor-pointer rounded-3xl bg-[#f0f0f0] px-4 flex-center',
+            selectedSize === item.value &&
+              'bg-primary text-white hover:opacity-80'
           )}
         >
           {item.label}

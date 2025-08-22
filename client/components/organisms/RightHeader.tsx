@@ -1,9 +1,9 @@
 'use client';
 
+import React from 'react';
 import { logoutUserService } from '@/actions/authenticate';
 import { ROUTES } from '@/lib/constants';
 import useProfileStore from '@/store/useProfileStore';
-import { ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -20,25 +20,19 @@ import {
 import MobileSearchHeader from './MobileSearchHeader';
 import { signOut, useSession } from 'next-auth/react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from '../ui/hover-card';
-import React from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import Image from 'next/image';
 import { disconnectSocket, initSocket } from '@/lib/socket';
-import axiosInstance from '@/lib/axios';
+import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
 import { AxiosResponse } from 'axios';
+import ShoppingCartHeader from '../molecules/ShoppingCartHeader';
+import { ProductTypes } from '@/actions/product/type';
 
-interface Cart {
+export interface Cart {
   userId: string;
-  items: { productId: string; quantity: number }[];
+  items: { productId: ProductTypes; quantity: number; _id: string }[];
+  _id: string;
 }
 
 const RightHeader = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
   const [cart, setCart] = React.useState<Cart | null>(null);
   const { profileData, accessToken } = useProfileStore();
   const router = useRouter();
@@ -68,9 +62,10 @@ const RightHeader = () => {
       return;
     }
 
+    setAccessTokenHeader(accessToken);
+
     const fetchCart = async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const cartRes: AxiosResponse<any> = await axiosInstance.get('cart');
+      const cartRes: AxiosResponse<Cart> = await axiosInstance.get('cart');
       setCart(cartRes.data);
     };
 
@@ -93,49 +88,7 @@ const RightHeader = () => {
       <div className="sm:hidden size-6">
         <MobileSearchHeader />
       </div>
-      <HoverCard
-        openDelay={200}
-        closeDelay={200}
-        open={isOpen}
-        onOpenChange={setIsOpen}
-      >
-        <HoverCardTrigger asChild>
-          <Link href="/">
-            <ShoppingCart className="size-6 cursor-pointer" />
-          </Link>
-        </HoverCardTrigger>
-        <AnimatePresence>
-          {isOpen && (
-            <HoverCardContent asChild className="border-none">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8, y: -10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.8, y: -10 }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 400,
-                  damping: 20,
-                  duration: 0.25,
-                }}
-                className="w-25 max-md:mr-2 md:w-100 rounded-2xl border bg-popover py-8 md:py-15 shadow-md"
-              >
-                <div className="flex flex-col items-center gap-2">
-                  <div className="relative size-25 overflow-hidden">
-                    <Image
-                      src="/images/empty.png"
-                      alt="empty"
-                      fill
-                      className="object-contain"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  </div>
-                  <p className="text-base">No products yet</p>
-                </div>
-              </motion.div>
-            </HoverCardContent>
-          )}
-        </AnimatePresence>
-      </HoverCard>
+      <ShoppingCartHeader cart={cart} />
       {accessToken || session ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -191,7 +144,6 @@ const RightHeader = () => {
           Login
         </Link>
       )}
-      <p>{cart?.items.length || 0}</p>
     </div>
   );
 };
