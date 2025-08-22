@@ -65,11 +65,13 @@ const AddReview = () => {
       >
         <div className="flex items-center gap-4">
           <Avatar className="size-10 border border-gray-300">
-            <AvatarImage
-              className="object-cover"
-              src={profileData?.avatar || ''}
-              alt="avatar"
-            />
+            {profileData?.avatar && (
+              <AvatarImage
+                className="object-cover"
+                src={profileData?.avatar}
+                alt="avatar"
+              />
+            )}
             <AvatarFallback className="bg-cyan-400 text-white font-semibold">
               {profileData?.name?.charAt(0) || ''}
             </AvatarFallback>

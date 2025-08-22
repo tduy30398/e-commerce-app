@@ -28,9 +28,18 @@ import {
 import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
+import { disconnectSocket, initSocket } from '@/lib/socket';
+import axiosInstance from '@/lib/axios';
+import { AxiosResponse } from 'axios';
+
+interface Cart {
+  userId: string;
+  items: { productId: string; quantity: number }[];
+}
 
 const RightHeader = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [cart, setCart] = React.useState<Cart | null>(null);
   const { profileData, accessToken } = useProfileStore();
   const router = useRouter();
   const { data: session } = useSession();
@@ -51,6 +60,33 @@ const RightHeader = () => {
       toast.error('Logout failed');
     }
   };
+
+  React.useEffect(() => {
+    if (!accessToken) {
+      disconnectSocket();
+      setCart(null);
+      return;
+    }
+
+    const fetchCart = async () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const cartRes: AxiosResponse<any> = await axiosInstance.get('cart');
+      setCart(cartRes.data);
+    };
+
+    fetchCart();
+
+    const socket = initSocket(accessToken || '');
+
+    // Listen for cart updates
+    socket.on('cart:updated', (updatedCart: Cart) => {
+      setCart(updatedCart);
+    });
+
+    return () => {
+      socket.off('cart:updated');
+    };
+  }, [accessToken]);
 
   return (
     <div className="flex items-center sm:ml-10 gap-4 shrink-0">
@@ -87,15 +123,13 @@ const RightHeader = () => {
                   <div className="relative size-25 overflow-hidden">
                     <Image
                       src="/images/empty.png"
-                      alt='empty'
+                      alt="empty"
                       fill
                       className="object-contain"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
-                  <p className="text-base">
-                    No products yet
-                  </p>
+                  <p className="text-base">No products yet</p>
                 </div>
               </motion.div>
             </HoverCardContent>
@@ -106,11 +140,13 @@ const RightHeader = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer border border-gray-300 size-9">
-              <AvatarImage
-                className="object-cover"
-                src={profileData?.avatar || session?.user?.image || ''}
-                alt="avatar"
-              />
+              {(profileData?.avatar || session?.user?.image) && (
+                <AvatarImage
+                  className="object-cover"
+                  src={profileData?.avatar || session?.user?.image || ''}
+                  alt="avatar"
+                />
+              )}
               <AvatarFallback className="bg-[#00ffff]">
                 {profileData?.name?.charAt(0) ||
                   session?.user?.name?.charAt(0) ||
@@ -155,6 +191,7 @@ const RightHeader = () => {
           Login
         </Link>
       )}
+      <p>{cart?.items.length || 0}</p>
     </div>
   );
 };

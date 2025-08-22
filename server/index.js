@@ -4,15 +4,18 @@ const cors = require("cors");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
+const http = require("http");
 
 app.use(cookieParser());
 app.use(express.json());
 
 const authMiddleware = require("./middleware/authMiddleware");
+const { initSocket } = require("./socket/index");
 const productRoutes = require("./routes/product");
 const authRoutes = require("./routes/auth");
 const profileRoutes = require("./routes/profile");
 const reviewRoutes = require("./routes/review");
+const cartRoutes = require("./routes/cart");
 
 const allowedOrigins = [
   "http://localhost:3000",
@@ -40,6 +43,7 @@ app.get("/", (_, res) => {
 
 // Protected routes
 app.use("/api/profile", authMiddleware, profileRoutes);
+app.use("/api/cart", authMiddleware, cartRoutes);
 
 // Public routes
 app.use("/api/auth", authRoutes);
@@ -51,7 +55,12 @@ const PORT = process.env.PORT || 3001;
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
-    app.listen(PORT, () => {
+    const server = http.createServer(app);
+
+    // Initialize Socket.IO
+    initSocket(server, allowedOrigins);
+
+    server.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
   })

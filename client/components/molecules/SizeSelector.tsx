@@ -16,7 +16,7 @@ const SizeSelector = ({ data }: SizeSelectorProps) => {
   return (
     <div className="flex items-center gap-4 mt-3">
       {data.map((item) => (
-        <div
+        <button
           onClick={() => setSelectedSize(item.value)}
           key={item.value}
           className={cn(
@@ -25,7 +25,7 @@ const SizeSelector = ({ data }: SizeSelectorProps) => {
           )}
         >
           {item.label}
-        </div>
+        </button>
       ))}
     </div>
   );

@@ -4,6 +4,7 @@ import ReviewSkeleton from '@/components/molecules/ReviewSkeleton';
 import SizeSelector from '@/components/molecules/SizeSelector';
 import StarRating from '@/components/molecules/StarRating';
 import AddReview from '@/components/organisms/AddReview';
+import AddToCartButton from '@/components/organisms/AddToCartButton';
 import RelatedProduct from '@/components/organisms/RelatedProduct';
 import Reviews from '@/components/organisms/Reviews';
 import { Separator } from '@/components/ui/separator';
@@ -79,6 +80,8 @@ const ProductDetail = async ({
           <Separator className="my-4 md:my-6" />
           <p className="mt-5 text-xl font-semibold">Choose Size</p>
           <SizeSelector data={selectorData} />
+          <Separator className="my-4 md:my-6" />
+          <AddToCartButton productId={id} />
         </div>
       </div>
       <Separator className="my-4 md:my-6" />
