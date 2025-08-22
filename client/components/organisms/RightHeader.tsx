@@ -20,8 +20,17 @@ import {
 import MobileSearchHeader from './MobileSearchHeader';
 import { signOut, useSession } from 'next-auth/react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '../ui/hover-card';
+import React from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
 
 const RightHeader = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
   const { profileData, accessToken } = useProfileStore();
   const router = useRouter();
   const { data: session } = useSession();
@@ -48,9 +57,51 @@ const RightHeader = () => {
       <div className="sm:hidden size-6">
         <MobileSearchHeader />
       </div>
-      <Link href="/">
-        <ShoppingCart className="size-6 cursor-pointer" />
-      </Link>
+      <HoverCard
+        openDelay={200}
+        closeDelay={200}
+        open={isOpen}
+        onOpenChange={setIsOpen}
+      >
+        <HoverCardTrigger asChild>
+          <Link href="/">
+            <ShoppingCart className="size-6 cursor-pointer" />
+          </Link>
+        </HoverCardTrigger>
+        <AnimatePresence>
+          {isOpen && (
+            <HoverCardContent asChild className="border-none">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8, y: -10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.8, y: -10 }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 400,
+                  damping: 20,
+                  duration: 0.25,
+                }}
+                className="w-25 max-md:mr-2 md:w-100 rounded-2xl border bg-popover py-8 md:py-15 shadow-md"
+              >
+                <div className="flex flex-col items-center gap-2">
+                  <div className="relative size-25 overflow-hidden">
+                    <Image
+                      src="/images/empty.png"
+                      alt='empty'
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                  </div>
+                  <p className="text-base">
+                    No products yet
+                  </p>
+                </div>
+              </motion.div>
+            </HoverCardContent>
+          )}
+        </AnimatePresence>
+      </HoverCard>
       {accessToken || session ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -67,13 +118,18 @@ const RightHeader = () => {
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className={isMobile ? 'w-20 mr-2' : 'w-40'} align="center">
+          <DropdownMenuContent
+            className={isMobile ? 'w-20 mr-2' : 'w-40'}
+            align="center"
+          >
             <DropdownMenuGroup>
               <DropdownMenuItem
                 asChild
                 className="text-md font-medium cursor-pointer"
               >
-                <Link href={session ? ROUTES.PROFILE_OAUTH : ROUTES.PROFILE}>Profile</Link>
+                <Link href={session ? ROUTES.PROFILE_OAUTH : ROUTES.PROFILE}>
+                  Profile
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
