@@ -4,6 +4,20 @@ const Review = require("../models/Review");
 const Product = require("../models/Product");
 const authMiddleware = require("../middleware/authMiddleware");
 
+router.get("/:productId", async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    const reviews = await Review.find({ product: productId })
+      .populate("user", "name avatar")
+      .sort({ createdAt: -1 }); // => sort by createdAt in descending order;
+
+    res.status(200).json(reviews);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 router.post("/:productId", authMiddleware, async (req, res) => {
   try {
     const { productId } = req.params;
@@ -21,20 +35,6 @@ router.post("/:productId", authMiddleware, async (req, res) => {
     });
 
     res.status(201).json({ message: "Review added successfully" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-router.get("/:productId", async (req, res) => {
-  try {
-    const { productId } = req.params;
-
-    const reviews = await Review.find({ product: productId })
-      .populate("user", "name avatar")
-      .sort({ createdAt: -1 }); // => sort by createdAt in descending order;
-
-    res.status(200).json(reviews);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
