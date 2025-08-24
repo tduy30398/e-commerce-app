@@ -8,16 +8,20 @@ interface ColorSelectorProps {
     color: string;
     value: number;
   }[];
+  selectedColor: number;
+  handleColorChange: (value: number) => void;
 }
 
-const ColorSelector = ({ data }: ColorSelectorProps) => {
-  const [selectedColor, setSelectedColor] = React.useState(data[0].value);
-
+const ColorSelector = ({
+  data,
+  selectedColor,
+  handleColorChange,
+}: ColorSelectorProps) => {
   return (
     <div className="flex items-center gap-4 mt-3">
       {data.map((item) => (
         <div
-          onClick={() => setSelectedColor(item.value)}
+          onClick={() => handleColorChange(item.value)}
           key={item.value}
           className="size-10 cursor-pointer rounded-full flex-center"
           style={{ backgroundColor: `#${item.color}` }}

@@ -25,15 +25,22 @@ import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
 import { AxiosResponse } from 'axios';
 import ShoppingCartHeader from '../molecules/ShoppingCartHeader';
 import { ProductTypes } from '@/actions/product/type';
+import useCartStore from '@/store/useCartStore';
 
 export interface Cart {
   userId: string;
-  items: { productId: ProductTypes; quantity: number; _id: string }[];
+  items: {
+    productId: ProductTypes;
+    quantity: number;
+    color: number;
+    size: number;
+    _id: string;
+  }[];
   _id: string;
 }
 
 const RightHeader = () => {
-  const [cart, setCart] = React.useState<Cart | null>(null);
+  const { cart, setCart, clearCart } = useCartStore();
   const { profileData, accessToken } = useProfileStore();
   const router = useRouter();
   const { data: session } = useSession();
@@ -58,7 +65,7 @@ const RightHeader = () => {
   React.useEffect(() => {
     if (!accessToken) {
       disconnectSocket();
-      setCart(null);
+      clearCart();
       return;
     }
 
@@ -81,6 +88,7 @@ const RightHeader = () => {
     return () => {
       socket.off('cart:updated');
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken]);
 
   return (

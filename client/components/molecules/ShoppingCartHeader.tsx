@@ -32,11 +32,11 @@ const ShoppingCartHeader = ({ cart }: ShoppingCartHeaderProps) => {
       <HoverCardTrigger asChild>
         <Link href={ROUTES.CART} className="relative">
           <ShoppingCart className="size-6 cursor-pointer" />
-          {cart?.items?.length && (
+          {cart?.items?.length ? (
             <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white shadow-md">
               {cart.items.length}
             </span>
-          )}
+          ) : null}
         </Link>
       </HoverCardTrigger>
       <AnimatePresence>

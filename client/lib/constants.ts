@@ -11,4 +11,5 @@ export const ROUTES = {
 
 export const STORAGE = {
   PROFILE: 'ECOMMERCE_PROFILE',
+  CART: 'ECOMMERCE_CART',
 };

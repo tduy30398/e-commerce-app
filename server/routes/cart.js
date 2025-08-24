@@ -5,7 +5,9 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 router.get("/", authMiddleware, async (req, res) => {
   try {
-    let cart = await Cart.findOne({ userId: req.user.userId }).populate("items.productId");
+    let cart = await Cart.findOne({ userId: req.user.userId }).populate(
+      "items.productId"
+    );
     if (!cart) {
       cart = new Cart({ userId: req.user.userId, items: [] });
       await cart.save();
