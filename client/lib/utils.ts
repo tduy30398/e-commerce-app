@@ -26,3 +26,7 @@ export const formatKebabSegment = (segment: string) => {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // capitalize each word
     .join(' ');
 };
+
+export function formatNumberWithCommas(number: number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}

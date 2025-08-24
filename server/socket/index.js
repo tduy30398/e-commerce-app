@@ -28,7 +28,7 @@ const initSocket = (server, allowedOrigins) => {
     socket.join(`user_${socket.user.userId}`);
 
     // Add to cart
-    socket.on("cart:add", async ({ productId, quantity }) => {
+    socket.on("cart:add", async ({ productId, quantity, color, size }) => {
       let cart = await Cart.findOne({ userId: socket.user.userId });
 
       if (!cart) {
@@ -41,8 +41,10 @@ const initSocket = (server, allowedOrigins) => {
 
       if (existingItem) {
         existingItem.quantity = quantity;
+        existingItem.color = color;
+        existingItem.size = size;
       } else {
-        cart.items.push({ productId, quantity });
+        cart.items.push({ productId, quantity, color, size });
       }
 
       await cart.save();
@@ -53,12 +55,12 @@ const initSocket = (server, allowedOrigins) => {
     });
 
     // Remove from cart
-    socket.on("cart:remove", async ({ productId }) => {
+    socket.on("cart:remove", async ({ productIds }) => {
       let cart = await Cart.findOne({ userId: socket.user.userId });
       if (!cart) return;
 
       cart.items = cart.items.filter(
-        (item) => item.productId.toString() !== productId
+        (item) => !productIds.includes(item.productId.toString())
       );
 
       await cart.save();

@@ -1,15 +1,12 @@
 import { getProductDetail } from '@/actions/product';
-import ColorSelector from '@/components/molecules/ColorSelector';
 import ReviewSkeleton from '@/components/molecules/ReviewSkeleton';
-import SizeSelector from '@/components/molecules/SizeSelector';
 import StarRating from '@/components/molecules/StarRating';
 import AddReview from '@/components/organisms/AddReview';
-import AddToCartButton from '@/components/organisms/AddToCartButton';
+import ItemInfoSelector from '@/components/organisms/ItemInfoSelector';
 import RelatedProduct from '@/components/organisms/RelatedProduct';
 import Reviews from '@/components/organisms/Reviews';
 import { Separator } from '@/components/ui/separator';
 import { calculatePercentage } from '@/lib/utils';
-import { colorSelectorData, selectorData } from '@/public/dummy/general';
 import Image from 'next/image';
 import React, { Suspense } from 'react';
 
@@ -67,13 +64,7 @@ const ProductDetail = async ({ params }: ProductDetailProps) => {
             {description}
           </p>
           <Separator className="my-4 md:my-6" />
-          <p className="mt-5 text-xl font-semibold">Select colors</p>
-          <ColorSelector data={colorSelectorData} />
-          <Separator className="my-4 md:my-6" />
-          <p className="mt-5 text-xl font-semibold">Choose Size</p>
-          <SizeSelector data={selectorData} />
-          <Separator className="my-4 md:my-6" />
-          <AddToCartButton productId={id} />
+          <ItemInfoSelector id={id} />
         </div>
       </div>
       <Separator className="my-4 md:my-6" />

@@ -219,14 +219,17 @@ export const selectorData = [
 export const colorSelectorData = [
   {
     color: 'fb2c36',
+    name: 'Red',
     value: 1,
   },
   {
     color: '86a0dd',
+    name: 'Blue',
     value: 2,
   },
   {
     color: 'a6ee39',
+    name: 'Green',
     value: 3,
   },
 ];

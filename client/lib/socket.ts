@@ -5,8 +5,13 @@ import { io, Socket } from 'socket.io-client';
 
 // Events client can emit to server
 export interface ClientToServerEvents {
-  'cart:add': (payload: { productId: string; quantity: number }) => void;
-  'cart:remove': (payload: { productId: string }) => void;
+  'cart:add': (payload: {
+    productId: string;
+    quantity: number;
+    color: number;
+    size: number;
+  }) => void;
+  'cart:remove': (payload: { productIds: string[] }) => void;
 }
 
 // Events server emits to client
