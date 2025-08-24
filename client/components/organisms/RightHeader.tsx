@@ -1,9 +1,9 @@
 'use client';
 
+import React from 'react';
 import { logoutUserService } from '@/actions/authenticate';
 import { ROUTES } from '@/lib/constants';
 import useProfileStore from '@/store/useProfileStore';
-import { ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -20,17 +20,20 @@ import {
 import MobileSearchHeader from './MobileSearchHeader';
 import { signOut, useSession } from 'next-auth/react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from '../ui/hover-card';
-import React from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import Image from 'next/image';
+import { disconnectSocket, initSocket } from '@/lib/socket';
+import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
+import { AxiosResponse } from 'axios';
+import ShoppingCartHeader from '../molecules/ShoppingCartHeader';
+import { ProductTypes } from '@/actions/product/type';
+
+export interface Cart {
+  userId: string;
+  items: { productId: ProductTypes; quantity: number; _id: string }[];
+  _id: string;
+}
 
 const RightHeader = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [cart, setCart] = React.useState<Cart | null>(null);
   const { profileData, accessToken } = useProfileStore();
   const router = useRouter();
   const { data: session } = useSession();
@@ -52,65 +55,51 @@ const RightHeader = () => {
     }
   };
 
+  React.useEffect(() => {
+    if (!accessToken) {
+      disconnectSocket();
+      setCart(null);
+      return;
+    }
+
+    setAccessTokenHeader(accessToken);
+
+    const fetchCart = async () => {
+      const cartRes: AxiosResponse<Cart> = await axiosInstance.get('cart');
+      setCart(cartRes.data);
+    };
+
+    fetchCart();
+
+    const socket = initSocket(accessToken || '');
+
+    // Listen for cart updates
+    socket.on('cart:updated', (updatedCart: Cart) => {
+      setCart(updatedCart);
+    });
+
+    return () => {
+      socket.off('cart:updated');
+    };
+  }, [accessToken]);
+
   return (
     <div className="flex items-center sm:ml-10 gap-4 shrink-0">
       <div className="sm:hidden size-6">
         <MobileSearchHeader />
       </div>
-      <HoverCard
-        openDelay={200}
-        closeDelay={200}
-        open={isOpen}
-        onOpenChange={setIsOpen}
-      >
-        <HoverCardTrigger asChild>
-          <Link href="/">
-            <ShoppingCart className="size-6 cursor-pointer" />
-          </Link>
-        </HoverCardTrigger>
-        <AnimatePresence>
-          {isOpen && (
-            <HoverCardContent asChild className="border-none">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8, y: -10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.8, y: -10 }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 400,
-                  damping: 20,
-                  duration: 0.25,
-                }}
-                className="w-25 max-md:mr-2 md:w-100 rounded-2xl border bg-popover py-8 md:py-15 shadow-md"
-              >
-                <div className="flex flex-col items-center gap-2">
-                  <div className="relative size-25 overflow-hidden">
-                    <Image
-                      src="/images/empty.png"
-                      alt='empty'
-                      fill
-                      className="object-contain"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  </div>
-                  <p className="text-base">
-                    No products yet
-                  </p>
-                </div>
-              </motion.div>
-            </HoverCardContent>
-          )}
-        </AnimatePresence>
-      </HoverCard>
+      <ShoppingCartHeader cart={cart} />
       {accessToken || session ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer border border-gray-300 size-9">
-              <AvatarImage
-                className="object-cover"
-                src={profileData?.avatar || session?.user?.image || ''}
-                alt="avatar"
-              />
+              {(profileData?.avatar || session?.user?.image) && (
+                <AvatarImage
+                  className="object-cover"
+                  src={profileData?.avatar || session?.user?.image || ''}
+                  alt="avatar"
+                />
+              )}
               <AvatarFallback className="bg-[#00ffff]">
                 {profileData?.name?.charAt(0) ||
                   session?.user?.name?.charAt(0) ||

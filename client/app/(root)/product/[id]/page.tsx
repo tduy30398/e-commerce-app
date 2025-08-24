@@ -4,6 +4,7 @@ import ReviewSkeleton from '@/components/molecules/ReviewSkeleton';
 import SizeSelector from '@/components/molecules/SizeSelector';
 import StarRating from '@/components/molecules/StarRating';
 import AddReview from '@/components/organisms/AddReview';
+import AddToCartButton from '@/components/organisms/AddToCartButton';
 import RelatedProduct from '@/components/organisms/RelatedProduct';
 import Reviews from '@/components/organisms/Reviews';
 import { Separator } from '@/components/ui/separator';
@@ -16,20 +17,16 @@ interface ProductDetailProps {
   params: Promise<{ id: string }>;
 }
 
-export async function generateMetadata({
-  params,
-}: ProductDetailProps) {
+export async function generateMetadata({ params }: ProductDetailProps) {
   const { id } = await params;
   const productDetail = await getProductDetail(id);
   return {
     title: productDetail.product.name,
     description: productDetail.product.description,
   };
-};
+}
 
-const ProductDetail = async ({
-  params,
-}: ProductDetailProps) => {
+const ProductDetail = async ({ params }: ProductDetailProps) => {
   const { id } = await params;
   const productDetail = await getProductDetail(id);
   const { promotionalPrice, price, rating, name, image, description } =
@@ -55,20 +52,16 @@ const ProductDetail = async ({
               promotionalPrice || price || 0
             }`}</span>
             {promotionalPrice ? (
-              <span className="tex-base md:text-3xl text-gray-400 line-through font-semibold ml-[10px]">{`$${
+              <span className="tex-base md:text-3xl text-gray-400 line-through font-semibold ml-2.5">{`$${
                 price || 0
               }`}</span>
-            ) : (
-              ''
-            )}
+            ) : null}
             {promotionalPrice ? (
-              <span className="text-base bg-[#ffebeb] text-[#ff3333] px-2 rounded-4xl ml-[10px]">{`-${calculatePercentage(
+              <span className="text-base bg-[#ffebeb] text-[#ff3333] px-2 rounded-4xl ml-2.5">{`-${calculatePercentage(
                 promotionalPrice,
                 price
               )}%`}</span>
-            ) : (
-              ''
-            )}
+            ) : null}
           </div>
           <p className="mt-3 md:mt-4 text-base line-clamp-3 h-[72px]">
             {description}
@@ -79,6 +72,8 @@ const ProductDetail = async ({
           <Separator className="my-4 md:my-6" />
           <p className="mt-5 text-xl font-semibold">Choose Size</p>
           <SizeSelector data={selectorData} />
+          <Separator className="my-4 md:my-6" />
+          <AddToCartButton productId={id} />
         </div>
       </div>
       <Separator className="my-4 md:my-6" />

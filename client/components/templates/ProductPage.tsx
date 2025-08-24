@@ -188,9 +188,7 @@ const ProductPage = () => {
               current={currentPage}
               setPage={updatePage}
             />
-          ) : (
-            ''
-          )}
+          ) : null}
         </div>
       ) : (
         <div className="lg:col-span-2 xl:col-span-3">

@@ -4,6 +4,7 @@ import { formattedCapitalize, calculatePercentage } from '@/lib/utils';
 import { ProductTypes } from '@/actions/product/type';
 import Link from 'next/link';
 import StarRating from './StarRating';
+import { ROUTES } from '@/lib/constants';
 
 const ProductCard: React.FC<ProductTypes> = ({
   name,
@@ -15,7 +16,7 @@ const ProductCard: React.FC<ProductTypes> = ({
 }) => {
   return (
     <Link
-      href={`/product/${_id}`}
+      href={`${ROUTES.PRODUCT}/${_id}`}
       className="border border-transparent hover:border-cyan-500 cursor-pointer rounded-lg md:p-2"
     >
       <div className="relative bg-[#F0EEED] rounded-2xl h-40 sm:h-60 mb-4 overflow-hidden">
@@ -36,20 +37,16 @@ const ProductCard: React.FC<ProductTypes> = ({
           promotionalPrice || price || 0
         }`}</span>
         {promotionalPrice ? (
-          <span className="tex-base md:text-2xl text-gray-400 line-through font-semibold ml-[10px]">{`$${
+          <span className="tex-base md:text-2xl text-gray-400 line-through font-semibold ml-2.5">{`$${
             price || 0
           }`}</span>
-        ) : (
-          ''
-        )}
+        ) : null}
         {promotionalPrice ? (
-          <span className="text-sm bg-[#ffebeb] text-[#ff3333] px-2 rounded-4xl ml-[10px]">{`-${calculatePercentage(
+          <span className="text-sm bg-[#ffebeb] text-[#ff3333] px-2 rounded-4xl ml-2.5">{`-${calculatePercentage(
             promotionalPrice,
             price
           )}%`}</span>
-        ) : (
-          ''
-        )}
+        ) : null}
       </div>
     </Link>
   );

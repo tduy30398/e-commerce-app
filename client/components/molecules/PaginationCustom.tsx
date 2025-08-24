@@ -71,7 +71,7 @@ const PaginationCustom: React.FC<PaginationCustomProps> = ({
             className={current !== 1 ? 'cursor-pointer' : ''}
           >
             <ArrowLeft className="size-4 mr-1" />
-            {isMobile ? '' : 'Prev'}
+            {isMobile ? null : 'Prev'}
           </Button>
         </PaginationItem>
         <div className="flex gap-2 items-center justify-center">
@@ -109,7 +109,7 @@ const PaginationCustom: React.FC<PaginationCustomProps> = ({
             size="sm"
             className={current !== totalPages ? 'cursor-pointer' : ''}
           >
-            {isMobile ? '' : 'Next'}
+            {isMobile ? null : 'Next'}
             <ArrowRight className="size-4 ml-1" />
           </Button>
         </PaginationItem>

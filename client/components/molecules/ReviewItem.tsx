@@ -45,18 +45,16 @@ const ReviewItem = ({ review, productId }: ReviewItemProps) => {
   const [openDialog, setOpenDialog] = React.useState(false);
   const isMobile = useIsMobile();
 
-  const {
-    trigger: deleteReviewTrigger,
-    isMutating: deleteLoading,
-  } = useSWRMutation('review', deleteReview, {
-    onSuccess: async () => {
-      await revalidateReviews(productId);
-      toast.success('Delete review success');
-    },
-    onError: () => {
-      toast.error('Delete review failed');
-    },
-  });
+  const { trigger: deleteReviewTrigger, isMutating: deleteLoading } =
+    useSWRMutation('review', deleteReview, {
+      onSuccess: async () => {
+        await revalidateReviews(productId);
+        toast.success('Delete review success');
+      },
+      onError: () => {
+        toast.error('Delete review failed');
+      },
+    });
 
   const MAX_LENGTH = isMobile ? 143 : 512;
   const isLong = review?.comment?.length > MAX_LENGTH;
@@ -124,11 +122,13 @@ const ReviewItem = ({ review, productId }: ReviewItemProps) => {
       </AlertDialog>
       <div className="flex items-center gap-4 mt-4 md:mt-6">
         <Avatar className="size-10 border border-gray-300">
-          <AvatarImage
-            className="object-cover"
-            src={review?.user?.avatar || ''}
-            alt="avatar"
-          />
+          {review?.user?.avatar && (
+            <AvatarImage
+              className="object-cover"
+              src={review?.user?.avatar}
+              alt="avatar"
+            />
+          )}
           <AvatarFallback className="bg-cyan-400 text-white font-semibold">
             {review?.user?.name?.charAt(0) || ''}
           </AvatarFallback>
