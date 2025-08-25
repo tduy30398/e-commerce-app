@@ -12,7 +12,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { cn, formatKebabSegment } from '@/lib/utils';
+import { cn, formatKebabSegment, formattedCapitalize } from '@/lib/utils';
 import { ROUTES } from '@/lib/constants';
 import useSWR from 'swr';
 import { getProductDetail } from '@/actions/product';
@@ -58,7 +58,7 @@ export function DynamicBreadcrumb() {
             if (isLoading) {
               displayName = 'Loading...';
             } else {
-              displayName = data?.product.name || segment || '';
+              displayName = formattedCapitalize(data?.product.name || '') || segment || '';
             }
           } else {
             displayName = formatKebabSegment(segment);

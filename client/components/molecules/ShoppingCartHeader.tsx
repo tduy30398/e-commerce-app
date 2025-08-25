@@ -98,7 +98,9 @@ const ShoppingCartHeader = ({ cart }: ShoppingCartHeaderProps) => {
                       <span />
                     )}
                     <Button asChild>
-                      <Link href={ROUTES.CART}>View my shopping cart</Link>
+                      <Link className="h-10" href={ROUTES.CART}>
+                        View my shopping cart
+                      </Link>
                     </Button>
                   </div>
                 </div>

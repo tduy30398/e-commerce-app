@@ -59,24 +59,23 @@ const Footer = () => {
               className={`w-1/2 lg:w-1/4 ${index > 1 && 'max-lg:mt-4'}`}
             >
               <h3 className="text-xl font-semibold uppercase">{item.title}</h3>
-              <ul>
+              <nav className="flex flex-col">
                 {item.links.map((link, index) => (
-                  <li key={index} className="mt-4">
-                    <Link
-                      href={link.link}
-                      className="text-base text-gray-800 hover:underline"
-                    >
-                      {link.title}
-                    </Link>
-                  </li>
+                  <Link
+                    key={index}
+                    href={link.link}
+                    className="text-base mt-4 text-gray-800 hover:underline"
+                  >
+                    {link.title}
+                  </Link>
                 ))}
-              </ul>
+              </nav>
             </div>
           ))}
         </div>
       </div>
       <div className="pb-20 mt-4 section-container flex-col md:flex-row flex items-center justify-between">
-        <p>Shop.co © 2000-2023, All Rights Reserved</p>
+        <p>Shop.co © 2010-2025, All Rights Reserved</p>
         <div className="flex items-center gap-2 md:gap-3 max-md:mt-4">
           {paymentMethods.map((item, index) => (
             <div
