@@ -27,15 +27,17 @@ import ShoppingCartHeader from '../molecules/ShoppingCartHeader';
 import { ProductTypes } from '@/actions/product/type';
 import useCartStore from '@/store/useCartStore';
 
+export interface ProductItemCard {
+  productId: ProductTypes;
+  quantity: number;
+  color: number;
+  size: number;
+  _id: string;
+}
+
 export interface Cart {
   userId: string;
-  items: {
-    productId: ProductTypes;
-    quantity: number;
-    color: number;
-    size: number;
-    _id: string;
-  }[];
+  items: ProductItemCard[];
   _id: string;
 }
 

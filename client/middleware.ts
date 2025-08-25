@@ -3,8 +3,8 @@ import type { NextRequest } from 'next/server';
 import { ROUTES } from './lib/constants';
 import { getToken } from 'next-auth/jwt';
 
-const protectedRoutes = ['/profile'];
-const authRoutes = ['/login', '/register'];
+const protectedRoutes = [ROUTES.PROFILE, ROUTES.PROFILE_OAUTH, ROUTES.CART];
+const authRoutes = [ROUTES.LOGIN, ROUTES.REGISTER];
 
 export async function middleware(request: NextRequest) {
   const token = await getToken({
@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest) {
     path = path.slice(0, -1);
   }
 
-  if (!isLogged && (protectedRoutes.includes(path) || path.startsWith('/admin'))) {
+  if (!isLogged && (protectedRoutes.includes(path) || path.startsWith(ROUTES.ADMIN))) {
     return NextResponse.redirect(new URL(ROUTES.LOGIN, request.url));
   }
 
@@ -34,5 +34,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/profile', '/login', '/register', '/admin', '/admin/:path*'],
+  matcher: ['/profile', '/login', '/cart', '/register', '/admin', '/admin/:path*'],
 };

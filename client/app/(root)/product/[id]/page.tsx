@@ -68,6 +68,7 @@ const ProductDetail = async ({ params }: ProductDetailProps) => {
         </div>
       </div>
       <Separator className="my-4 md:my-6" />
+      <AddReview />
       <Suspense
         fallback={
           <div className="flex flex-col gap-4">
@@ -79,7 +80,6 @@ const ProductDetail = async ({ params }: ProductDetailProps) => {
       >
         <Reviews productId={id} />
       </Suspense>
-      <AddReview />
       <RelatedProduct
         className="mt-12 md:mt-16"
         products={productDetail.relatedProducts}
