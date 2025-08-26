@@ -9,9 +9,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ProductItemCard } from '@/components/organisms/RightHeader';
 import CartPageSkeleton from '@/components/organisms/CartPageSkeleton';
+import useProfileStore from '@/store/useProfileStore';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 const CartPage = () => {
   const { cart } = useCartStore();
+  const { accessToken } = useProfileStore();
+  const { data: session } = useSession();
+  const router = useRouter();
 
   const [products, setProducts] = React.useState<ProductItemCard[]>(
     cart?.items || []
@@ -38,6 +44,12 @@ const CartPage = () => {
     if (!cart) return;
     setProducts(cart.items);
   }, [cart]);
+
+  React.useEffect(() => {
+    if (!accessToken && !session) {
+      router.push(ROUTES.HOME);
+    };
+  }, [accessToken, session, router]);
 
   if (!cart) {
     return <CartPageSkeleton />;

@@ -20,6 +20,7 @@ import PaginationCustom from '@/components/molecules/PaginationCustom';
 import { useRouter, useSearchParams } from 'next/navigation';
 import useProfileStore from '@/store/useProfileStore';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { useSession } from 'next-auth/react';
 
 interface DataTableProps {
   [key: string]: string | number;
@@ -36,7 +37,8 @@ const ProductTable = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');
-  const { profileData } = useProfileStore();
+  const { profileData, accessToken } = useProfileStore();
+  const { data: session } = useSession();
 
   const currentPage = React.useMemo(() => {
     return pageParam ? parseInt(pageParam, 10) : 1;
@@ -123,6 +125,12 @@ const ProductTable = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageParam]);
+
+  React.useEffect(() => {
+    if (!accessToken && !session) {
+      router.push(ROUTES.HOME);
+    };
+  }, [accessToken, session, router]);
 
   if (isLoading) {
     return <TableSkeleton />;
