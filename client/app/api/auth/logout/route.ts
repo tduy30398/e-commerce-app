@@ -1,18 +1,18 @@
-import { cookies } from "next/headers";
-import axiosInstance from "@/lib/axios";
-import { NextResponse } from "next/server";
+import { cookies } from 'next/headers';
+import axiosInstance from '@/lib/axios';
+import { NextResponse } from 'next/server';
 
 export async function POST() {
   try {
     const cookieStore = await cookies();
-    const refreshToken = cookieStore.get("refreshToken")?.value;
+    const refreshToken = cookieStore.get('refreshToken')?.value;
 
     const backendRes = await axiosInstance.post(
-      "auth/logout",
+      'auth/logout',
       {},
       {
         headers: {
-          Cookie: `refreshToken=${refreshToken || ""}`,
+          Cookie: `refreshToken=${refreshToken || ''}`,
         },
         validateStatus: () => true,
       }
@@ -22,19 +22,19 @@ export async function POST() {
       return NextResponse.json(backendRes.data, { status: backendRes.status });
     }
 
-    const res = NextResponse.json({ message: "Logged out successfully" });
+    const res = NextResponse.json({ message: 'Logged out successfully' });
 
-    res.cookies.set("refreshToken", "", {
+    res.cookies.set('refreshToken', '', {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none',
+      path: '/',
       maxAge: 0,
     });
 
     return res;
   } catch (err: unknown) {
-    let message = "An unexpected error occurred";
+    let message = 'An unexpected error occurred';
     if (err instanceof Error) {
       message = err.message;
     }
