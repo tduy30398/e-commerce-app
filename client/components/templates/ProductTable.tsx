@@ -128,9 +128,10 @@ const ProductTable = () => {
 
   React.useEffect(() => {
     if (!accessToken && !session) {
-      router.push(ROUTES.HOME);
+      router.push(ROUTES.LOGIN);
     };
-  }, [accessToken, session, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accessToken, session]);
 
   if (isLoading) {
     return <TableSkeleton />;
