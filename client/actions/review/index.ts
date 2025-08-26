@@ -2,10 +2,10 @@ import axiosInstance from '@/lib/axios';
 import { ReviewRequest, ReviewType } from './type';
 import { unstable_cache } from 'next/cache';
 
-export function getReviews(productId: string) {
+export function getReviews(productId: string, params?: BaseFilterParams) {
   return unstable_cache(
-    async (): Promise<ReviewType[]> => {
-      const res = await axiosInstance.get(`review/${productId}`);
+    async (): Promise<APIPaginationResponse<ReviewType[]>> => {
+      const res = await axiosInstance.get(`review/${productId}`, { params });
       return res.data;
     },
     [`reviews-${productId}`],
@@ -20,7 +20,6 @@ export const createReview = async (
   const { id, data } = arg;
   await axiosInstance.post(`${url}/${id}`, data);
 };
-
 
 export const deleteReview = async (
   url: string,
