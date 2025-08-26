@@ -33,7 +33,8 @@ type FormData = z.infer<typeof profileFormSchema>;
 const Profile = () => {
   const router = useRouter();
   const { data: session } = useSession();
-  const { profileData, accessToken, setProfileData } = useProfileStore();
+  const { profileData, accessToken, setProfileData, isLoggingOut } =
+    useProfileStore();
   const [uploadPct, setUploadPct] = React.useState<number | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -100,11 +101,10 @@ const Profile = () => {
   }, [profileData, session]);
 
   React.useEffect(() => {
-    if (!accessToken && !session) {
+    if (!accessToken && !session && !isLoggingOut) {
       router.replace(ROUTES.LOGIN);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accessToken, session]);
+  }, [accessToken, session, router, isLoggingOut]);
 
   return (
     <Form {...method}>

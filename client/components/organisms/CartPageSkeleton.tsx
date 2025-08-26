@@ -8,7 +8,7 @@ const CartPageSkeleton = () => {
       <div className="mt-5 lg:mt-9">
         <div className="grid grid-cols-1 lg:grid-cols-10 gap-5 mt-6">
           <div className="flex flex-col col-span-1 lg:col-span-6 border border-black/10 rounded-2xl p-4 md:p-6 h-fit">
-            {Array.from({ length: 5 }).map((_, index) => (
+            {Array.from({ length: 3 }).map((_, index) => (
               <ProductCartSkeleton key={index} />
             ))}
           </div>
