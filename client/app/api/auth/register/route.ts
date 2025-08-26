@@ -26,10 +26,9 @@ export async function POST(req: Request) {
     res.cookies.set('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
+      sameSite: 'lax',
       path: '/',
       maxAge: 8 * 60 * 60, // 8 hours
-      domain: '.vercel.app',
     });
 
     return res;
