@@ -15,7 +15,7 @@ import { useSession } from 'next-auth/react';
 
 const CartPage = () => {
   const { cart } = useCartStore();
-  const { accessToken } = useProfileStore();
+  const { accessToken, isLoggingOut } = useProfileStore();
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -46,11 +46,10 @@ const CartPage = () => {
   }, [cart]);
 
   React.useEffect(() => {
-    if (!accessToken && !session) {
+    if (!accessToken && !session && !isLoggingOut) {
       router.replace(ROUTES.LOGIN);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accessToken, session]);
+  }, [accessToken, session, router, isLoggingOut]);
 
   if (!cart) {
     return <CartPageSkeleton />;

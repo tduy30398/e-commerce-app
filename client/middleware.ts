@@ -16,17 +16,13 @@ export async function middleware(request: NextRequest) {
 
   const isLogged = Boolean(refreshToken || token);
 
-  let path = request.nextUrl.pathname;
+  const { pathname } = request.nextUrl;
 
-  if (path !== '/' && path.endsWith('/')) {
-    path = path.slice(0, -1);
-  }
-
-  if (!isLogged && protectedRoutes.includes(path)) {
+  if (!isLogged && protectedRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL(ROUTES.LOGIN, request.url));
   }
 
-  if (isLogged && authRoutes.includes(path)) {
+  if (isLogged && authRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL(ROUTES.HOME, request.url));
   }
 

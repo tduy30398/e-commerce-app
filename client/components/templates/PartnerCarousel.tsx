@@ -5,8 +5,16 @@ import React from 'react';
 import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel';
 import { partnerLogos } from '@/public/dummy/general';
 import Autoplay from 'embla-carousel-autoplay';
+import useProfileStore from '@/store/useProfileStore';
 
 const PartnerCarousel = () => {
+  const { finishLogout } = useProfileStore();
+
+  React.useEffect(() => {
+    finishLogout();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <section className="bg-black h-20 sm:h-[122px] py-6 sm:py-10">
       <Carousel

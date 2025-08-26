@@ -76,9 +76,9 @@ router.get("/:id", async (req, res) => {
 
     const relatedProducts = await Product.aggregate([
       { $match: { _id: { $ne: product._id } } },
-      { $sample: { size: 4 } }
+      { $sample: { size: 4 } },
     ]);
-    
+
     res.json({ product, relatedProducts });
   } catch (err) {
     res.status(500).json({ error: err.message });
