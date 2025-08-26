@@ -67,7 +67,7 @@ const LoginForm = () => {
           setAuth(profileRes.data, resData.accessToken);
         }
 
-        router.push(ROUTES.HOME);
+        router.replace(ROUTES.HOME);
       }
     } catch (error) {
       if (isAxiosError(error)) {

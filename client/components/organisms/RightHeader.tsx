@@ -57,7 +57,7 @@ const RightHeader = () => {
       if (res.status === 200) {
         logoutUserService();
         toast.success('Logout successfully');
-        router.push(ROUTES.HOME);
+        router.replace(ROUTES.HOME);
       }
     } catch {
       toast.error('Logout failed');

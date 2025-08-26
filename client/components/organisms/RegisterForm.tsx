@@ -72,7 +72,7 @@ const RegisterForm = () => {
         if (profileRes.status === 200) {
           setAuth(profileRes.data, resData.accessToken);
         }
-        router.push(ROUTES.HOME);
+        router.replace(ROUTES.HOME);
       }
     } catch (error) {
       if (isAxiosError(error)) {
