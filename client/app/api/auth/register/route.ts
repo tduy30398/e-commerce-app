@@ -29,6 +29,7 @@ export async function POST(req: Request) {
       sameSite: 'none',
       path: '/',
       maxAge: 8 * 60 * 60, // 8 hours
+      domain: '.vercel.app',
     });
 
     return res;
