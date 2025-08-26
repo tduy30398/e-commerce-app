@@ -8,11 +8,29 @@ router.get("/:productId", async (req, res) => {
   try {
     const { productId } = req.params;
 
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 5;
+    const skip = (page - 1) * limit;
+
+    // Fetch reviews with pagination
     const reviews = await Review.find({ product: productId })
       .populate("user", "name avatar")
-      .sort({ createdAt: -1 }); // => sort by createdAt in descending order;
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
 
-    res.status(200).json(reviews);
+    // Count total reviews for pagination info
+    const totalReviews = await Review.countDocuments({ product: productId });
+
+    res.status(200).json({
+      reviews,
+      pagination: {
+        total: totalReviews,
+        page,
+        limit,
+        totalPages: Math.ceil(totalReviews / limit),
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -52,7 +70,9 @@ router.delete("/:reviewId", authMiddleware, async (req, res) => {
 
     // only allow the author to delete their review
     if (review.user.toString() !== userId) {
-      return res.status(403).json({ message: "Not authorized to delete this review" });
+      return res
+        .status(403)
+        .json({ message: "Not authorized to delete this review" });
     }
 
     await review.deleteOne();
