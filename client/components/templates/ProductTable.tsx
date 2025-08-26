@@ -128,7 +128,7 @@ const ProductTable = () => {
 
   React.useEffect(() => {
     if (!accessToken && !session) {
-      router.push(ROUTES.LOGIN);
+      router.replace(ROUTES.LOGIN);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken, session]);

@@ -66,7 +66,7 @@ const Profile = () => {
       if (res.status === 200) {
         setProfileData(res.data);
         toast.success('Profile updated successfully');
-        router.push(ROUTES.HOME);
+        router.replace(ROUTES.HOME);
       }
     } catch (error) {
       if (isAxiosError(error)) {
@@ -101,7 +101,7 @@ const Profile = () => {
 
   React.useEffect(() => {
     if (!accessToken && !session) {
-      router.push(ROUTES.LOGIN);
+      router.replace(ROUTES.LOGIN);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken, session]);
