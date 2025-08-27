@@ -33,7 +33,7 @@ type FormData = z.infer<typeof profileFormSchema>;
 const Profile = () => {
   const router = useRouter();
   const { data: session } = useSession();
-  const { profileData, accessToken, setProfileData, isLoggingOut } =
+  const { profileData, accessToken, isLoggingOut, hydrated, setProfileData } =
     useProfileStore();
   const [uploadPct, setUploadPct] = React.useState<number | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -101,10 +101,12 @@ const Profile = () => {
   }, [profileData, session]);
 
   React.useEffect(() => {
+    if (!hydrated) return;
+
     if (!accessToken && !session && !isLoggingOut) {
       router.replace(ROUTES.LOGIN);
     }
-  }, [accessToken, session, router, isLoggingOut]);
+  }, [accessToken, session, router, isLoggingOut, hydrated]);
 
   return (
     <Form {...method}>

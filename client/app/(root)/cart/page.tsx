@@ -15,7 +15,7 @@ import { useSession } from 'next-auth/react';
 
 const CartPage = () => {
   const { cart } = useCartStore();
-  const { accessToken, isLoggingOut } = useProfileStore();
+  const { accessToken, isLoggingOut, hydrated } = useProfileStore();
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -46,10 +46,12 @@ const CartPage = () => {
   }, [cart]);
 
   React.useEffect(() => {
+    if (!hydrated) return;
+
     if (!accessToken && !session && !isLoggingOut) {
       router.replace(ROUTES.LOGIN);
     };
-  }, [accessToken, session, router, isLoggingOut]);
+  }, [accessToken, session, router, isLoggingOut, hydrated]);
 
   if (!cart) {
     return <CartPageSkeleton />;
@@ -58,9 +60,9 @@ const CartPage = () => {
   return (
     <div className="section-container mb-36">
       <div className="mt-5 lg:mt-9">
-        <h1 className="text-4xl font-black">SHOPPING CART</h1>
+        <h1 className="text-3xl md:text-4xl font-black">SHOPPING CART</h1>
         {products.length > 0 ? (
-          <div className="grid grid-cols-1 lg:grid-cols-10 gap-5 mt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-10 gap-5 mt-4 md:mt-6">
             <div className="flex flex-col col-span-1 lg:col-span-6 border border-black/10 rounded-2xl p-4 md:p-6 h-fit">
               {products.map((item) => (
                 <ProductCart

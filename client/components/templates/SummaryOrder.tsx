@@ -12,7 +12,7 @@ interface SummaryOrderProps {
 const SummaryOrder = ({ total }: SummaryOrderProps) => {
   const discountRate = 0.2;
   const deliveryFee = 15;
-  const discount = total * discountRate;
+  const discount = Math.round(total * discountRate * 100) / 100;
   const finalTotal = total - discount + deliveryFee;
 
   return (
