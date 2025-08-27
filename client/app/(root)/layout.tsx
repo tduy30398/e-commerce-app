@@ -4,7 +4,7 @@ import Header from '@/components/templates/Header';
 
 const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
-    <main>
+    <main className="pt-18 xl:pt-24">
       <Header />
       <DynamicBreadcrumb />
       {children}

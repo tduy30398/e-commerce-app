@@ -16,7 +16,7 @@ const PartnerCarousel = () => {
   }, []);
 
   return (
-    <section className="bg-black h-20 sm:h-[122px] py-6 sm:py-10">
+    <section className="bg-black h-20 sm:h-30 py-6 sm:py-10">
       <Carousel
         opts={{
           loop: true,

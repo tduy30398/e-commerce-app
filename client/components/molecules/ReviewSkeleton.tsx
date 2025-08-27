@@ -1,10 +1,10 @@
-import React from 'react'
-import { Skeleton } from '../ui/skeleton'
-import { Separator } from '../ui/separator'
+import React from 'react';
+import { Skeleton } from '../ui/skeleton';
+import { Separator } from '../ui/separator';
 
 const ReviewSkeleton = () => {
   return (
-    <div className="border-[1px] border-black/10 p-4 md:p-6 rounded-2xl">
+    <div className="border border-black/10 p-4 md:p-6 rounded-2xl">
       <div className="flex gap-1">
         {Array.from({ length: 5 }).map((_, i) => (
           <Skeleton key={i} className="h-5 w-5 rounded-full" />
@@ -26,7 +26,7 @@ const ReviewSkeleton = () => {
 
       <Skeleton className="h-4 w-24 mt-4" />
     </div>
-  )
-}
+  );
+};
 
-export default ReviewSkeleton
+export default ReviewSkeleton;

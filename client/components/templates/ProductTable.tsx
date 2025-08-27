@@ -37,7 +37,8 @@ const ProductTable = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');
-  const { profileData, accessToken, isLoggingOut, hydrated } = useProfileStore();
+  const { profileData, accessToken, isLoggingOut, hydrated } =
+    useProfileStore();
   const { data: session } = useSession();
 
   const currentPage = React.useMemo(() => {
@@ -147,7 +148,7 @@ const ProductTable = () => {
         {profileData?.role === 'admin' && (
           <Link
             href={`${ROUTES.ADMIN_PRODUCT}/create`}
-            className="bg-black text-white px-10 py-2 rounded-4xl h-9 leading-[18px]"
+            className="bg-black text-white px-10 py-2 rounded-4xl h-9 leading-4.5"
           >
             Create
           </Link>
@@ -159,7 +160,7 @@ const ProductTable = () => {
             {tableCoulmn.map((column) => (
               <TableHead
                 key={column.key}
-                className={column.key === 'id' ? 'max-w-[80px] truncate' : ''}
+                className={column.key === 'id' ? 'max-w-20 truncate' : ''}
               >
                 {column.label}
               </TableHead>
@@ -172,7 +173,7 @@ const ProductTable = () => {
             <TableRow key={item.id}>
               {tableCoulmn.map((column) => (
                 <TableCell
-                  className={column.key === 'id' ? 'max-w-[80px] truncate' : ''}
+                  className={column.key === 'id' ? 'max-w-20 truncate' : ''}
                   key={column.key}
                 >
                   {item[column.key]}

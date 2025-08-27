@@ -10,7 +10,7 @@ const NewArrivals = async () => {
   const products = await getAllProducts({ limit: PAGE_SIZE });
 
   return (
-    <section className="section-container flex flex-col items-center mt-12 md:mt-[72px] mb-36">
+    <section className="section-container flex flex-col items-center mt-12 md:mt-18 mb-36">
       <RelatedProduct products={products.data} title="NEW ARRIVALS" />
       <Link
         href={ROUTES.PRODUCT}

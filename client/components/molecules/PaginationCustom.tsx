@@ -88,7 +88,7 @@ const PaginationCustom: React.FC<PaginationCustomProps> = ({
                   variant={p === current ? 'default' : 'outline'}
                   onClick={() => setPage(p)}
                   className={cn(
-                    'min-w-[36px] px-2',
+                    'min-w-9 px-2',
                     p === current ? 'font-semibold' : 'cursor-pointer'
                   )}
                 >

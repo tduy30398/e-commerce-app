@@ -35,7 +35,7 @@ const AuthForm = ({ type }: AuthFormProps) => {
         {socialData.map((item) => (
           <SocialLoginItem key={item.name} {...item} />
         ))}
-        <div className="max-w-[330px] w-full flex items-center">
+        <div className="max-w-82.5 w-full flex items-center">
           <div className="border-b-[1px] border-gray-300 flex-1"></div>
           <p className="text-md font-medium text-[#5c6c75] mx-2">
             Or with email and password

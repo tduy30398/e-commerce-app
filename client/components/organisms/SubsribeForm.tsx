@@ -10,7 +10,7 @@ const SubsribeForm = () => {
         STAY UPTO DATE ABOUT OUR LATEST OFFERS
       </h1>
       <div className="basis-1/2 flex flex-col items-end max-lg:w-full max-lg:mt-6">
-        <div className="relative w-full lg:max-w-[350px]">
+        <div className="relative w-full lg:max-w-87.5">
           <button className="absolute left-3 top-1/2 -translate-y-1/2">
             <Mail className="text-muted-foreground size-5" />
           </button>
@@ -19,7 +19,7 @@ const SubsribeForm = () => {
             placeholder="Enter your email address"
           />
         </div>
-        <Button className="bg-white cursor-pointer text-black rounded-full w-full h-10 lg:h-12 lg:max-w-[350px] mt-4 hover:bg-white hover:opacity-80 hover:text-black">
+        <Button className="bg-white cursor-pointer text-black rounded-full w-full h-10 lg:h-12 lg:max-w-87.5 mt-4 hover:bg-white hover:opacity-80 hover:text-black">
           Subscribe to Newsletter
         </Button>
       </div>

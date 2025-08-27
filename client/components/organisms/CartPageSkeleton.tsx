@@ -37,7 +37,7 @@ const CartPageSkeleton = () => {
               </div>
 
               {/* Separator placeholder */}
-              <Skeleton className="h-[1px] w-full" />
+              <Skeleton className="h-px w-full" />
 
               {/* Total */}
               <div className="flex justify-between items-center">

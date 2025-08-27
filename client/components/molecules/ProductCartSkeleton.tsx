@@ -12,8 +12,7 @@ const ProductCartSkeleton = () => {
         {/* Details */}
         <div className="flex flex-col justify-between">
           <div className="flex flex-col space-y-2">
-            <Skeleton className="h-5 w-[150px] md:w-[250px]" />{' '}
-            {/* Product name */}
+            <Skeleton className="h-5 w-37.5 md:w-62.5" /> {/* Product name */}
             <Skeleton className="h-4 w-24" /> {/* Size */}
             <Skeleton className="h-4 w-20" /> {/* Color */}
             <Skeleton className="h-4 w-28 hidden md:block" />{' '}

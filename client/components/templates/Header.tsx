@@ -1,3 +1,5 @@
+'use client';
+
 import { ROUTES } from '@/lib/constants';
 import { navigateList } from '@/public/dummy/general';
 import Image from 'next/image';
@@ -8,39 +10,68 @@ import React from 'react';
 import RightHeader from '../organisms/RightHeader';
 
 const Header = () => {
+  const [showHeader, setShowHeader] = React.useState(true);
+  const [lastScrollY, setLastScrollY] = React.useState(0);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // scrolling down
+        setShowHeader(false);
+      } else {
+        // scrolling up
+        setShowHeader(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
   return (
-    <header className="relative section-container h-[72px] xl:h-24 py-6 flex items-center justify-between sm:justify-start">
-      <div className="shrink-0 flex items-center">
-        <div className="mr-4 h-6 lg:hidden">
-          <HamburgerMenu />
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-transform duration-300 bg-white shadow-md ${
+        showHeader ? 'translate-y-0' : '-translate-y-full'
+      }`}
+    >
+      <div className="relative section-container h-18 xl:h-24 py-6 flex items-center justify-between sm:justify-start">
+        <div className="shrink-0 flex items-center">
+          <div className="mr-4 h-6 lg:hidden">
+            <HamburgerMenu />
+          </div>
+          <Link
+            href={ROUTES.HOME}
+            className="relative w-[126px] h-[18px] sm:w-[160px] sm:h-[22px]"
+          >
+            <Image
+              src="/icons/main-logo.svg"
+              alt="logo"
+              fill
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              priority
+            />
+          </Link>
+          <nav className="ml-10 hidden lg:flex items-center">
+            {navigateList.map((item, index) => (
+              <Link
+                key={index}
+                href={item.link}
+                className="ml-6 text-black font-medium text-base hover:underline"
+              >
+                {item.title}
+              </Link>
+            ))}
+          </nav>
         </div>
-        <Link
-          href={ROUTES.HOME}
-          className="relative w-[126px] h-[18px] sm:w-[160px] sm:h-[22px]"
-        >
-          <Image
-            src="/icons/main-logo.svg"
-            alt="logo"
-            fill
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority
-          />
-        </Link>
-        <nav className="ml-10 hidden lg:flex items-center">
-          {navigateList.map((item, index) => (
-            <Link
-              key={index}
-              href={item.link}
-              className="ml-6 text-black font-medium text-base hover:underline"
-            >
-              {item.title}
-            </Link>
-          ))}
-        </nav>
+        <SearchForm />
+        <RightHeader />
       </div>
-      <SearchForm />
-      <RightHeader />
     </header>
   );
 };

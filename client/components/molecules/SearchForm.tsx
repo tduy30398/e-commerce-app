@@ -32,7 +32,7 @@ const SearchForm: React.FC = () => {
         name="query"
         type="search"
         placeholder="Search for products..."
-        className="pl-10 bg-flash-white rounded-3xl h-[48px]"
+        className="pl-10 bg-flash-white rounded-3xl h-12"
       />
     </Form>
   );
