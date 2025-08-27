@@ -28,18 +28,16 @@ const ProductCard: React.FC<ProductTypes> = ({
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>
-      <h4 className="mt-4 text-xs md:text-xl font-semibold truncate">
+      <h4 className="mt-4 text-base md:text-xl font-semibold truncate">
         {formattedCapitalize(name)}
       </h4>
       <StarRating rating={rating} className="mt-2" />
       <div className="flex items-center mt-2">
-        <span className="tex-base md:text-2xl font-semibold">{`$${
-          promotionalPrice || price || 0
-        }`}</span>
-        {promotionalPrice ? (
-          <span className="tex-base md:text-2xl text-gray-400 line-through font-semibold ml-2.5">{`$${
-            price || 0
+        <span className="tex-base md:text-2xl font-semibold">{`$${promotionalPrice || price || 0
           }`}</span>
+        {promotionalPrice ? (
+          <span className="tex-base md:text-2xl text-gray-400 line-through font-semibold ml-2.5">{`$${price || 0
+            }`}</span>
         ) : null}
         {promotionalPrice ? (
           <span className="text-sm bg-[#ffebeb] text-[#ff3333] px-2 rounded-4xl ml-2.5">{`-${calculatePercentage(
