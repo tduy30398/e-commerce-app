@@ -1,6 +1,6 @@
 import React from 'react';
-import ReviewItem from '../molecules/ReviewItem';
 import { getReviews } from '@/actions/review';
+import ReviewList from '../templates/ReviewList';
 
 interface ReviewsProps {
   productId: string;
@@ -11,13 +11,7 @@ const Reviews = async ({ productId }: ReviewsProps) => {
 
   return (
     <section className="mt-6 md:mt-8 flex flex-col gap-4">
-      {reviews?.data?.length > 0 ? (
-        reviews.data.map((review) => (
-          <ReviewItem productId={productId} key={review._id} review={review} />
-        ))
-      ) : (
-        <p className="text-center text-xl font-semibold">No reviews yet.</p>
-      )}
+      <ReviewList productId={productId} initReviews={reviews} />
     </section>
   );
 };

@@ -7,11 +7,13 @@ interface ProfileState {
   profileData: UserProfile | null;
   accessToken: string | null;
   isLoggingOut: boolean;
+  hydrated: boolean;
   setProfileData: (profileData: UserProfile) => void;
   setAccessToken: (token: string) => void;
   setAuth: (profileData: UserProfile, token: string) => void;
   clearAuth: () => void;
   finishLogout: () => void;
+  setHydrated: () => void;
 }
 
 const useProfileStore = create<ProfileState>()(
@@ -21,6 +23,7 @@ const useProfileStore = create<ProfileState>()(
         profileData: null,
         accessToken: null,
         isLoggingOut: false,
+        hydrated: false,
 
         setProfileData: (profileData) => set({ profileData }),
         setAccessToken: (token) => set({ accessToken: token }),
@@ -36,14 +39,16 @@ const useProfileStore = create<ProfileState>()(
           }),
 
         finishLogout: () => set({ isLoggingOut: false }),
+        setHydrated: () => set({ hydrated: true }),
       }),
       {
         name: STORAGE.PROFILE,
+        onRehydrateStorage: () => (state) => {
+          state?.setHydrated();
+        },
       }
     ),
-    {
-      name: STORAGE.PROFILE,
-    }
+    { name: STORAGE.PROFILE }
   )
 );
 

@@ -37,7 +37,7 @@ const ProductTable = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');
-  const { profileData, accessToken, isLoggingOut } = useProfileStore();
+  const { profileData, accessToken, isLoggingOut, hydrated } = useProfileStore();
   const { data: session } = useSession();
 
   const currentPage = React.useMemo(() => {
@@ -127,10 +127,12 @@ const ProductTable = () => {
   }, [pageParam]);
 
   React.useEffect(() => {
+    if (!hydrated) return;
+
     if (!accessToken && !session && !isLoggingOut) {
       router.replace(ROUTES.LOGIN);
     }
-  }, [accessToken, session, router, isLoggingOut]);
+  }, [accessToken, session, router, isLoggingOut, hydrated]);
 
   if (isLoading) {
     return <TableSkeleton />;

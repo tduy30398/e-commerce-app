@@ -6,6 +6,7 @@ const CartPageSkeleton = () => {
   return (
     <div className="section-container mb-36">
       <div className="mt-5 lg:mt-9">
+        <Skeleton className="h-8 w-full md:h-15 md:w-1/2" />
         <div className="grid grid-cols-1 lg:grid-cols-10 gap-5 mt-6">
           <div className="flex flex-col col-span-1 lg:col-span-6 border border-black/10 rounded-2xl p-4 md:p-6 h-fit">
             {Array.from({ length: 3 }).map((_, index) => (
