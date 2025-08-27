@@ -42,7 +42,7 @@ const ProductDetail = async ({ params }: ProductDetailProps) => {
           />
         </div>
         <div className="lg:col-span-5 xl:col-span-6">
-          <p className="text-3xl xl:text-5xl font-black">{name}</p>
+          <p className="text-2xl xl:text-5xl font-black">{name}</p>
           <StarRating rating={rating} className="mt-3 md:mt-4" />
           <div className="flex items-center mt-3 md:mt-4">
             <span className="text-3xl font-semibold">{`$${promotionalPrice || price || 0

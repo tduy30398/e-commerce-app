@@ -14,7 +14,7 @@ router.get("/:productId", async (req, res) => {
 
     const reviews = await Review.find({ product: productId })
       .populate("user", "name avatar")
-      .sort({ createdAt: -1, _id: -1 })
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
 
