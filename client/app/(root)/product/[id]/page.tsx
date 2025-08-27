@@ -68,6 +68,11 @@ const ProductDetail = async ({ params }: ProductDetailProps) => {
         </div>
       </div>
       <Separator className="my-4 md:my-6" />
+      <RelatedProduct
+        className="mt-12 md:mt-16"
+        products={productDetail.relatedProducts}
+        title="You might also like"
+      />
       <AddReview />
       <Suspense
         fallback={
@@ -80,11 +85,6 @@ const ProductDetail = async ({ params }: ProductDetailProps) => {
       >
         <Reviews productId={id} />
       </Suspense>
-      <RelatedProduct
-        className="mt-12 md:mt-16"
-        products={productDetail.relatedProducts}
-        title="You might also like"
-      />
     </div>
   );
 };
