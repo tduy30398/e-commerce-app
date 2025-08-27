@@ -48,7 +48,7 @@ export function DatePicker({
             variant="outline"
             id="date"
             className={cn(
-              'w-full justify-between border-[#889397] rounded-2xl font-normal text-base h-[50px]',
+              'w-full justify-between border-[#889397] rounded-2xl font-normal text-base h-12.5',
               isError && 'border-red-500 text-red-500',
               className
             )}

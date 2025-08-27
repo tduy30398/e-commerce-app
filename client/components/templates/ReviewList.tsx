@@ -26,8 +26,9 @@ const ReviewList = ({ productId, initReviews }: ReviewListProps) => {
     ) {
       return null;
     }
-    return `/api/reviews?productId=${productId}&page=${pageIndex + 1
-      }&limit=${PAGE_SIZE}`;
+    return `/api/reviews?productId=${productId}&page=${
+      pageIndex + 1
+    }&limit=${PAGE_SIZE}`;
   };
 
   const { data, size, setSize, isValidating } = useSWRInfinite<

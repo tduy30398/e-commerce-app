@@ -49,7 +49,7 @@ const ProductCart = ({ data: item, onQuantityChange }: ProductCartProps) => {
             <Link
               href={`${ROUTES.PRODUCT}/${productId._id}`}
               title={formattedCapitalize(productId.name)}
-              className="text:base md:text-xl font-bold truncate max-w-[150px] md:max-w-[400px]"
+              className="text:base md:text-xl font-bold truncate max-w-37.5 md:max-w-100"
             >
               {formattedCapitalize(productId.name)}
             </Link>

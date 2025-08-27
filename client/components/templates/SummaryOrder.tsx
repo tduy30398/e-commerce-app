@@ -20,9 +20,7 @@ const SummaryOrder = ({ total }: SummaryOrderProps) => {
       <h2 className="text-2xl font-bold">Order Summary</h2>
       <div className="flex flex-col gap-3 md:gap-5 mt-4 md:mt-6">
         <div className="flex justify-between">
-          <span className="text-xl font-medium text-gray-400">
-            Subtotal
-          </span>
+          <span className="text-xl font-medium text-gray-400">Subtotal</span>
           <span className="text-xl font-medium">
             ${formatNumberWithCommas(total)}
           </span>
@@ -62,7 +60,7 @@ const SummaryOrder = ({ total }: SummaryOrderProps) => {
             name="query"
             type="search"
             placeholder="Add promo code"
-            className="pl-10 bg-flash-white rounded-3xl h-[48px]"
+            className="pl-10 bg-flash-white rounded-3xl h-12"
           />
           <Button className="ml-2 md:ml-3 main-button h-12 cursor-pointer px-9!">
             Apply

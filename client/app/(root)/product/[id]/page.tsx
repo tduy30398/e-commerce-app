@@ -45,11 +45,13 @@ const ProductDetail = async ({ params }: ProductDetailProps) => {
           <p className="text-2xl xl:text-5xl font-black">{name}</p>
           <StarRating rating={rating} className="mt-3 md:mt-4" />
           <div className="flex items-center mt-3 md:mt-4">
-            <span className="text-3xl font-semibold">{`$${promotionalPrice || price || 0
-              }`}</span>
+            <span className="text-3xl font-semibold">{`$${
+              promotionalPrice || price || 0
+            }`}</span>
             {promotionalPrice ? (
-              <span className="tex-base md:text-3xl text-gray-400 line-through font-semibold ml-2.5">{`$${price || 0
-                }`}</span>
+              <span className="tex-base md:text-3xl text-gray-400 line-through font-semibold ml-2.5">{`$${
+                price || 0
+              }`}</span>
             ) : null}
             {promotionalPrice ? (
               <span className="text-base bg-[#ffebeb] text-[#ff3333] px-2 rounded-4xl ml-2.5">{`-${calculatePercentage(
@@ -58,7 +60,7 @@ const ProductDetail = async ({ params }: ProductDetailProps) => {
               )}%`}</span>
             ) : null}
           </div>
-          <p className="mt-3 md:mt-4 text-base line-clamp-3 h-[72px]">
+          <p className="mt-3 md:mt-4 text-base line-clamp-3 h-18">
             {description}
           </p>
           <Separator className="my-4 md:my-6" />

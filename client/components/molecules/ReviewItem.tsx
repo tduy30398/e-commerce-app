@@ -64,7 +64,7 @@ const ReviewItem = ({ review, productId }: ReviewItemProps) => {
       : review.comment;
 
   return (
-    <div className="border-[1px] border-black/10 p-4 md:p-6 rounded-2xl group">
+    <div className="border border-black/10 p-4 md:p-6 rounded-2xl group">
       <div className="flex items-center justify-between">
         <StarRating isHideText rating={review.rating} />
         <DropdownMenu>

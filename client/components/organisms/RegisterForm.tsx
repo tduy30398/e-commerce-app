@@ -98,7 +98,7 @@ const RegisterForm = () => {
     <Form {...methods}>
       <form
         onSubmit={methods.handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 w-full max-w-[330px]"
+        className="flex flex-col gap-4 w-full max-w-82.5"
       >
         <FormField
           control={methods.control}
@@ -110,7 +110,7 @@ const RegisterForm = () => {
               </FormLabel>
               <FormControl>
                 <Input
-                  className="border-[#889397] h-[50px] rounded-2xl text-black text-base!"
+                  className="border-[#889397] h-12.5 rounded-2xl text-black text-base!"
                   value={field.value}
                   onChange={field.onChange}
                 />
@@ -129,7 +129,7 @@ const RegisterForm = () => {
               </FormLabel>
               <FormControl>
                 <Input
-                  className="border-[#889397] h-[50px] rounded-2xl text-black text-base!"
+                  className="border-[#889397] h-12.5 rounded-2xl text-black text-base!"
                   value={field.value}
                   onChange={field.onChange}
                 />
@@ -167,7 +167,7 @@ const RegisterForm = () => {
               </FormLabel>
               <FormControl>
                 <PasswordInput
-                  className="border-[#889397] h-[50px] rounded-2xl text-black text-base!"
+                  className="border-[#889397] h-12.5 rounded-2xl text-black text-base!"
                   value={field.value}
                   onChange={field.onChange}
                 />
@@ -186,7 +186,7 @@ const RegisterForm = () => {
               </FormLabel>
               <FormControl>
                 <PasswordInput
-                  className="border-[#889397] h-[50px] rounded-2xl text-black text-base!"
+                  className="border-[#889397] h-12.5 rounded-2xl text-black text-base!"
                   value={field.value}
                   onChange={field.onChange}
                 />
@@ -198,7 +198,7 @@ const RegisterForm = () => {
         <Button
           disabled={isLoading}
           type="submit"
-          className="cursor-pointer main-button w-full mt-4 max-md:mt-4 max-md:mb-9 h-[50px]"
+          className="cursor-pointer main-button w-full mt-4 max-md:mt-4 max-md:mb-9 h-12.5"
         >
           Register
         </Button>
