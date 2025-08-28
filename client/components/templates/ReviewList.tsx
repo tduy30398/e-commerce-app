@@ -26,9 +26,8 @@ const ReviewList = ({ productId, initReviews }: ReviewListProps) => {
     ) {
       return null;
     }
-    return `/api/reviews?productId=${productId}&page=${
-      pageIndex + 1
-    }&limit=${PAGE_SIZE}`;
+    return `/api/reviews?productId=${productId}&page=${pageIndex + 1
+      }&limit=${PAGE_SIZE}`;
   };
 
   const { data, size, setSize, isValidating } = useSWRInfinite<
@@ -79,7 +78,7 @@ const ReviewList = ({ productId, initReviews }: ReviewListProps) => {
           <div ref={loadMoreRef} className="h-px" />
 
           {isValidating && (
-            <div className="flex flex-col gap-4 mt-4">
+            <div className="flex flex-col gap-4">
               {Array.from({ length: 3 }).map((_, i) => (
                 <ReviewSkeleton key={`skeleton-${i}`} />
               ))}
