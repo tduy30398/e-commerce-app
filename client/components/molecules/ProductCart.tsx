@@ -8,7 +8,7 @@ import { Button } from '../ui/button';
 import { Trash2 } from 'lucide-react';
 import QuantityButton from './QuantityButton';
 import { ProductItemCard } from '../organisms/RightHeader';
-import { getSocket } from '@/lib/socket';
+import { getMainSocket } from '@/lib/socket';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/constants';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -23,10 +23,10 @@ const ProductCart = ({ data: item, onQuantityChange }: ProductCartProps) => {
   const isMobile = useIsMobile();
 
   const handleDelete = () => {
-    const socket = getSocket();
-    if (!socket) return;
+    const mainSocket = getMainSocket();
+    if (!mainSocket) return;
 
-    socket.emit('cart:remove', {
+    mainSocket.emit('cart:remove', {
       productIds: [productId._id],
     });
   };
