@@ -9,15 +9,16 @@ const Footer = () => {
     <footer className="pt-44 lg:pt-36 bg-flash-white">
       <div className="section-container flex flex-col xl:flex-row items-start gap-6 lg:gap-20 pb-10 border-b-[1px] border-gray-300">
         <div className="xl:w-[calc((3/12)*100%)] mt-1.5">
-          <Image
-            src="/icons/main-logo.svg"
-            alt="logo"
-            width={142}
-            height={22}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="w-[126px] h-[18px] sm:w-[142px] sm:h-[22px]"
-          />
-          <p className="mt-6 text-base">
+          <div className="relative w-[126px] h-[20px] md:w-[160px] md:h-[26px]">
+            <Image
+              src="/images/main-logo.png"
+              alt="logo"
+              fill
+              sizes="(max-width: 768px) 126px, 160px"
+              priority
+            />
+          </div>
+          <p className="mt-4 md:mt-6 text-base">
             We have clothes that suits your style and which you’re proud to
             wear. From women to men.
           </p>

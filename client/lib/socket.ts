@@ -33,8 +33,14 @@ export interface ServerToClientChatEvents {
 }
 
 // -------- Socket Instances --------
-let mainSocket: Socket<ServerToClientCartEvents, ClientToServerCartEvents> | null = null;
-let chatSocket: Socket<ServerToClientChatEvents, ClientToServerChatEvents> | null = null;
+let mainSocket: Socket<
+  ServerToClientCartEvents,
+  ClientToServerCartEvents
+> | null = null;
+let chatSocket: Socket<
+  ServerToClientChatEvents,
+  ClientToServerChatEvents
+> | null = null;
 
 export const initMainSocket = (token: string) => {
   if (!mainSocket) {

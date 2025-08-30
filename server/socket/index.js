@@ -66,11 +66,13 @@ const initSocket = (server, allowedOrigins) => {
   });
 
   const chatNsp = io.of("/chat");
-  
+
   chatNsp.use(socketMiddleware);
 
   chatNsp.on("connection", (socket) => {
-    console.log(`💬 Chat connected: ${socket.user.userId}, role: ${socket.user.role}`);
+    console.log(
+      `💬 Chat connected: ${socket.user.userId}, role: ${socket.user.role}`
+    );
 
     if (socket.user.role === "admin") {
       socket.join("admins");

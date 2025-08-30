@@ -147,7 +147,7 @@ const ProductPage = () => {
                       fill
                       src="/icons/filter.svg"
                       alt="filter"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      sizes="32px"
                     />
                   </div>
                 }

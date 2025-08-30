@@ -57,13 +57,12 @@ const HamburgerMenu = () => {
           <div className="flex justify-between items-center">
             <SheetHeader className="p-0">
               <SheetTitle className="text-left">
-                <div className="relative w-[126px] h-[18px]">
+                <div className="relative w-[126px] h-[20px] md:w-[160px] md:h-[26px]">
                   <Image
-                    src="/icons/main-logo.svg"
+                    src="/images/main-logo.png"
                     alt="logo"
                     fill
-                    className="object-contain"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 126px, 160px"
                   />
                 </div>
               </SheetTitle>
@@ -90,7 +89,11 @@ const HamburgerMenu = () => {
         <SheetClose asChild>
           {accessToken || session ? (
             <Button
-              onClick={() => (session ? signOut({ callbackUrl: ROUTES.HOME }) : logoutService())}
+              onClick={() =>
+                session
+                  ? signOut({ callbackUrl: ROUTES.HOME })
+                  : logoutService()
+              }
               className="w-full cursor-pointer text-center bg-black text-white text-base font-medium rounded-4xl py-3 h-12 hover:bg-black/80"
             >
               Log out

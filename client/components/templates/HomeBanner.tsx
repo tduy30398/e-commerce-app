@@ -33,7 +33,7 @@ const HomeBanner = () => {
             height={663}
             className="max-sm:hidden"
             priority
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 1024px) 100vw, 50vw"
           />
           <Image
             src={'/images/home-banner.png'}
@@ -42,7 +42,7 @@ const HomeBanner = () => {
             height={896 * 0.8}
             className="sm:hidden"
             priority
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 1024px) 100vw, 50vw"
           />
         </div>
       </div>
