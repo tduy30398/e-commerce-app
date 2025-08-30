@@ -46,14 +46,13 @@ const Header = () => {
           </div>
           <Link
             href={ROUTES.HOME}
-            className="relative w-[126px] h-[18px] sm:w-[160px] sm:h-[22px]"
+            className="relative w-[126px] h-[20px] md:w-[160px] md:h-[26px]"
           >
             <Image
-              src="/icons/main-logo.svg"
+              src="/images/main-logo.png"
               alt="logo"
               fill
-              className="object-contain"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="(max-width: 768px) 126px, 160px"
               priority
             />
           </Link>

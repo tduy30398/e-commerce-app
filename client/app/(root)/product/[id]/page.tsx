@@ -38,7 +38,7 @@ const ProductDetail = async ({ params }: ProductDetailProps) => {
             alt={name}
             fill
             className="object-cover"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes="(max-width: 640px) 100vw, 50vw"
           />
         </div>
         <div className="lg:col-span-5 xl:col-span-6">

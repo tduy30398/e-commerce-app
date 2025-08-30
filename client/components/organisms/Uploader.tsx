@@ -134,7 +134,7 @@ export default function Uploader({
               src={preview}
               alt="Preview"
               fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="192px"
               className={cn(
                 'object-cover rounded-lg',
                 roundedFull && 'rounded-full'

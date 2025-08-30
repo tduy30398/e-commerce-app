@@ -74,7 +74,7 @@ const ShoppingCartHeader = ({ cart }: ShoppingCartHeaderProps) => {
                             alt={item.productId.name}
                             width={42}
                             height={42}
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            sizes="(max-width: 768px) 100vw, 50vw"
                           />
                           <p className="text-base font-medium truncate max-w-37.5 sm:max-w-50">
                             {formattedCapitalize(item.productId.name)}

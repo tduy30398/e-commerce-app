@@ -50,7 +50,7 @@ const CartPage = () => {
 
     if (!accessToken && !session && !isLoggingOut) {
       router.replace(ROUTES.LOGIN);
-    };
+    }
   }, [accessToken, session, router, isLoggingOut, hydrated]);
 
   if (!cart) {
@@ -82,7 +82,7 @@ const CartPage = () => {
                 alt="empty"
                 fill
                 className="object-contain"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                sizes="160px"
               />
             </div>
             <p className="text-base font-medium text-gray-400">
