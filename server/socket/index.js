@@ -90,7 +90,7 @@ const initSocket = (server, allowedOrigins) => {
 
       const saved = await Message.create(msg);
 
-      const populated = await saved.populate("from to", "name role");
+      const populated = await saved.populate("from to", "name avatar role");
 
       if (socket.user.role === "user") {
         // Send to all admins

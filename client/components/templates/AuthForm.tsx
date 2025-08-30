@@ -20,13 +20,13 @@ const AuthForm = ({ type }: AuthFormProps) => {
           {type === 'login' ? 'SIGN IN' : 'SIGN UP'}
         </p>
         <div>
-          <span className="text-xl font-medium">
+          <span className="text-xl">
             {type === 'login'
               ? "Don't have an account?"
               : 'Already have an account?'}
           </span>
           <Link
-            className="text-xl font-medium underline ml-2"
+            className="text-xl underline ml-2"
             href={type === 'login' ? ROUTES.REGISTER : ROUTES.LOGIN}
           >
             {type === 'login' ? 'Sign Up' : 'Sign In'}
@@ -37,7 +37,7 @@ const AuthForm = ({ type }: AuthFormProps) => {
         ))}
         <div className="max-w-82.5 w-full flex items-center">
           <div className="border-b-[1px] border-gray-300 flex-1"></div>
-          <p className="text-md font-medium text-[#5c6c75] mx-2">
+          <p className="text-md text-[#5c6c75] mx-2">
             Or with email and password
           </p>
           <div className="border-b-[1px] border-gray-300 flex-1"></div>

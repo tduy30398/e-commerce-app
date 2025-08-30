@@ -24,7 +24,7 @@ const ShoppingCartHeader = ({ cart }: ShoppingCartHeaderProps) => {
 
   return (
     <HoverCard
-      openDelay={200}
+      openDelay={0}
       closeDelay={200}
       open={isOpen}
       onOpenChange={setIsOpen}
@@ -43,15 +43,11 @@ const ShoppingCartHeader = ({ cart }: ShoppingCartHeaderProps) => {
         {isOpen && (
           <HoverCardContent align="end" asChild className="border-none px-0">
             <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: -10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, y: -10 }}
-              transition={{
-                type: 'spring',
-                stiffness: 400,
-                damping: 20,
-                duration: 0.25,
-              }}
+              key="cart-dropdown"
+              initial={{ opacity: 0, scale: 0.2, transformOrigin: 'top right' }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.2 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
               className={cn(
                 'w-25 max-md:mr-2 md:w-100 rounded-2xl border bg-popover shadow-md',
                 cart?.items?.length ? 'py-4' : 'py-8 md:py-15'
@@ -76,11 +72,11 @@ const ShoppingCartHeader = ({ cart }: ShoppingCartHeaderProps) => {
                             height={42}
                             sizes="(max-width: 768px) 100vw, 50vw"
                           />
-                          <p className="text-base font-medium truncate max-w-37.5 sm:max-w-50">
+                          <p className="text-base truncate max-w-37.5 sm:max-w-50">
                             {formattedCapitalize(item.productId.name)}
                           </p>
                         </div>
-                        <p className="text-base font-medium text-[#ee4d2d] shrink-0">
+                        <p className="text-base text-[#ee4d2d] shrink-0">
                           {`$${
                             item.productId.promotionalPrice ||
                             item.productId.price
@@ -91,7 +87,7 @@ const ShoppingCartHeader = ({ cart }: ShoppingCartHeaderProps) => {
                   </div>
                   <div className="flex items-center justify-between mr-2.5 mt-3">
                     {cart.items.length > 5 ? (
-                      <p className="text-sm font-medium ml-2.5">
+                      <p className="text-sm ml-2.5">
                         {`${cart.items.length - 5} more products in cart`}
                       </p>
                     ) : (

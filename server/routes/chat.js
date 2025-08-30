@@ -14,7 +14,7 @@ router.get("/:userId", authMiddleware, async (req, res) => {
         { from: userId, to: req.user.userId },
       ],
     })
-      .populate("from to", "name role")
+      .populate("from to", "name avatar role")
       .sort({ createdAt: 1 });
 
     res.json(messages);
