@@ -20,26 +20,20 @@ const SummaryOrder = ({ total }: SummaryOrderProps) => {
       <h2 className="text-2xl font-bold">Order Summary</h2>
       <div className="flex flex-col gap-3 md:gap-5 mt-4 md:mt-6">
         <div className="flex justify-between">
-          <span className="text-xl font-medium text-gray-400">Subtotal</span>
-          <span className="text-xl font-medium">
-            ${formatNumberWithCommas(total)}
-          </span>
+          <span className="text-xl text-gray-400">Subtotal</span>
+          <span className="text-xl">${formatNumberWithCommas(total)}</span>
         </div>
 
         <div className="flex justify-between">
-          <span className="text-xl font-medium text-gray-400">
-            Discount (-20%)
-          </span>
-          <span className="text-xl font-medium text-[#FF3333]">
+          <span className="text-xl text-gray-400">Discount (-20%)</span>
+          <span className="text-xl text-[#FF3333]">
             -${formatNumberWithCommas(discount)}
           </span>
         </div>
 
         <div className="flex justify-between">
-          <span className="text-xl font-medium text-gray-400">
-            Delivery Fee
-          </span>
-          <span className="text-xl font-medium">
+          <span className="text-xl text-gray-400">Delivery Fee</span>
+          <span className="text-xl">
             ${formatNumberWithCommas(deliveryFee)}
           </span>
         </div>
@@ -47,10 +41,8 @@ const SummaryOrder = ({ total }: SummaryOrderProps) => {
         <Separator />
 
         <div className="flex justify-between">
-          <span className="text-xl font-medium">Total</span>
-          <span className="text-xl font-medium">
-            ${formatNumberWithCommas(finalTotal)}
-          </span>
+          <span className="text-xl">Total</span>
+          <span className="text-xl">${formatNumberWithCommas(finalTotal)}</span>
         </div>
         <div className="flex justify-between items-center relative">
           <div className="absolute left-3 top-1/2 -translate-y-1/2 cursor-pointer">

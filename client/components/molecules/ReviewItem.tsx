@@ -82,14 +82,14 @@ const ReviewItem = ({ review, productId }: ReviewItemProps) => {
             <DropdownMenuGroup>
               <DropdownMenuItem className="cursor-pointer">
                 <SquarePen className="mr-1 size-4" />
-                <p className="font-medium">Edit</p>
+                <p>Edit</p>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => setOpenDialog(true)}
                 className="hover:bg-[#e02e2a23] focus:bg-[#e02e2a23] cursor-pointer"
               >
                 <Trash2 className="mr-1 size-4 text-[#ff8583]" />
-                <p className="font-medium text-[#ff8583]">Delete</p>
+                <p className="text-[#ff8583]">Delete</p>
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
@@ -138,7 +138,7 @@ const ReviewItem = ({ review, productId }: ReviewItemProps) => {
         </h3>
       </div>
       <Separator className="my-2 md:my-4" />
-      <p className="text-sm md:text-base font-medium text-black/80 leading-relaxed">
+      <p className="text-sm md:text-base text-black/80 leading-relaxed">
         {displayedText}
       </p>
 
@@ -155,7 +155,7 @@ const ReviewItem = ({ review, productId }: ReviewItemProps) => {
         </div>
       )}
 
-      <p className="text-sm md:text-base text-black/70 mt-4 font-medium">
+      <p className="text-sm md:text-base text-black/70 mt-4">
         {format(new Date(review?.createdAt), 'MMMM d, yyyy')}
       </p>
     </div>

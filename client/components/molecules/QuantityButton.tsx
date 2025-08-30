@@ -34,7 +34,7 @@ const QuantityButton = ({
       >
         <Minus className="size-5" />
       </Button>
-      <span className="w-6 text-center font-medium">{quantity}</span>
+      <span className="w-6 text-center">{quantity}</span>
       <Button
         variant="outline"
         size="sm"

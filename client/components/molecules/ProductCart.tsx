@@ -53,14 +53,14 @@ const ProductCart = ({ data: item, onQuantityChange }: ProductCartProps) => {
             >
               {formattedCapitalize(productId.name)}
             </Link>
-            <p className="text-sm font-medium text-gray-400">
+            <p className="text-sm text-gray-400">
               <span className="text-black">Size:</span>
               <span>
                 {' '}
                 {selectorData.find((s) => s.value === item.size)?.label}
               </span>
             </p>
-            <p className="text-sm font-medium text-gray-400">
+            <p className="text-sm text-gray-400">
               <span className="text-black">Color:</span>
               <span>
                 {' '}
@@ -68,7 +68,7 @@ const ProductCart = ({ data: item, onQuantityChange }: ProductCartProps) => {
               </span>
             </p>
             {!isMobile ? (
-              <p className="text-sm font-medium text-gray-400">
+              <p className="text-sm text-gray-400">
                 <span className="text-black">Unit price:</span>
                 <span className="text-black">
                   {' '}
@@ -80,7 +80,7 @@ const ProductCart = ({ data: item, onQuantityChange }: ProductCartProps) => {
             ) : null}
           </div>
           <p className="text-lg font-bold text-[#ee4d2d]">
-            <span className="text-base text-black font-medium">
+            <span className="text-base text-black">
               {isMobile ? '' : 'Total price:'}
             </span>{' '}
             {`$${formatNumberWithCommas(

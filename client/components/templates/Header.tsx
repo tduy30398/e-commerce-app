@@ -61,7 +61,7 @@ const Header = () => {
               <Link
                 key={index}
                 href={item.link}
-                className="ml-6 text-black font-medium text-base hover:underline"
+                className="ml-6 text-black text-base hover:underline"
               >
                 {item.title}
               </Link>

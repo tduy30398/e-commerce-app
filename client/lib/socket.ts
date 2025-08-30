@@ -25,8 +25,8 @@ export interface ClientToServerChatEvents {
 
 export interface ServerToClientChatEvents {
   'message': (payload: {
-    from: { _id: string; name: string; role: string };
-    to: { _id: string; name: string; role: string };
+    from: { _id: string; name: string; avatar: string; role: string };
+    to: { _id: string; name: string; avatar: string; role: string };
     content: string;
     createdAt: string;
   }) => void;

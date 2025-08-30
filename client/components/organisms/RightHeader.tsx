@@ -122,10 +122,7 @@ const RightHeader = () => {
             align="center"
           >
             <DropdownMenuGroup>
-              <DropdownMenuItem
-                asChild
-                className="text-md font-medium cursor-pointer"
-              >
+              <DropdownMenuItem asChild className="text-md cursor-pointer">
                 <Link href={session ? ROUTES.PROFILE_OAUTH : ROUTES.PROFILE}>
                   Profile
                 </Link>
@@ -139,7 +136,7 @@ const RightHeader = () => {
                     ? signOut({ callbackUrl: ROUTES.HOME })
                     : logoutService()
                 }
-                className="text-md cursor-pointer font-medium bg-transparent w-full text-black justify-start outline-none hover:bg-transparent"
+                className="text-md cursor-pointer bg-transparent w-full text-black justify-start outline-none hover:bg-transparent"
               >
                 Log out
               </Button>
@@ -149,7 +146,7 @@ const RightHeader = () => {
       ) : (
         <Link
           href={ROUTES.LOGIN}
-          className="text-black font-medium text-base hover:underline max-md:hidden"
+          className="text-black text-base hover:underline max-md:hidden"
         >
           Login
         </Link>

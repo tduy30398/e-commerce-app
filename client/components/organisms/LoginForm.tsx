@@ -104,7 +104,7 @@ const LoginForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-base font-medium">
+              <FormLabel className="text-base">
                 Email<span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
@@ -123,7 +123,7 @@ const LoginForm = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-base font-medium">
+              <FormLabel className="text-base">
                 Password<span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>

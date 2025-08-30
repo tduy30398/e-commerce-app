@@ -85,7 +85,7 @@ const CartPage = () => {
                 sizes="160px"
               />
             </div>
-            <p className="text-base font-medium text-gray-400">
+            <p className="text-base text-gray-400">
               Your shopping cart is empty
             </p>
             <Link href={ROUTES.HOME} className="main-button rounded-xl! mt-4">

@@ -105,7 +105,7 @@ const RegisterForm = () => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-base font-medium">
+              <FormLabel className="text-base">
                 Name<span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
@@ -124,7 +124,7 @@ const RegisterForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-base font-medium">
+              <FormLabel className="text-base">
                 Email<span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
@@ -143,7 +143,7 @@ const RegisterForm = () => {
           name="birthday"
           render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel className="text-base font-medium">
+              <FormLabel className="text-base">
                 Birthday<span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
@@ -162,7 +162,7 @@ const RegisterForm = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-base font-medium">
+              <FormLabel className="text-base">
                 Password<span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
@@ -181,7 +181,7 @@ const RegisterForm = () => {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-base font-medium">
+              <FormLabel className="text-base">
                 Confirm Password<span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
