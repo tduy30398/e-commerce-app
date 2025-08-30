@@ -1,6 +1,7 @@
 const { Server } = require("socket.io");
-const jwt = require("jsonwebtoken");
+const socketMiddleware = require("../middleware/socketMiddleware");
 const Cart = require("../models/Cart");
+const Message = require("../models/Message");
 
 let io;
 
@@ -10,18 +11,7 @@ const initSocket = (server, allowedOrigins) => {
   });
 
   // Socket middleware for JWT auth
-  io.use((socket, next) => {
-    const token = socket.handshake.auth?.token;
-    if (!token) return next(new Error("No token"));
-
-    try {
-      const user = jwt.verify(token, process.env.JWT_SECRET);
-      socket.user = user;
-      next();
-    } catch (err) {
-      next(new Error("Invalid token"));
-    }
-  });
+  io.use(socketMiddleware);
 
   io.on("connection", (socket) => {
     console.log(`User connected: ${socket.user.userId}`);
@@ -74,6 +64,48 @@ const initSocket = (server, allowedOrigins) => {
       console.log(`User disconnected: ${socket.user.userId}`);
     });
   });
+
+  const chatNsp = io.of("/chat");
+  
+  chatNsp.use(socketMiddleware);
+
+  chatNsp.on("connection", (socket) => {
+    console.log(`💬 Chat connected: ${socket.user.userId}, role: ${socket.user.role}`);
+
+    if (socket.user.role === "admin") {
+      socket.join("admins");
+    } else {
+      socket.join(`user_${socket.user.userId}`);
+    }
+
+    // User sends message
+    socket.on("message", async ({ to, content }) => {
+      const msg = {
+        from: socket.user.userId,
+        to,
+        content,
+      };
+
+      const saved = await Message.create(msg);
+
+      const populated = await saved.populate("from to", "name role");
+
+      if (socket.user.role === "user") {
+        // Send to all admins
+        chatNsp.to("admins").emit("message", populated);
+      } else {
+        // Admin sends to specific user
+        chatNsp.to(`user_${to}`).emit("message", populated);
+      }
+
+      // Also send back to sender (so they see their own message instantly)
+      socket.emit("message", populated);
+    });
+
+    socket.on("disconnect", () => {
+      console.log(`❌ Chat disconnected: ${socket.user.userId}`);
+    });
+  });
 };
 
-module.exports = { initSocket, getIO: () => io };
+module.exports = { initSocket };

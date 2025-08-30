@@ -66,6 +66,7 @@ export default function Uploader({
   const handleFile = async (file: File) => {
     const tempPreview = URL.createObjectURL(file);
     setPreview(tempPreview);
+    handleSetPct?.(0);
 
     try {
       const uploadedUrl = await uploadToCloudinary(file);

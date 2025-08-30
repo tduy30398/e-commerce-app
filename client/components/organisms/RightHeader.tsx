@@ -20,7 +20,7 @@ import {
 import MobileSearchHeader from './MobileSearchHeader';
 import { signOut, useSession } from 'next-auth/react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { disconnectSocket, initSocket } from '@/lib/socket';
+import { disconnectSockets, initMainSocket } from '@/lib/socket';
 import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
 import { AxiosResponse } from 'axios';
 import ShoppingCartHeader from '../molecules/ShoppingCartHeader';
@@ -66,7 +66,7 @@ const RightHeader = () => {
 
   React.useEffect(() => {
     if (!accessToken) {
-      disconnectSocket();
+      disconnectSockets();
       clearCart();
       return;
     }
@@ -80,15 +80,15 @@ const RightHeader = () => {
 
     fetchCart();
 
-    const socket = initSocket(accessToken || '');
+    const mainSocket = initMainSocket(accessToken || '');
 
     // Listen for cart updates
-    socket.on('cart:updated', (updatedCart: Cart) => {
+    mainSocket.on('cart:updated', (updatedCart: Cart) => {
       setCart(updatedCart);
     });
 
     return () => {
-      socket.off('cart:updated');
+      mainSocket.off('cart:updated');
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken]);

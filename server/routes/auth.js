@@ -11,11 +11,11 @@ if (!JWT_SECRET) {
   process.exit(1);
 }
 
-const generateTokens = (userId) => {
-  const accessToken = jwt.sign({ userId }, JWT_SECRET, {
+const generateTokens = (userId, role) => {
+  const accessToken = jwt.sign({ userId, role }, JWT_SECRET, {
     expiresIn: "30m",
   });
-  const refreshToken = jwt.sign({ userId }, JWT_SECRET, {
+  const refreshToken = jwt.sign({ userId, role }, JWT_SECRET, {
     expiresIn: "8h",
   });
   return { accessToken, refreshToken };
@@ -40,7 +40,7 @@ router.post("/register", async (req, res) => {
       birthday,
     });
 
-    const { accessToken, refreshToken } = generateTokens(user._id);
+    const { accessToken, refreshToken } = generateTokens(user._id, user.role);
     user.refreshToken = refreshToken;
     await user.save();
 
@@ -70,7 +70,7 @@ router.post("/login", async (req, res) => {
         .status(400)
         .json({ message: "Wrong password", field: "password" });
 
-    const { accessToken, refreshToken } = generateTokens(user._id);
+    const { accessToken, refreshToken } = generateTokens(user._id, user.role);
     user.refreshToken = refreshToken;
     await user.save();
 
@@ -97,7 +97,7 @@ router.post("/refresh-token", async (req, res) => {
       return res.status(403).json({ message: "Invalid refresh token" });
     }
 
-    const newAccessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
+    const newAccessToken = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, {
       expiresIn: "30m",
     });
 

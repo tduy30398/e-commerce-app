@@ -1,6 +1,6 @@
 'use client';
 
-import { getSocket } from '@/lib/socket';
+import { getMainSocket } from '@/lib/socket';
 import React from 'react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
@@ -25,10 +25,10 @@ const AddToCartButton = ({ productId, color, size }: AddToCartButtonProps) => {
       return;
     }
 
-    const socket = getSocket();
-    if (!socket) return;
+    const mainSocket = getMainSocket();
+    if (!mainSocket) return;
 
-    socket.emit('cart:add', {
+    mainSocket.emit('cart:add', {
       productId,
       quantity,
       color,

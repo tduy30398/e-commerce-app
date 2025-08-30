@@ -75,7 +75,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="pb-20 mt-4 section-container flex-col md:flex-row flex items-center justify-between">
-        <p>Shop.co © 2010-2025, All Rights Reserved</p>
+        <p>{`Shop.co © ${new Date().getFullYear()}, All Rights Reserved`}</p>
         <div className="flex items-center gap-2 md:gap-3 max-md:mt-4">
           {paymentMethods.map((item, index) => (
             <div
