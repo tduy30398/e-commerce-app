@@ -23,3 +23,10 @@ export interface ProductRequest {
   description: string;
   promotionalPrice?: number;
 }
+
+export interface ProductRequestExtend {
+  minRating?: number;
+  onSale?: boolean;
+  minPrice?: number;
+  maxPrice?: number;
+}

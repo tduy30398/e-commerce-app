@@ -50,7 +50,7 @@ const ProductFilter = ({
         </>
       )}
       <AccordionItem value="item-1">
-        <AccordionTrigger className="text-xl font-bold">
+        <AccordionTrigger className="text-xl font-bold cursor-pointer">
           Rating range
         </AccordionTrigger>
         <AccordionContent>
@@ -63,7 +63,7 @@ const ProductFilter = ({
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
-        <AccordionTrigger className="text-xl font-bold">
+        <AccordionTrigger className="text-xl font-bold cursor-pointer">
           Only discount
         </AccordionTrigger>
         <AccordionContent>
@@ -76,7 +76,7 @@ const ProductFilter = ({
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-3">
-        <AccordionTrigger className="text-xl font-bold">
+        <AccordionTrigger className="text-xl font-bold cursor-pointer">
           Price Range
         </AccordionTrigger>
         <AccordionContent>

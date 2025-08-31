@@ -21,6 +21,8 @@ export interface UserProfile {
   avatar: string;
   birthday: string;
   role: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface UpdateUserProfile {

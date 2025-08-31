@@ -5,12 +5,22 @@ import { Form, FormControl, FormField, FormItem } from '../ui/form';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Button } from '../ui/button';
+import { useChatSocket } from '@/lib/useChatSocket';
+import { cn } from '@/lib/utils';
+
+interface ChatMessageProps {
+  activeUserId: string;
+}
 
 interface FormChatProps {
   message: string;
 }
 
-const ChatMessage = () => {
+const ChatMessage = ({ activeUserId }: ChatMessageProps) => {
+  const { sendMessage } = useChatSocket(activeUserId);
+
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
   const method = useForm<FormChatProps>({
     mode: 'onChange',
     defaultValues: {
@@ -19,14 +29,20 @@ const ChatMessage = () => {
   });
 
   const onSubmit = async (data: FormChatProps) => {
-    console.log(data.message);
+    sendMessage(data.message);
+    method.resetField('message');
+    inputRef.current?.focus();
   };
+
+  React.useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   return (
     <Form {...method}>
       <form
         onSubmit={method.handleSubmit(onSubmit)}
-        className="p-3 border-t flex gap-2"
+        className={cn('p-3 border-t flex gap-2', activeUserId ? '' : 'hidden')}
       >
         <FormField
           name="message"
@@ -42,6 +58,7 @@ const ChatMessage = () => {
                     e.key === 'Enter' && method.handleSubmit(onSubmit)()
                   }
                   className="text-lg! h-11!"
+                  ref={inputRef}
                 />
               </FormControl>
             </FormItem>
@@ -49,7 +66,7 @@ const ChatMessage = () => {
         />
         <Button
           type="submit"
-          disabled={!method.watch('message')}
+          disabled={!method.watch('message') || activeUserId === ''}
           className="text-base cursor-pointer h-11! shrink-0"
         >
           Send

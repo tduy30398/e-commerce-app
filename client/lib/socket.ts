@@ -2,6 +2,7 @@
 
 import { Cart } from '@/components/organisms/RightHeader';
 import { io, Socket } from 'socket.io-client';
+import { ChatMessage } from './useChatSocket';
 
 // -------- Cart Types --------
 export interface ClientToServerCartEvents {
@@ -24,12 +25,7 @@ export interface ClientToServerChatEvents {
 }
 
 export interface ServerToClientChatEvents {
-  'message': (payload: {
-    from: { _id: string; name: string; avatar: string; role: string };
-    to: { _id: string; name: string; avatar: string; role: string };
-    content: string;
-    createdAt: string;
-  }) => void;
+  'message': (payload: ChatMessage) => void;
 }
 
 // -------- Socket Instances --------

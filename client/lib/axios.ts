@@ -1,4 +1,5 @@
 import { logoutUserService } from '@/actions/authenticate';
+import useProfileStore from '@/store/useProfileStore';
 import axios, {
   AxiosRequestConfig,
   AxiosResponse,
@@ -47,6 +48,7 @@ axiosInstance.interceptors.response.use(
 
         const newAccessToken = data.data.accessToken;
         setAccessTokenHeader(newAccessToken);
+        useProfileStore.getState().setAccessToken(newAccessToken);
 
         originalRequest.headers = {
           ...originalRequest.headers,
