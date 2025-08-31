@@ -14,13 +14,13 @@ const ChatItem = ({ msg }: ChatItemProps) => {
     <div
       className={cn(
         'mb-2 flex',
-        msg.from._id === profileData?._id ? 'justify-end' : 'justify-start'
+        msg.from === profileData?._id ? 'justify-end' : 'justify-start'
       )}
     >
       <div
         className={cn(
           'rounded-lg max-w-4/5 px-3 py-2 text-base shadow-md',
-          msg.from._id === profileData?._id
+          msg.from === profileData?._id
             ? 'bg-blue-500 text-white'
             : 'bg-gray-200 text-gray-900'
         )}

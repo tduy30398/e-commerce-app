@@ -88,20 +88,18 @@ const initSocket = (server, allowedOrigins) => {
         content,
       };
 
-      const saved = await Message.create(msg);
-
-      const populated = await saved.populate("from to", "name avatar role");
+      const savedMessage = await Message.create(msg);
 
       if (socket.user.role === "user") {
         // Send to all admins
-        chatNsp.to("admins").emit("message", populated);
+        chatNsp.to("admins").emit("message", savedMessage);
       } else {
         // Admin sends to specific user
-        chatNsp.to(`user_${to}`).emit("message", populated);
+        chatNsp.to(`user_${to}`).emit("message", savedMessage);
       }
 
       // Also send back to sender (so they see their own message instantly)
-      socket.emit("message", populated);
+      socket.emit("message", savedMessage);
     });
 
     socket.on("disconnect", () => {

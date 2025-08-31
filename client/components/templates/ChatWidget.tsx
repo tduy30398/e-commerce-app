@@ -7,7 +7,6 @@ import { Card } from '@/components/ui/card';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageSquareText, SquareArrowDown } from 'lucide-react';
 import { ScrollArea } from '../ui/scroll-area';
-import ChatMessage from '../molecules/ChatMessage';
 import useProfileStore from '@/store/useProfileStore';
 import { cn } from '@/lib/utils';
 import useSWR from 'swr';
@@ -18,13 +17,17 @@ import { getChatHistory } from '@/actions/message';
 import UserItem from '../organisms/UserItem';
 import ChatItem from '../organisms/ChatItem';
 import ChatItemSkeleton from '../molecules/ChatItemSkeleton';
+import ChatMessageInput from '../molecules/ChatMessageInput';
+import { useChatStore } from '@/store/useChatStore';
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [selectedUser, setSelectedUser] = React.useState<string>('');
+  const messagesEndRef = React.useRef<HTMLDivElement | null>(null);
 
+  const { messages, setMessages } = useChatStore();
   const { profileData, accessToken } = useProfileStore();
-  const { messages } = useChatSocket(selectedUser || null);
+  const { sendMessage } = useChatSocket();
 
   const { data: users, isLoading } = useSWR(
     isOpen ? ['users'] : null,
@@ -44,9 +47,33 @@ const ChatWidget = () => {
     }
   );
 
-  const fullChatConversation = React.useMemo(() => {
-    return chatHistory?.concat(messages || []) || [];
-  }, [messages, chatHistory]);
+  const conversation = React.useMemo(() => {
+    return messages[selectedUser] || [];
+  }, [messages, selectedUser]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Prevent scroll jump while user is reading older messages
+  const isNearBottom = () => {
+    if (!messagesEndRef.current) return true;
+    const { scrollTop, clientHeight, scrollHeight } =
+      messagesEndRef.current.parentElement!;
+    return scrollHeight - scrollTop - clientHeight < 100;
+  };
+
+  React.useEffect(() => {
+    if (conversation.length > 0 && isNearBottom()) {
+      scrollToBottom();
+    }
+  }, [conversation]);
+
+  React.useEffect(() => {
+    if (selectedUser && chatHistory) {
+      setMessages(selectedUser, chatHistory?.data || []);
+    }
+  }, [selectedUser, chatHistory, setMessages]);
 
   return (
     <div
@@ -92,9 +119,9 @@ const ChatWidget = () => {
                       {users?.data && users?.data.length > 0 ? (
                         users.data
                           .filter((user) => user._id !== profileData?._id)
-                          .map((user, idx) => (
+                          .map((user) => (
                             <UserItem
-                              key={idx}
+                              key={user._id}
                               user={user}
                               selectedUser={selectedUser}
                               setSelectedUser={setSelectedUser}
@@ -117,10 +144,13 @@ const ChatWidget = () => {
                   {selectedUser ? (
                     <ScrollArea className="flex-1 p-3 overflow-auto">
                       {!loadingChatHistory ? (
-                        fullChatConversation.length > 0 ? (
-                          fullChatConversation.map((msg) => (
-                            <ChatItem key={msg._id} msg={msg} />
-                          ))
+                        conversation.length > 0 ? (
+                          <>
+                            {conversation.map((msg) => (
+                              <ChatItem key={msg._id} msg={msg} />
+                            ))}
+                            <div ref={messagesEndRef} />
+                          </>
                         ) : (
                           <div className="flex-center flex-col">
                             <p className="font-bold text-xl mt-4">
@@ -142,7 +172,10 @@ const ChatWidget = () => {
                       </p>
                     </div>
                   )}
-                  <ChatMessage activeUserId={selectedUser || ''} />
+                  <ChatMessageInput
+                    sendMessage={sendMessage}
+                    activeUserId={selectedUser}
+                  />
                 </div>
               </div>
             </Card>

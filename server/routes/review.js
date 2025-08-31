@@ -12,18 +12,19 @@ router.get("/:productId", async (req, res) => {
     const limit = Number(req.query.limit) || 5;
     const skip = (page - 1) * limit;
 
-    const reviews = await Review.find({ product: productId })
-      .populate("user", "name avatar")
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit);
-
-    const totalReviews = await Review.countDocuments({ product: productId });
+    const [reviews, totalReviews] = await Promise.all([
+      Review.find({ product: productId })
+        .populate("user", "name avatar")
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit),
+      Review.countDocuments({ product: productId }),
+    ]);
 
     res.status(200).json({
       data: reviews,
       pagination: {
-        total: totalReviews,
+        totalItems: totalReviews,
         page,
         limit,
         totalPages: Math.ceil(totalReviews / limit),

@@ -1,21 +1,22 @@
 'use client';
 
 import { initChatSocket, getChatSocket, disconnectSockets } from '@/lib/socket';
+import { useChatStore } from '@/store/useChatStore';
 import useProfileStore from '@/store/useProfileStore';
 import React from 'react';
 
 export interface ChatMessage {
   _id: string;
-  from: { _id: string; name: string; avatar: string; role: string };
-  to: { _id: string; name: string; avatar: string; role: string };
+  from: string;
+  to: string;
   content: string;
   createdAt: string;
   updatedAt: string;
 }
 
-export const useChatSocket = (targetUserId: string | null) => {
-  const { accessToken } = useProfileStore();
-  const [messages, setMessages] = React.useState<ChatMessage[]>([]);
+export const useChatSocket = () => {
+  const { accessToken, profileData } = useProfileStore();
+  const { addMessage } = useChatStore();
 
   React.useEffect(() => {
     if (!accessToken) {
@@ -23,28 +24,24 @@ export const useChatSocket = (targetUserId: string | null) => {
       return;
     }
 
-    if (!targetUserId) return;
-
     const chatSocket = initChatSocket(accessToken);
 
     chatSocket.on('message', (msg: ChatMessage) => {
-      // Only add messages related to this conversation
-      if (msg.from._id === targetUserId || msg.to._id === targetUserId) {
-        setMessages((prev) => [...prev, msg]);
+      if (profileData?._id) {
+        addMessage(msg, profileData._id);
       }
     });
 
     return () => {
       chatSocket.off('message');
     };
-  }, [accessToken, targetUserId]);
+  }, [accessToken, addMessage, profileData]);
 
-  const sendMessage = (content: string) => {
+  const sendMessage = (to: string, content: string) => {
     const chatSocket = getChatSocket();
     if (!chatSocket) return;
-
-    chatSocket.emit('message', { to: targetUserId || '', content });
+    chatSocket.emit('message', { to, content });
   };
 
-  return { messages, sendMessage };
+  return { sendMessage };
 };
