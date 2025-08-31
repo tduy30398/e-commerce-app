@@ -15,8 +15,4 @@ type BaseFilterParams = {
   limit?: number;
   page?: number;
   search?: string;
-  minRating?: number;
-  onSale?: boolean;
-  minPrice?: number;
-  maxPrice?: number;
 };

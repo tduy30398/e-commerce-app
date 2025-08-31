@@ -25,7 +25,7 @@ const ShoppingCartHeader = ({ cart }: ShoppingCartHeaderProps) => {
   return (
     <HoverCard
       openDelay={0}
-      closeDelay={200}
+      closeDelay={400}
       open={isOpen}
       onOpenChange={setIsOpen}
     >

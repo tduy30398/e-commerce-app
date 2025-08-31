@@ -9,7 +9,7 @@ export default function NotFound() {
       <p className="mb-6 text-lg text-gray-600">Something went wrong.</p>
       <Image
         priority
-        src={'/images/404.png'}
+        src="/images/404.png"
         alt="404"
         width={655}
         height={290}

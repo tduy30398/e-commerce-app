@@ -69,9 +69,11 @@ const RegisterForm = () => {
         const profileRes: AxiosResponse<UserProfile> = await axiosInstance.get(
           'profile'
         );
+
         if (profileRes.status === 200) {
           setAuth(profileRes.data, resData.accessToken);
         }
+
         router.replace(ROUTES.HOME);
       }
     } catch (error) {

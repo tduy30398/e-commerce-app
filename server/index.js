@@ -17,6 +17,7 @@ const profileRoutes = require("./routes/profile");
 const reviewRoutes = require("./routes/review");
 const cartRoutes = require("./routes/cart");
 const chatRoutes = require("./routes/chat");
+const userRoutes = require("./routes/user");
 
 const allowedOrigins = [
   "http://localhost:3000",
@@ -46,6 +47,7 @@ app.get("/", (_, res) => {
 app.use("/api/profile", authMiddleware, profileRoutes);
 app.use("/api/cart", authMiddleware, cartRoutes);
 app.use("/api/chat", authMiddleware, chatRoutes);
+app.use("/api/user", authMiddleware, userRoutes);
 
 // Public routes
 app.use("/api/auth", authRoutes);

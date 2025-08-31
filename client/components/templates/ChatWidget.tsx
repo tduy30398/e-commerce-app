@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import React from 'react';
@@ -6,57 +7,59 @@ import { Card } from '@/components/ui/card';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageSquareText, SquareArrowDown } from 'lucide-react';
 import { ScrollArea } from '../ui/scroll-area';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import ChatMessage from '../molecules/ChatMessage';
-
-const messages = [
-  {
-    from: 'user',
-    text: 'Bạn đặt hàng có in, vui lòng chọn “SIZE (SỐ KÝ) - IN TÊN SỐ” => THÊM VÀO GIỎ HÀNG => ĐẶT HÀNG Sau đó vào đây nhắn cho shop số điện thoại và nội dung tên số cần in. (Nhắn trực tiếp vào tin nhắn này)Sẽ có nhân viên bên shop liên hệ bạn để xác nhận đơn sau ạ. Xin cảm ơn!',
-  },
-  {
-    from: 'me',
-    text: 'git reset does know five "modes": soft, mixed, hard, merge and keep. I will start with the first three, since these are the modes you usually encounter. After that youll find a nice little a bonus, so stay tuned.!',
-  },
-];
+import useProfileStore from '@/store/useProfileStore';
+import { cn } from '@/lib/utils';
+import useSWR from 'swr';
+import { getAllUsers } from '@/actions/user';
+import { ChatUserSkeleton } from '../molecules/ChatUserSkeleton';
+import { useChatSocket } from '@/lib/useChatSocket';
+import { getChatHistory } from '@/actions/message';
+import UserItem from '../organisms/UserItem';
+import ChatItem from '../organisms/ChatItem';
+import ChatItemSkeleton from '../molecules/ChatItemSkeleton';
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [selectedUser, setSelectedUser] = React.useState<string>('');
 
-  const users = [
-    'Alice Alice Alice Alice Alice Alice',
-    'Bob',
-    'Charlie',
-    'David',
-    'Eve',
-    'Alice',
-    'Bob',
-    'Charlie',
-    'David',
-    'Eve',
-    'Alice',
-    'Bob',
-    'Charlie',
-    'David',
-    'Eve',
-    'Alice',
-    'Bob',
-    'Charlie',
-    'David',
-    'Eve',
-  ];
+  const { profileData, accessToken } = useProfileStore();
+  const { messages } = useChatSocket(selectedUser || null);
+
+  const { data: users, isLoading } = useSWR(
+    isOpen ? ['users'] : null,
+    () =>
+      getAllUsers({ role: profileData?.role === 'admin' ? 'user' : 'admin' }),
+    {
+      revalidateOnFocus: false,
+    }
+  );
+
+  const { data: chatHistory, isLoading: loadingChatHistory } = useSWR(
+    selectedUser && isOpen ? ['chat-history', selectedUser] : null,
+    () => getChatHistory(selectedUser),
+    {
+      revalidateOnFocus: false,
+      refreshInterval: 0,
+    }
+  );
+
+  const fullChatConversation = React.useMemo(() => {
+    return chatHistory?.concat(messages || []) || [];
+  }, [messages, chatHistory]);
 
   return (
-    <div className="fixed bottom-0 right-2 z-50">
+    <div
+      className={cn('fixed bottom-0 right-2 z-50', accessToken ? '' : 'hidden')}
+    >
       <Button
         variant="outline"
-        className="shadow-lg absolute bottom-0 right-2 cursor-pointer bg-white p-2! h-fit!"
+        className="shadow-lg absolute bottom-0 right-2 cursor-pointer bg-white py-2! px-4! h-fit! rounded-b-none"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <MessageSquareText className="size-7 text-black" />
+        <MessageSquareText className="size-6 text-black" />
         <p className="text-xl font-semibold">Chat</p>
       </Button>
-
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -84,54 +87,62 @@ const ChatWidget = () => {
               </div>
               <div className="flex w-[642px] h-[600px] overflow-hidden">
                 <div className="w-2/5 border-r bg-gray-50">
-                  <ScrollArea className="h-full">
-                    {users.map((user, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-center gap-2 w-full cursor-pointer p-3 hover:bg-gray-200"
-                      >
-                        <Avatar className="size-9 shrink-0">
-                          <AvatarImage
-                            src="https://github.com/shadcn.png"
-                            alt="@shadcn"
-                          />
-                          <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                        <div className="flex flex-col w-0 flex-1">
-                          <p className="truncate text-base">{user}</p>
-                          <p className="truncate text-sm text-gray-500">
-                            git reset does know five: soft, mixed, hard, merge
-                            and keep.
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </ScrollArea>
+                  {!isLoading ? (
+                    <ScrollArea className="h-full">
+                      {users?.data && users?.data.length > 0 ? (
+                        users.data
+                          .filter((user) => user._id !== profileData?._id)
+                          .map((user, idx) => (
+                            <UserItem
+                              key={idx}
+                              user={user}
+                              selectedUser={selectedUser}
+                              setSelectedUser={setSelectedUser}
+                            />
+                          ))
+                      ) : (
+                        <p className="text-center text-gray-500">
+                          No users found
+                        </p>
+                      )}
+                    </ScrollArea>
+                  ) : (
+                    Array.from({ length: 5 }).map((_, i) => (
+                      <ChatUserSkeleton key={i} />
+                    ))
+                  )}
                 </div>
 
                 <div className="flex flex-col w-3/5 h-full">
-                  {/* Chat History */}
-                  <ScrollArea className="flex-1 p-3 overflow-auto">
-                    {messages.map((msg, idx) => (
-                      <div
-                        key={idx}
-                        className={`mb-2 flex${
-                          msg.from === 'me' ? ' justify-end' : ' justify-start'
-                        }`}
-                      >
-                        <div
-                          className={`rounded-lg max-w-4/5 px-3 py-2 text-base shadow-md ${
-                            msg.from === 'me'
-                              ? ' bg-blue-500 text-white'
-                              : ' bg-gray-200 text-gray-900'
-                          }`}
-                        >
-                          {msg.text}
-                        </div>
-                      </div>
-                    ))}
-                  </ScrollArea>
-                  <ChatMessage />
+                  {selectedUser ? (
+                    <ScrollArea className="flex-1 p-3 overflow-auto">
+                      {!loadingChatHistory ? (
+                        fullChatConversation.length > 0 ? (
+                          fullChatConversation.map((msg) => (
+                            <ChatItem key={msg._id} msg={msg} />
+                          ))
+                        ) : (
+                          <div className="flex-center flex-col">
+                            <p className="font-bold text-xl mt-4">
+                              Start a conversation
+                            </p>
+                          </div>
+                        )
+                      ) : (
+                        Array.from({ length: 4 }).map((_, i) => (
+                          <ChatItemSkeleton key={i} isOwn={i % 2 === 0} />
+                        ))
+                      )}
+                    </ScrollArea>
+                  ) : (
+                    <div className="h-full flex-col flex-center">
+                      <img src="icons/chat-welcome.svg" alt="welcome chat" />
+                      <p className="font-bold text-xl mt-4">
+                        Welcome to the SHOP.CO chat
+                      </p>
+                    </div>
+                  )}
+                  <ChatMessage activeUserId={selectedUser || ''} />
                 </div>
               </div>
             </Card>
