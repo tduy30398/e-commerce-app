@@ -76,7 +76,7 @@ const ProductDetail = async ({ params }: ProductDetailProps) => {
       <AddReview />
       <Suspense
         fallback={
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 mt-6 md:mt-8">
             {Array.from({ length: 3 }).map((_, i) => (
               <ReviewSkeleton key={i} />
             ))}

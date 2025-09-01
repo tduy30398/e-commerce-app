@@ -1,7 +1,11 @@
+import { UserProfile } from '@/actions/authenticate/type';
 import { cn } from '@/lib/utils';
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { UserProfile } from '@/actions/authenticate/type';
+import { useChatStore } from '@/store/useChatStore';
+import { getChatHistory } from '@/actions/message';
+import useSWR from 'swr';
+import { ChatUserSkeleton } from '../molecules/ChatUserSkeleton';
 
 interface UserItemProps {
   user: UserProfile;
@@ -10,6 +14,28 @@ interface UserItemProps {
 }
 
 const UserItem = ({ user, selectedUser, setSelectedUser }: UserItemProps) => {
+  const { messages } = useChatStore();
+
+  const { data: chatHistory, isLoading: loadingChatHistory } = useSWR(
+    user._id ? ['chat-history-detail', user._id] : null,
+    () => getChatHistory(user._id, { limit: 1 }),
+    {
+      revalidateOnFocus: false,
+      refreshInterval: 0,
+    }
+  );
+
+  const lastMessage = React.useMemo(() => {
+    const userMessages = messages[user._id] || [];
+
+    return (
+      userMessages[userMessages.length - 1]?.content ||
+      chatHistory?.data?.[0]?.content || ''
+    );
+  }, [messages, user._id, chatHistory]);
+
+  if (loadingChatHistory) return <ChatUserSkeleton />;
+
   return (
     <div
       onClick={() => setSelectedUser(user._id)}
@@ -26,7 +52,7 @@ const UserItem = ({ user, selectedUser, setSelectedUser }: UserItemProps) => {
       </Avatar>
       <div className="flex flex-col w-0 flex-1">
         <p className="truncate text-base">{user.name}</p>
-        <p className="truncate text-sm text-gray-500">Last messgae</p>
+        <p className="truncate text-sm text-gray-500">{lastMessage}</p>
       </div>
     </div>
   );

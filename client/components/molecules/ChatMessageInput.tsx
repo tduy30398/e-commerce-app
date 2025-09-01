@@ -5,20 +5,22 @@ import { Form, FormControl, FormField, FormItem } from '../ui/form';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Button } from '../ui/button';
-import { useChatSocket } from '@/lib/useChatSocket';
 import { cn } from '@/lib/utils';
+import { SendHorizonal } from 'lucide-react';
 
-interface ChatMessageProps {
+interface ChatMessageInputProps {
   activeUserId: string;
+  sendMessage: (to: string, message: string) => void;
 }
 
 interface FormChatProps {
   message: string;
 }
 
-const ChatMessage = ({ activeUserId }: ChatMessageProps) => {
-  const { sendMessage } = useChatSocket(activeUserId);
-
+const ChatMessageInput = ({
+  activeUserId,
+  sendMessage,
+}: ChatMessageInputProps) => {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const method = useForm<FormChatProps>({
@@ -29,7 +31,7 @@ const ChatMessage = ({ activeUserId }: ChatMessageProps) => {
   });
 
   const onSubmit = async (data: FormChatProps) => {
-    sendMessage(data.message);
+    sendMessage(activeUserId, data.message);
     method.resetField('message');
     inputRef.current?.focus();
   };
@@ -66,14 +68,15 @@ const ChatMessage = ({ activeUserId }: ChatMessageProps) => {
         />
         <Button
           type="submit"
+          variant="outline"
           disabled={!method.watch('message') || activeUserId === ''}
-          className="text-base cursor-pointer h-11! shrink-0"
+          className="text-base cursor-pointer h-11! shrink-0 text-blue-500 hover:text-blue-500"
         >
-          Send
+          <SendHorizonal className='size-6'/>
         </Button>
       </form>
     </Form>
   );
 };
 
-export default ChatMessage;
+export default ChatMessageInput;
