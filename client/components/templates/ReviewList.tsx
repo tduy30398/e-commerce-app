@@ -5,6 +5,7 @@ import { ReviewType } from '@/actions/review/type';
 import React from 'react';
 import ReviewItem from '../molecules/ReviewItem';
 import ReviewSkeleton from '../molecules/ReviewSkeleton';
+import { NEXT_PUBLIC_API_BASE_URL } from '@/lib/axios';
 
 interface ReviewListProps {
   productId: string;
@@ -27,7 +28,9 @@ const ReviewList = ({ productId, initReviews }: ReviewListProps) => {
     ) {
       return null;
     }
-    return `/api/reviews?productId=${productId}&page=${pageIndex + 1}&limit=${PAGE_SIZE}`;
+    return `${NEXT_PUBLIC_API_BASE_URL}review/${productId}?page=${
+      pageIndex + 1
+    }&limit=${PAGE_SIZE}`;
   };
 
   const { data, size, setSize, isValidating } = useSWRInfinite<
