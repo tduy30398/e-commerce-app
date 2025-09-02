@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageSquareText, SquareArrowDown } from 'lucide-react';
-import { ScrollArea } from '../ui/scroll-area';
+import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 import useProfileStore from '@/store/useProfileStore';
 import { cn } from '@/lib/utils';
 import useSWR from 'swr';
@@ -23,9 +23,13 @@ import { useChatStore } from '@/store/useChatStore';
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [selectedUser, setSelectedUser] = React.useState<string>('');
+  const [page, setPage] = React.useState(1);
+  const [hasMore, setHasMore] = React.useState(true);
+  const [loadingMore, setLoadingMore] = React.useState(false);
+
   const messagesEndRef = React.useRef<HTMLDivElement | null>(null);
 
-  const { messages, setMessages } = useChatStore();
+  const { messages, setMessages, prependMessages } = useChatStore();
   const { profileData, accessToken } = useProfileStore();
   const { sendMessage } = useChatSocket();
 
@@ -51,6 +55,41 @@ const ChatWidget = () => {
     return messages[selectedUser] || [];
   }, [messages, selectedUser]);
 
+  const loadMoreMessages = async () => {
+    if (!selectedUser || !hasMore || loadingMore) return;
+
+    setLoadingMore(true);
+    try {
+      const res = await getChatHistory(selectedUser, {
+        page: page + 1,
+      });
+
+      prependMessages(selectedUser, res.data);
+      setPage((p) => p + 1);
+
+      if (res.pagination.page >= res.pagination.totalPages) {
+        setHasMore(false);
+      }
+    } finally {
+      setLoadingMore(false);
+    }
+  };
+
+  const handleScroll = async (e: React.UIEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+
+    if (target.scrollTop === 0 && hasMore && !loadingMore) {
+      const prevScrollHeight = target.scrollHeight;
+
+      await loadMoreMessages();
+
+      // Restore position so user stays in same place
+      requestAnimationFrame(() => {
+        target.scrollTop = target.scrollHeight - prevScrollHeight;
+      });
+    }
+  };
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -75,6 +114,13 @@ const ChatWidget = () => {
     }
   }, [selectedUser, chatHistory, setMessages]);
 
+  React.useEffect(() => {
+    if (selectedUser) {
+      setPage(1);
+      setHasMore(true);
+    }
+  }, [selectedUser]);
+
   return (
     <div
       className={cn('fixed bottom-0 right-2 z-50', accessToken ? '' : 'hidden')}
@@ -82,7 +128,7 @@ const ChatWidget = () => {
       <Button
         variant="outline"
         className="shadow-lg absolute bottom-0 right-2 cursor-pointer bg-white py-2! px-4! h-fit! rounded-b-none"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(true)}
       >
         <MessageSquareText className="size-6 text-black" />
         <p className="text-xl font-semibold">Chat</p>
@@ -107,12 +153,17 @@ const ChatWidget = () => {
                   variant="outline"
                   size="sm"
                   className="bg-transparent border-none shadow-none cursor-pointer"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    setIsOpen(false);
+                    setSelectedUser('');
+                    setPage(1);
+                    setHasMore(true);
+                  }}
                 >
                   <SquareArrowDown className="cursor-pointer size-5" />
                 </Button>
               </div>
-              <div className="flex w-[642px] h-[600px] overflow-hidden">
+              <div className="flex w-[642px] h-[500px] overflow-hidden">
                 <div className="w-2/5 border-r bg-gray-50">
                   {!isLoading ? (
                     <ScrollArea className="h-full">
@@ -132,6 +183,7 @@ const ChatWidget = () => {
                           No users found
                         </p>
                       )}
+                      <ScrollBar orientation="vertical" />
                     </ScrollArea>
                   ) : (
                     Array.from({ length: 5 }).map((_, i) => (
@@ -142,10 +194,18 @@ const ChatWidget = () => {
 
                 <div className="flex flex-col w-3/5 h-full">
                   {selectedUser ? (
-                    <ScrollArea className="flex-1 p-3 overflow-auto">
+                    <div
+                      className="flex-1 p-3 overflow-auto custom-scrollbar"
+                      onScroll={handleScroll}
+                    >
                       {!loadingChatHistory ? (
                         conversation.length > 0 ? (
                           <>
+                            {loadingMore ? (
+                              <p className="text-center text-gray-500">
+                                Loading...
+                              </p>
+                            ) : null}
                             {conversation.map((msg) => (
                               <ChatItem key={msg._id} msg={msg} />
                             ))}
@@ -163,7 +223,7 @@ const ChatWidget = () => {
                           <ChatItemSkeleton key={i} isOwn={i % 2 === 0} />
                         ))
                       )}
-                    </ScrollArea>
+                    </div>
                   ) : (
                     <div className="h-full flex-col flex-center">
                       <img src="icons/chat-welcome.svg" alt="welcome chat" />
