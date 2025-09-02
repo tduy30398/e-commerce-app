@@ -11,7 +11,6 @@ import { useParams } from 'next/navigation';
 import useSWRMutation from 'swr/mutation';
 import { createReview } from '@/actions/review';
 import { toast } from 'sonner';
-import { revalidateReviews } from '@/actions/product';
 import { Form, FormControl, FormField, FormItem } from '../ui/form';
 import StarRatingInput from './StarRatingInput';
 
@@ -35,7 +34,6 @@ const AddReview = () => {
   const { trigger: createReviewTrigger, isMutating: createReviewLoading } =
     useSWRMutation('review', createReview, {
       onSuccess: async () => {
-        await revalidateReviews(params.id!);
         method.reset();
         toast.success('Review added');
       },

@@ -69,9 +69,7 @@ const ReviewList = ({ productId, initReviews }: ReviewListProps) => {
   return (
     <>
       {reviews.length > 0 ? (
-        reviews.map((review) => (
-          <ReviewItem productId={productId} key={review._id} review={review} />
-        ))
+        reviews.map((review) => <ReviewItem key={review._id} review={review} />)
       ) : (
         <p className="text-center text-xl font-semibold">No reviews yet.</p>
       )}

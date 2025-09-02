@@ -7,6 +7,7 @@ interface ChatState {
   messages: Record<string, ChatMessage[]>;
   addMessage: (msg: ChatMessage, currentUserId: string) => void;
   setMessages: (userId: string, msgs: ChatMessage[]) => void;
+  prependMessages: (userId: string, msgs: ChatMessage[]) => void;
 }
 
 export const useChatStore = create<ChatState>()(
@@ -38,6 +39,27 @@ export const useChatStore = create<ChatState>()(
           }),
           false,
           `setMessages(${userId})`
+        ),
+
+      prependMessages: (userId, msgs) =>
+        set(
+          (state) => ({
+            messages: {
+              ...state.messages,
+              // remove duplicate messages by _id
+              [userId]: [
+                ...msgs.filter(
+                  (m) =>
+                    !(state.messages[userId] || []).some(
+                      (existing) => existing._id === m._id
+                    )
+                ),
+                ...(state.messages[userId] || []),
+              ],
+            },
+          }),
+          false,
+          `prependMessages(${userId})`
         ),
     }),
     {

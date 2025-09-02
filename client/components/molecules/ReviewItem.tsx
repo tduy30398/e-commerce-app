@@ -31,14 +31,12 @@ import {
 import { toast } from 'sonner';
 import useSWRMutation from 'swr/mutation';
 import { deleteReview } from '@/actions/review';
-import { revalidateReviews } from '@/actions/product';
 
 interface ReviewItemProps {
   review: ReviewType;
-  productId: string;
 }
 
-const ReviewItem = ({ review, productId }: ReviewItemProps) => {
+const ReviewItem = ({ review }: ReviewItemProps) => {
   const { profileData } = useProfileStore();
 
   const [expanded, setExpanded] = React.useState(false);
@@ -48,7 +46,6 @@ const ReviewItem = ({ review, productId }: ReviewItemProps) => {
   const { trigger: deleteReviewTrigger, isMutating: deleteLoading } =
     useSWRMutation('review', deleteReview, {
       onSuccess: async () => {
-        await revalidateReviews(productId);
         toast.success('Delete review success');
       },
       onError: () => {
