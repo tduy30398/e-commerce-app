@@ -137,9 +137,8 @@ const ProductPage = () => {
               {query ? `Search results for "${query}"` : 'Trending'}
             </h2>
             <div className="flex items-center">
-              <p className="text-base">{`Total: ${
-                products?.pagination.totalItems || 0
-              } product${products?.pagination.totalItems === 1 ? '' : 's'}`}</p>
+              <p className="text-base">{`Total: ${products?.pagination.totalItems || 0
+                } product${products?.pagination.totalItems === 1 ? '' : 's'}`}</p>
               <FilterDrawer
                 trigger={
                   <div className="lg:hidden relative size-8 ml-4 cursor-pointer">

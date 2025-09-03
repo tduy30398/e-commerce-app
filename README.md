@@ -45,7 +45,3 @@ Built using **Next.js**, **Node.js/Express**, **Socket.IO**, and **JWT**.
 - 🛠️ **Admin Panel**
   - **CRUD products** (Create, Read, Update, Delete)
   - Role-based access control
-
----
-
-## 📂 Project Structure
