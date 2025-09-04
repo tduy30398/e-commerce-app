@@ -198,30 +198,28 @@ const ChatWidget = () => {
                       className="flex-1 p-3 overflow-auto custom-scrollbar"
                       onScroll={handleScroll}
                     >
-                      {!loadingChatHistory ? (
-                        conversation.length > 0 ? (
-                          <>
-                            {loadingMore ? (
-                              <p className="text-center text-gray-500">
-                                Loading...
-                              </p>
-                            ) : null}
-                            {conversation.map((msg) => (
-                              <ChatItem key={msg._id} msg={msg} />
-                            ))}
-                            <div ref={messagesEndRef} />
-                          </>
-                        ) : (
-                          <div className="flex-center flex-col">
-                            <p className="font-bold text-xl mt-4">
-                              Start a conversation
-                            </p>
-                          </div>
-                        )
-                      ) : (
+                      {loadingChatHistory ? (
                         Array.from({ length: 4 }).map((_, i) => (
                           <ChatItemSkeleton key={i} isOwn={i % 2 === 0} />
                         ))
+                      ) : conversation.length > 0 ? (
+                        <>
+                          {loadingMore ? (
+                            <p className="text-center text-gray-500">
+                              Loading...
+                            </p>
+                          ) : null}
+                          {conversation.map((msg) => (
+                            <ChatItem key={msg._id} msg={msg} />
+                          ))}
+                          <div ref={messagesEndRef} />
+                        </>
+                      ) : (
+                        <div className="flex-center flex-col">
+                          <p className="font-bold text-xl mt-4">
+                            Start a conversation
+                          </p>
+                        </div>
                       )}
                     </div>
                   ) : (

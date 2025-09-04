@@ -72,7 +72,7 @@ const ChatMessageInput = ({
           disabled={!method.watch('message') || activeUserId === ''}
           className="text-base cursor-pointer h-11! shrink-0 text-blue-500 hover:text-blue-500"
         >
-          <SendHorizonal className='size-6'/>
+          <SendHorizonal className='size-6' />
         </Button>
       </form>
     </Form>
