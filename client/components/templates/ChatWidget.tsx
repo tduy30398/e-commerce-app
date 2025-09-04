@@ -144,7 +144,7 @@ const ChatWidget = () => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.2 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="absolute bottom-0 right-2"
+            className="absolute bottom-0 right-0! sm:right-2"
           >
             <Card className="py-0 gap-0 flex rounded-sm shadow-xl">
               <div className="flex items-center justify-between p-3 border-b">
@@ -163,36 +163,47 @@ const ChatWidget = () => {
                   <SquareArrowDown className="cursor-pointer size-5" />
                 </Button>
               </div>
-              <div className="flex w-[642px] h-[500px] overflow-hidden">
-                <div className="w-2/5 border-r bg-gray-50">
+              <div className="max-md:flex-col flex w-[95vw] h-[80vh] md:w-[642px] md:h-[500px] overflow-hidden">
+                <div className="w-full md:w-2/5 border-r md:bg-gray-50">
                   {!isLoading ? (
-                    <ScrollArea className="h-full">
-                      {users?.data && users?.data.length > 0 ? (
-                        users.data
-                          .filter((user) => user._id !== profileData?._id)
-                          .map((user) => (
-                            <UserItem
-                              key={user._id}
-                              user={user}
-                              selectedUser={selectedUser}
-                              setSelectedUser={setSelectedUser}
-                            />
-                          ))
-                      ) : (
-                        <p className="text-center text-gray-500">
-                          No users found
-                        </p>
-                      )}
-                      <ScrollBar orientation="vertical" />
+                    <ScrollArea className="h-full md:h-full md:overflow-y-auto overflow-x-auto">
+                      <div className="flex md:flex-col max-md:p-4 max-md:gap-4">
+                        {users?.data && users?.data.length > 0 ? (
+                          users.data
+                            .filter((user) => user._id !== profileData?._id)
+                            .map((user) => (
+                              <UserItem
+                                key={user._id}
+                                user={user}
+                                selectedUser={selectedUser}
+                                setSelectedUser={setSelectedUser}
+                              />
+                            ))
+                        ) : (
+                          <p className="text-center text-gray-500">
+                            No users found
+                          </p>
+                        )}
+                      </div>
+                      <ScrollBar
+                        orientation="horizontal"
+                        className="md:hidden"
+                      />
+                      <ScrollBar
+                        orientation="vertical"
+                        className="hidden md:block"
+                      />
                     </ScrollArea>
                   ) : (
-                    Array.from({ length: 5 }).map((_, i) => (
-                      <ChatUserSkeleton key={i} />
-                    ))
+                    <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <ChatUserSkeleton key={i} />
+                      ))}
+                    </div>
                   )}
                 </div>
 
-                <div className="flex flex-col w-3/5 h-full">
+                <div className="flex flex-col w-full md:w-3/5 h-full">
                   {selectedUser ? (
                     <div
                       className="flex-1 p-3 overflow-auto custom-scrollbar"

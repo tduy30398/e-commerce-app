@@ -25,7 +25,7 @@ const SearchForm: React.FC = () => {
 
   const queryKey = ['product-complete', debouncedValue];
 
-  const { data: products, isLoading } = useSWR(
+  const { data: products, isValidating } = useSWR(
     debouncedValue ? queryKey : null,
     () =>
       getAllProducts({
@@ -34,6 +34,7 @@ const SearchForm: React.FC = () => {
       }),
     {
       revalidateOnFocus: false,
+      keepPreviousData: true,
     }
   );
 
@@ -60,7 +61,7 @@ const SearchForm: React.FC = () => {
   }, [debouncedValue, products, manualClose]);
 
   return (
-    <div className="relative w-full hidden sm:block ml-10" >
+    <div className="relative w-full hidden sm:block ml-10">
       <Popover open={isOpen}>
         <PopoverTrigger asChild>
           <div className="relative w-full">
@@ -97,7 +98,10 @@ const SearchForm: React.FC = () => {
                 if (e.key === 'Enter') {
                   e.preventDefault();
 
-                  if (highlightedIndex >= 0 && products?.data?.[highlightedIndex]) {
+                  if (
+                    highlightedIndex >= 0 &&
+                    products?.data?.[highlightedIndex]
+                  ) {
                     const selectedProduct = products.data[highlightedIndex];
                     router.push(`${ROUTES.PRODUCT}/${selectedProduct._id}`);
                   } else {
@@ -124,20 +128,21 @@ const SearchForm: React.FC = () => {
           }}
           onCloseAutoFocus={(e) => e.preventDefault()}
         >
-          {isLoading ? (
+          {isValidating ? (
             <div className="p-4 text-sm text-muted-foreground">
               Searching...
             </div>
           ) : (
-            <ul className="max-h-50 overflow-y-auto custom-scrollbar">
+            <ul className="max-h-100 overflow-y-auto custom-scrollbar">
               {products?.data.map((product, index) => (
                 <li key={product._id} className="h-10">
                   <Link
                     href={`${ROUTES.PRODUCT}/${product._id}`}
-                    className={
-                      cn("block px-4 py-2 hover:bg-accent hover:text-accent-foreground",
-                        highlightedIndex === index && "bg-accent text-accent-foreground"
-                      )}
+                    className={cn(
+                      'block px-4 py-2 hover:bg-accent hover:text-accent-foreground',
+                      highlightedIndex === index &&
+                        'bg-accent text-accent-foreground'
+                    )}
                     onMouseEnter={() => setHighlightedIndex(index)}
                     onClick={() => {
                       setIsOpen(false);
