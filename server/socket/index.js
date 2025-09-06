@@ -1,7 +1,12 @@
 const { Server } = require("socket.io");
-const socketMiddleware = require("../middleware/socketMiddleware");
+// const { createAdapter } = require("@socket.io/redis-adapter");
+// const { createClient } = require("redis");
+
 const Cart = require("../models/Cart");
 const Message = require("../models/Message");
+
+const socketMiddleware = require("../middleware/socketMiddleware");
+const rateLimiter = require("../middleware/socketRateLimiter");
 
 let io;
 
@@ -9,6 +14,14 @@ const initSocket = (server, allowedOrigins) => {
   io = new Server(server, {
     cors: { origin: allowedOrigins, credentials: true },
   });
+
+  // const pubClient = createClient({ url: process.env.REDIS_URL });
+  // const subClient = pubClient.duplicate();
+
+  // await pubClient.connect();
+  // await subClient.connect();
+
+  // io.adapter(createAdapter(pubClient, subClient));
 
   // Socket middleware for JWT auth
   io.use(socketMiddleware);
@@ -73,6 +86,8 @@ const initSocket = (server, allowedOrigins) => {
     console.log(
       `💬 Chat connected: ${socket.user.userId}, role: ${socket.user.role}`
     );
+
+    rateLimiter(socket, 10, 10000);
 
     if (socket.user.role === "admin") {
       socket.join("admins");
