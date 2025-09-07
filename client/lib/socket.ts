@@ -21,7 +21,11 @@ export interface ServerToClientCartEvents {
 
 // -------- Chat Types --------
 export interface ClientToServerChatEvents {
-  'message': (payload: { to: string; content: string }) => void;
+  'message': (payload: {
+    to: string;
+    content: string;
+    type: 'text' | 'image';
+  }) => void;
 }
 
 export interface ServerToClientChatEvents {
