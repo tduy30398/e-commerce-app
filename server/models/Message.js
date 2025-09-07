@@ -16,8 +16,13 @@ const messageSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    type: {
+      type: String,
+      enum: ["text", "image"],
+      default: "text",
+    },
   },
-  { timestamps: true } // adds createdAt and updatedAt
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Message", messageSchema);

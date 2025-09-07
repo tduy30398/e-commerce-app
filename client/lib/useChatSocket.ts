@@ -10,6 +10,7 @@ export interface ChatMessage {
   from: string;
   to: string;
   content: string;
+  type: 'text' | 'image';
   createdAt: string;
   updatedAt: string;
 }
@@ -37,10 +38,14 @@ export const useChatSocket = () => {
     };
   }, [accessToken, addMessage, profileData]);
 
-  const sendMessage = (to: string, content: string) => {
+  const sendMessage = (
+    to: string,
+    content: string,
+    type: 'text' | 'image' = 'text'
+  ) => {
     const chatSocket = getChatSocket();
     if (!chatSocket) return;
-    chatSocket.emit('message', { to, content });
+    chatSocket.emit('message', { to, content, type });
   };
 
   return { sendMessage };

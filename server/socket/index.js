@@ -96,11 +96,12 @@ const initSocket = (server, allowedOrigins) => {
     }
 
     // User sends message
-    socket.on("message", async ({ to, content }) => {
+    socket.on("message", async ({ to, content, type }) => {
       const msg = {
         from: socket.user.userId,
         to,
         content,
+        type: type || "text",
       };
 
       const savedMessage = await Message.create(msg);

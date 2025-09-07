@@ -206,7 +206,7 @@ const ChatWidget = () => {
                 <div className="flex flex-col w-full md:w-3/5 h-full">
                   {selectedUser ? (
                     <div
-                      className="flex-1 p-3 overflow-auto custom-scrollbar"
+                      className="flex-1 p-3 overflow-auto custom-scrollbar bg-gray-300"
                       onScroll={handleScroll}
                     >
                       {loadingChatHistory ? (
