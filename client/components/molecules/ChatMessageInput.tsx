@@ -35,7 +35,7 @@ const ChatMessageInput = ({
   });
 
   const onSubmit = async (data: FormChatProps) => {
-    if (!data.message) return;
+    if (!data.message.trim()) return;
 
     sendMessage(activeUserId, data.message);
     method.resetField('message');
