@@ -5,7 +5,7 @@ import { Form, FormControl, FormField, FormItem } from '../ui/form';
 import { useForm } from 'react-hook-form';
 import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
-import { Image as ImageIcon, SendHorizonal } from 'lucide-react';
+import { Image as ImageIcon, LoaderCircle, SendHorizonal } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { toast } from 'sonner';
 import axiosInstance from '@/lib/axios';
@@ -24,6 +24,7 @@ const ChatMessageInput = ({
   activeUserId,
   sendMessage,
 }: ChatMessageInputProps) => {
+  const [isLoading, setIsLoading] = React.useState(false);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -55,6 +56,7 @@ const ChatMessageInput = ({
     formData.append('file', file);
 
     try {
+      setIsLoading(true);
       const res: AxiosResponse<{ url: string }> = await axiosInstance.post(
         '/upload',
         formData,
@@ -71,6 +73,7 @@ const ChatMessageInput = ({
     } catch (err) {
       toast.error('Upload failed: ' + err);
     } finally {
+      setIsLoading(false);
       e.target.value = '';
     }
   };
@@ -83,7 +86,10 @@ const ChatMessageInput = ({
     <Form {...method}>
       <form
         onSubmit={method.handleSubmit(onSubmit)}
-        className={cn('border-t flex relative', activeUserId ? '' : 'hidden')}
+        className={cn(
+          'border-t flex items-center relative',
+          activeUserId ? '' : 'hidden'
+        )}
       >
         <input
           type="file"
@@ -127,14 +133,18 @@ const ChatMessageInput = ({
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          variant="outline"
-          disabled={!method.watch('message') || activeUserId === ''}
-          className="cursor-pointer h-11! shrink-0 text-blue-500 hover:text-blue-500 absolute right-0 border-none outline-none bg-transparent hover:bg-transparent hover:opacity-80"
-        >
-          <SendHorizonal className="size-6" />
-        </Button>
+        {isLoading ? (
+          <LoaderCircle className="size-6 animate-spin" />
+        ) : (
+          <Button
+            type="submit"
+            variant="outline"
+            disabled={!method.watch('message') || activeUserId === ''}
+            className="cursor-pointer h-11! shrink-0 text-blue-500 hover:text-blue-500 absolute right-0 border-none outline-none bg-transparent hover:bg-transparent hover:opacity-80"
+          >
+            <SendHorizonal className="size-6" />
+          </Button>
+        )}
       </form>
     </Form>
   );

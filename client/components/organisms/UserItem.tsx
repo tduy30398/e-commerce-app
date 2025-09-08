@@ -27,12 +27,14 @@ const UserItem = ({ user, selectedUser, setSelectedUser }: UserItemProps) => {
 
   const lastMessage = React.useMemo(() => {
     const userMessages = messages[user._id] || [];
+    let lastMessage;
+    if (userMessages[userMessages.length - 1]?.type === 'image') {
+      lastMessage = 'Image';
+    } else {
+      lastMessage = userMessages[userMessages.length - 1]?.content;
+    }
 
-    return (
-      userMessages[userMessages.length - 1]?.content ||
-      chatHistory?.data?.[0]?.content ||
-      ''
-    );
+    return lastMessage || chatHistory?.data?.[0]?.content || '';
   }, [messages, user._id, chatHistory]);
 
   if (loadingChatHistory) return <ChatUserSkeleton />;
@@ -41,7 +43,7 @@ const UserItem = ({ user, selectedUser, setSelectedUser }: UserItemProps) => {
     <div
       onClick={() => setSelectedUser(user._id)}
       className={cn(
-        'flex items-center gap-2 w-fit md:w-full cursor-pointer md:p-3 hover:bg-gray-200',
+        'flex items-center gap-2 w-fit max-md:rounded-full md:w-full cursor-pointer md:p-3 hover:bg-gray-200',
         selectedUser === user._id && 'md:bg-gray-200'
       )}
     >
