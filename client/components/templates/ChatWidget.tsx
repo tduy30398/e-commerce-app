@@ -103,12 +103,6 @@ const ChatWidget = () => {
   };
 
   React.useEffect(() => {
-    if (conversation.length > 0 && isNearBottom()) {
-      scrollToBottom();
-    }
-  }, [conversation]);
-
-  React.useEffect(() => {
     if (selectedUser && chatHistory) {
       setMessages(selectedUser, chatHistory?.data || []);
     }
@@ -120,6 +114,37 @@ const ChatWidget = () => {
       setHasMore(true);
     }
   }, [selectedUser]);
+
+  // scroll to bottom with image
+  React.useEffect(() => {
+    if (conversation.length === 0) return;
+
+    const lastMsg = conversation[conversation.length - 1];
+    const container = messagesEndRef.current?.parentElement;
+
+    // if last message is NOT an image → normal scroll
+    if (lastMsg.type !== 'image') {
+      if (isNearBottom()) scrollToBottom();
+      return;
+    }
+
+    // if last message is an image → wait until it's loaded
+    const img = container?.querySelector<HTMLImageElement>(
+      `img[src="${lastMsg.content}"]`
+    );
+
+    if (img) {
+      if (img.complete) {
+        // already loaded
+        requestAnimationFrame(() => scrollToBottom());
+      } else {
+        // onload event fires when image finishes loading
+        img.onload = () => {
+          requestAnimationFrame(() => scrollToBottom());
+        };
+      }
+    }
+  }, [conversation]);
 
   return (
     <div
@@ -160,7 +185,7 @@ const ChatWidget = () => {
                     setHasMore(true);
                   }}
                 >
-                  <SquareArrowDown className="cursor-pointer size-5" />
+                  <SquareArrowDown className="cursor-pointer size-6" />
                 </Button>
               </div>
               <div className="max-md:flex-col flex w-[95vw] h-[80vh] md:w-[642px] md:h-[500px] overflow-hidden">
@@ -206,7 +231,7 @@ const ChatWidget = () => {
                 <div className="flex flex-col w-full md:w-3/5 h-full">
                   {selectedUser ? (
                     <div
-                      className="flex-1 p-3 overflow-auto custom-scrollbar bg-gray-300"
+                      className="flex-1 p-3 overflow-y-auto overflow-x-hidden custom-scrollbar bg-gray-300"
                       onScroll={handleScroll}
                     >
                       {loadingChatHistory ? (
