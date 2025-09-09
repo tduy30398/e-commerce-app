@@ -27,9 +27,8 @@ const ChatItem = ({ msg }: ChatItemProps) => {
           <TooltipTrigger asChild>
             <div
               className={cn(
-                'rounded-lg max-w-4/5 text-base shadow-md break-words',
-                isOwn ? 'bg-blue-500 text-white' : 'bg-white text-gray-900',
-                !isImage ? 'px-3 py-2' : null
+                'rounded-lg max-w-4/5 shadow-md',
+                isImage ? null : 'px-3 py-2 bg-blue-500 break-words text-white text-base'
               )}
             >
               {isImage ? (
@@ -53,21 +52,23 @@ const ChatItem = ({ msg }: ChatItemProps) => {
         <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
           <DialogContent
             showCloseButton={false}
-            aria-describedby={undefined}
-            className="p-0 bg-transparent border-none shadow-none w-fit max-w-full max-h-full flex items-center justify-center"
+            className="p-0 bg-transparent border-none shadow-none flex items-center justify-center"
           >
             <VisuallyHidden>
               <DialogTitle>Image preview</DialogTitle>
             </VisuallyHidden>
             <DialogClose asChild>
-              <button className="absolute top-4 right-4 text-white/80 hover:text-white bg-black/40 hover:bg-black/60 rounded-full p-2 transition cursor-pointer outline-none">
+              <button
+                aria-label="Close image preview"
+                className="absolute top-4 right-4 text-white/80 hover:text-white bg-black/40 hover:bg-black/60 rounded-full p-2 transition cursor-pointer outline-none"
+              >
                 <X className="size-5" />
               </button>
             </DialogClose>
             <img
               src={msg.content}
               alt="chat preview"
-              className="max-h-[90vh] max-w-[90vw] rounded-lg"
+              className="w-full h-full object-contain rounded-lg"
             />
           </DialogContent>
         </Dialog>
