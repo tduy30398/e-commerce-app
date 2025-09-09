@@ -123,9 +123,15 @@ const ChatMessageInput = ({
                   placeholder="Type a message..."
                   value={value}
                   onChange={onChange}
-                  onKeyDown={(e) =>
-                    e.key === 'Enter' && method.handleSubmit(onSubmit)()
-                  }
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+
+                      if (!isLoading) {
+                        method.handleSubmit(onSubmit)();
+                      }
+                    }
+                  }}
                   className="text-lg! h-11! px-12 outline-none"
                   ref={inputRef}
                 />

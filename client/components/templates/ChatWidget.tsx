@@ -115,7 +115,7 @@ const ChatWidget = () => {
     }
   }, [selectedUser]);
 
-  // scroll to bottom with image
+  // scroll to bottom with new message
   React.useEffect(() => {
     if (conversation.length === 0) return;
 
