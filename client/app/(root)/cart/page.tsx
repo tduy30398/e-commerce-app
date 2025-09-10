@@ -66,7 +66,7 @@ const CartPage = () => {
             <div className="flex flex-col col-span-1 lg:col-span-6 border border-black/10 rounded-2xl p-4 md:p-6 h-fit">
               {products.map((item) => (
                 <ProductCart
-                  key={item.productId._id}
+                  key={item._id}
                   data={item}
                   onQuantityChange={handleQuantityChange}
                 />
