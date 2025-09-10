@@ -1,0 +1,26 @@
+{
+  "header": {
+    "login": "Login",
+    "logout": "Logout",
+    "download": "Download",
+    "products": "Products",
+    "dashboard": "Dashboard",
+    "search": "Search for products...",
+    "searching": "Searching...",
+    "profile": "Profile",
+    "home": "Home"
+  },
+  "login": {
+    "signin": "Sign In",
+    "register": "Register",
+    "description": "Don't have an account?",
+    "already": "Already have an account?",
+    "signup": "Sign Up",
+    "orwith": "Or with email and password",
+    "email": "Email",
+    "password": "Password",
+    "birthdate": "Birthdate",
+    "name": "Name",
+    "confirmPassword": "Confirm Password"
+  }
+}

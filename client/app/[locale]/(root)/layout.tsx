@@ -1,5 +1,5 @@
 import ChatWidget from '@/components/templates/ChatWidget';
-import { DynamicBreadcrumb } from '@/components/templates/DynamicBreadcrumb';
+import DynamicBreadcrumb from '@/components/templates/DynamicBreadcrumb';
 import FooterForm from '@/components/templates/FooterForm';
 import Header from '@/components/templates/Header';
 

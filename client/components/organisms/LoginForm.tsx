@@ -23,12 +23,14 @@ import { toast } from 'sonner';
 import React from 'react';
 import { UserProfile } from '@/actions/authenticate/type';
 import useProfileStore from '@/store/useProfileStore';
+import { useTranslations } from 'next-intl';
 
 type FormData = z.infer<typeof loginFormSchema>;
 
 const LoginForm = () => {
   const { setAuth } = useProfileStore();
   const router = useRouter();
+  const t = useTranslations();
 
   const [isLoading, setIsLoading] = React.useState(false);
   const methods = useForm<FormData>({
@@ -105,13 +107,14 @@ const LoginForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                Email<span className="text-red-500">*</span>
+                {t('login.email')}<span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input
                   className="border-[#889397] h-12.5 rounded-2xl text-black text-base!"
                   value={field.value}
                   onChange={field.onChange}
+                  placeholder={t('login.email')}
                 />
               </FormControl>
               <FormMessage />
@@ -124,13 +127,14 @@ const LoginForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                Password<span className="text-red-500">*</span>
+                {t('login.password')}<span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <PasswordInput
                   className="border-[#889397] h-12.5 rounded-2xl text-black text-base!"
                   value={field.value}
                   onChange={field.onChange}
+                  placeholder={t('login.password')}
                 />
               </FormControl>
               <FormMessage />
@@ -142,7 +146,7 @@ const LoginForm = () => {
           disabled={isLoading}
           className="cursor-pointer main-button w-full mt-4 max-md:mt-4 h-12.5"
         >
-          Login
+          {t('login.signin')}
         </Button>
       </form>
     </Form>

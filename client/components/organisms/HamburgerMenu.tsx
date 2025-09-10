@@ -21,11 +21,15 @@ import { Separator } from '../ui/separator';
 import useProfileStore from '@/store/useProfileStore';
 import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
+import { useLocale, useTranslations } from 'next-intl';
+import { getRoute } from '@/lib/utils';
 
 const HamburgerMenu = () => {
   const { accessToken } = useProfileStore();
   const router = useRouter();
   const { data: session } = useSession();
+  const t = useTranslations();
+  const locale = useLocale();
 
   const logoutService = async () => {
     try {
@@ -96,14 +100,14 @@ const HamburgerMenu = () => {
               }
               className="w-full cursor-pointer text-center bg-black text-white text-base rounded-4xl py-3 h-12 hover:bg-black/80"
             >
-              Log out
+              {t('header.logout')}
             </Button>
           ) : (
             <Link
-              href={ROUTES.LOGIN}
+              href={getRoute(ROUTES.LOGIN, locale)}
               className="w-full cursor-pointer text-center bg-black text-white text-base rounded-4xl py-3 hover:bg-black/80"
             >
-              Login
+              {t('header.login')}
             </Link>
           )}
         </SheetClose>

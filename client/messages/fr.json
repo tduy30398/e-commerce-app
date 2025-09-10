@@ -1,0 +1,26 @@
+{
+  "header": {
+    "login": "Se connecter",
+    "logout": "Se déconnecter",
+    "download": "Télécharger",
+    "products": "Produits",
+    "dashboard": "Tableau de bord",
+    "search": "Rechercher des produits...",
+    "searching": "Recherche en cours...",
+    "profile": "Profil",
+    "home": "Accueil"
+  },
+  "login": {
+    "signin": "Se connecter",
+    "register": "S'inscrire",
+    "description": "Vous n'avez pas de compte ?",
+    "already": "Vous avez déjà un compte ?",
+    "signup": "S'inscrire",
+    "orwith": "Ou avec email et mot de passe",
+    "email": "Email",
+    "password": "Mot de passe",
+    "birthdate": "Date de naissance",
+    "name": "Nom",
+    "confirmPassword": "Confirmer le mot de passe"
+  }
+}

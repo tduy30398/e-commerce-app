@@ -12,15 +12,15 @@ interface StatisticsProps {
 
 export const navigateList: NavigateListProps[] = [
   {
-    title: 'Products',
+    title: 'products',
     link: ROUTES.PRODUCT,
   },
   {
-    title: 'Download',
+    title: 'download',
     link: '/',
   },
   {
-    title: 'Dashboard',
+    title: 'dashboard',
     link: ROUTES.ADMIN_PRODUCT,
   },
 ];
