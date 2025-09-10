@@ -13,6 +13,7 @@ import { Cart } from '../organisms/RightHeader';
 import { cn, formattedCapitalize } from '@/lib/utils';
 import { ROUTES } from '@/lib/constants';
 import { Button } from '../ui/button';
+import { Badge } from '../ui/badge';
 
 interface ShoppingCartHeaderProps {
   cart: Cart | null;
@@ -32,9 +33,12 @@ const ShoppingCartHeader = ({ cart }: ShoppingCartHeaderProps) => {
         <Link href={ROUTES.CART} className="relative">
           <ShoppingCart className="size-6 cursor-pointer" />
           {cart?.items?.length ? (
-            <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white shadow-md">
+            <Badge
+              className="absolute -top-2 -right-2 flex size-5 items-center justify-center rounded-full text-xs font-bold text-white shadow-md"
+              variant="destructive"
+            >
               {cart.items.length}
-            </span>
+            </Badge>
           ) : null}
         </Link>
       </HoverCardTrigger>
@@ -70,10 +74,9 @@ const ShoppingCartHeader = ({ cart }: ShoppingCartHeaderProps) => {
                         </p>
                       </div>
                       <p className="text-base text-[#ee4d2d] shrink-0">
-                        {`$${
-                          item.productId.promotionalPrice ||
+                        {`$${item.productId.promotionalPrice ||
                           item.productId.price
-                        }`}
+                          }`}
                       </p>
                     </Link>
                   ))}
