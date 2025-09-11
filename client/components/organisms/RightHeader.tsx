@@ -26,6 +26,8 @@ import { AxiosResponse } from 'axios';
 import ShoppingCartHeader from '../molecules/ShoppingCartHeader';
 import { ProductTypes } from '@/actions/product/type';
 import useCartStore from '@/store/useCartStore';
+import { useLocale, useTranslations } from 'next-intl';
+import { getRoute } from '@/lib/utils';
 
 export interface ProductItemCard {
   productId: ProductTypes;
@@ -47,6 +49,8 @@ const RightHeader = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const isMobile = useIsMobile();
+  const t = useTranslations();
+  const locale = useLocale();
 
   const logoutService = async () => {
     try {
@@ -124,7 +128,7 @@ const RightHeader = () => {
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className="text-md cursor-pointer">
                 <Link href={session ? ROUTES.PROFILE_OAUTH : ROUTES.PROFILE}>
-                  Profile
+                  {t('header.profile')}
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
@@ -138,17 +142,17 @@ const RightHeader = () => {
                 }
                 className="text-md cursor-pointer bg-transparent w-full text-black justify-start outline-none hover:bg-transparent"
               >
-                Log out
+                {t('header.logout')}
               </Button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
         <Link
-          href={ROUTES.LOGIN}
+          href={getRoute(ROUTES.LOGIN, locale)}
           className="text-black text-base hover:underline max-md:hidden"
         >
-          Login
+          {t('header.login')}
         </Link>
       )}
     </div>

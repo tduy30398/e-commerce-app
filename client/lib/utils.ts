@@ -1,9 +1,17 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { ROUTES } from './constants';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export const getRoute = (route: string, locale: string) => {
+  if (route === ROUTES.HOME) {
+    return `/${locale}`;
+  }
+  return `/${locale}${route}`;
+};
 
 export const formattedCapitalize = (str: string) => {
   if (!str) return '';

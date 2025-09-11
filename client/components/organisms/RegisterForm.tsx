@@ -25,12 +25,14 @@ import { Input } from '../ui/input';
 import { DatePicker } from './DatePicker';
 import { UserProfile } from '@/actions/authenticate/type';
 import useProfileStore from '@/store/useProfileStore';
+import { useTranslations } from 'next-intl';
 
 type FormData = z.infer<typeof registerFormSchema>;
 
 const RegisterForm = () => {
   const { setAuth } = useProfileStore();
   const router = useRouter();
+  const t = useTranslations();
 
   const [isLoading, setIsLoading] = React.useState(false);
   const methods = useForm<FormData>({
@@ -108,13 +110,14 @@ const RegisterForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                Name<span className="text-red-500">*</span>
+                {t('login.name')}<span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input
                   className="border-[#889397] h-12.5 rounded-2xl text-black text-base!"
                   value={field.value}
                   onChange={field.onChange}
+                  placeholder={t('login.name')}
                 />
               </FormControl>
               <FormMessage />
@@ -127,13 +130,14 @@ const RegisterForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                Email<span className="text-red-500">*</span>
+                {t('login.email')}<span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input
                   className="border-[#889397] h-12.5 rounded-2xl text-black text-base!"
                   value={field.value}
                   onChange={field.onChange}
+                  placeholder={t('login.email')}
                 />
               </FormControl>
               <FormMessage />
@@ -146,13 +150,14 @@ const RegisterForm = () => {
           render={({ field, fieldState }) => (
             <FormItem>
               <FormLabel className="text-base">
-                Birthday<span className="text-red-500">*</span>
+                {t('login.birthdate')}<span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <DatePicker
                   onChange={field.onChange}
                   value={field.value}
                   isError={!!fieldState.error?.message}
+                  placeholder={t('login.birthdate')}
                 />
               </FormControl>
               <FormMessage />
@@ -165,13 +170,14 @@ const RegisterForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                Password<span className="text-red-500">*</span>
+                {t('login.password')}<span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <PasswordInput
                   className="border-[#889397] h-12.5 rounded-2xl text-black text-base!"
                   value={field.value}
                   onChange={field.onChange}
+                  placeholder={t('login.password')}
                 />
               </FormControl>
               <FormMessage />
@@ -184,13 +190,14 @@ const RegisterForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                Confirm Password<span className="text-red-500">*</span>
+                {t('login.confirmPassword')}<span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <PasswordInput
                   className="border-[#889397] h-12.5 rounded-2xl text-black text-base!"
                   value={field.value}
                   onChange={field.onChange}
+                  placeholder={t('login.confirmPassword')}
                 />
               </FormControl>
               <FormMessage />
@@ -202,7 +209,7 @@ const RegisterForm = () => {
           type="submit"
           className="cursor-pointer main-button w-full mt-4 max-md:mt-4 max-md:mb-9 h-12.5"
         >
-          Register
+          {t('login.register')}
         </Button>
       </form>
     </Form>

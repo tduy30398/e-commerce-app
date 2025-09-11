@@ -6,30 +6,34 @@ import { socialData } from '@/public/dummy/general';
 import RegisterForm from '../organisms/RegisterForm';
 import LoginForm from '../organisms/LoginForm';
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
+import { cn, getRoute } from '@/lib/utils';
+import { getTranslations } from 'next-intl/server';
 
 interface AuthFormProps {
   type: 'login' | 'register';
+  locale: string;
 }
 
-const AuthForm = ({ type }: AuthFormProps) => {
+const AuthForm = async ({ type, locale }: AuthFormProps) => {
+  const t = await getTranslations({ locale, namespace: 'login' });
+
   return (
     <div className={cn('flex', type === 'login' ? '' : 'flex-row-reverse')}>
       <div className="max-md:h-screen w-full md:w-3/5 lg:w-2/5 md:rounded-3xl p-4 md:p-8 max-md:!justify-start flex-center flex-col gap-6">
         <p className="text-4xl font-black max-md:mt-12">
-          {type === 'login' ? 'SIGN IN' : 'SIGN UP'}
+          {type === 'login' ? t('signin') : t('signup')}
         </p>
         <div>
           <span className="text-xl">
             {type === 'login'
-              ? "Don't have an account?"
-              : 'Already have an account?'}
+              ? t('description')
+              : t('already')}
           </span>
           <Link
             className="text-xl underline ml-2"
-            href={type === 'login' ? ROUTES.REGISTER : ROUTES.LOGIN}
+            href={getRoute(type === 'login' ? ROUTES.REGISTER : ROUTES.LOGIN, locale)}
           >
-            {type === 'login' ? 'Sign Up' : 'Sign In'}
+            {type === 'login' ? t('signup') : t('signin')}
           </Link>
         </div>
         {socialData.map((item) => (
@@ -38,7 +42,7 @@ const AuthForm = ({ type }: AuthFormProps) => {
         <div className="max-w-82.5 w-full flex items-center">
           <div className="border-b-[1px] border-gray-300 flex-1"></div>
           <p className="text-md text-[#5c6c75] mx-2">
-            Or with email and password
+            {t('orwith')}
           </p>
           <div className="border-b-[1px] border-gray-300 flex-1"></div>
         </div>

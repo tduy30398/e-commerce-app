@@ -8,10 +8,14 @@ import SearchForm from '../molecules/SearchForm';
 import HamburgerMenu from '../organisms/HamburgerMenu';
 import React from 'react';
 import RightHeader from '../organisms/RightHeader';
+import { useLocale, useTranslations } from 'next-intl';
+import { getRoute } from '@/lib/utils';
 
 const Header = () => {
   const [showHeader, setShowHeader] = React.useState(true);
   const [lastScrollY, setLastScrollY] = React.useState(0);
+  const t = useTranslations();
+  const locale = useLocale();
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -35,9 +39,8 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-transform duration-300 bg-white shadow-md ${
-        showHeader ? 'translate-y-0' : '-translate-y-full'
-      }`}
+      className={`fixed top-0 left-0 w-full z-50 transition-transform duration-300 bg-white shadow-md ${showHeader ? 'translate-y-0' : '-translate-y-full'
+        }`}
     >
       <div className="relative section-container h-18 xl:h-24 py-6 flex items-center justify-between sm:justify-start">
         <div className="shrink-0 flex items-center">
@@ -45,7 +48,7 @@ const Header = () => {
             <HamburgerMenu />
           </div>
           <Link
-            href={ROUTES.HOME}
+            href={getRoute(ROUTES.HOME, locale)}
             className="relative w-[126px] h-[20px] md:w-[160px] md:h-[26px]"
           >
             <Image
@@ -60,10 +63,10 @@ const Header = () => {
             {navigateList.map((item, index) => (
               <Link
                 key={index}
-                href={item.link}
+                href={getRoute(item.link, locale)}
                 className="ml-6 text-black text-base hover:underline"
               >
-                {item.title}
+                {t(`header.${item.title}`)}
               </Link>
             ))}
           </nav>
@@ -71,7 +74,7 @@ const Header = () => {
         <SearchForm />
         <RightHeader />
       </div>
-    </header>
+    </header >
   );
 };
 

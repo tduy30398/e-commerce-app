@@ -19,6 +19,7 @@ interface DatePickerProps {
   isError?: boolean;
   className?: string;
   disabled?: boolean;
+  placeholder?: string;
 }
 
 export function DatePicker({
@@ -27,6 +28,7 @@ export function DatePicker({
   isError,
   className,
   disabled = false,
+  placeholder,
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
   const [displayMonth, setDisplayMonth] = React.useState<Date | undefined>(
@@ -48,12 +50,12 @@ export function DatePicker({
             variant="outline"
             id="date"
             className={cn(
-              'w-full justify-between border-[#889397] rounded-2xl font-normal text-base h-12.5',
+              'w-full justify-between border-[#889397] rounded-2xl font-medium text-base h-12.5 text-[#889397]',
               isError && 'border-red-500 text-red-500',
               className
             )}
           >
-            {value ? format(value, 'dd/MM/yyyy') : 'Select date'}
+            {value ? format(value, 'dd/MM/yyyy') : placeholder}
             <CalendarIcon />
           </Button>
         </PopoverTrigger>

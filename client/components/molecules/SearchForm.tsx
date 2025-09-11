@@ -11,9 +11,11 @@ import Link from 'next/link';
 import { ROUTES } from '@/lib/constants';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 
 const SearchForm: React.FC = () => {
   const router = useRouter();
+  const t = useTranslations();
 
   const [value, setValue] = React.useState('');
   const debouncedValue = useDebounce(value, 500);
@@ -70,7 +72,7 @@ const SearchForm: React.FC = () => {
               ref={inputRef}
               name="query"
               type="search"
-              placeholder="Search for products..."
+              placeholder={t('header.search')}
               className="pl-10 bg-flash-white rounded-3xl h-12 text-base!"
               value={value}
               onChange={(e) => {
@@ -130,7 +132,7 @@ const SearchForm: React.FC = () => {
         >
           {isValidating ? (
             <div className="p-4 text-sm text-muted-foreground">
-              Searching...
+              {t('header.searching')}
             </div>
           ) : (
             <ul className="max-h-100 overflow-y-auto custom-scrollbar">
@@ -141,7 +143,7 @@ const SearchForm: React.FC = () => {
                     className={cn(
                       'block px-4 py-2 hover:bg-accent hover:text-accent-foreground',
                       highlightedIndex === index &&
-                        'bg-accent text-accent-foreground'
+                      'bg-accent text-accent-foreground'
                     )}
                     onMouseEnter={() => setHighlightedIndex(index)}
                     onClick={() => {
