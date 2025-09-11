@@ -12,13 +12,17 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { cn, formatKebabSegment, formattedCapitalize, getRoute } from '@/lib/utils';
+import {
+  cn,
+  formatKebabSegment,
+  formattedCapitalize,
+  getRoute,
+} from '@/lib/utils';
 import useSWR from 'swr';
 import { getProductDetail } from '@/actions/product';
 import { ROUTES } from '@/lib/constants';
 import { useLocale, useTranslations } from 'next-intl';
-
-const SUPPORTED_LOCALES = ['en', 'es', 'fr'];
+import { locales } from '@/i18n/routing';
 
 const DynamicBreadcrumb = () => {
   const pathname = usePathname();
@@ -27,7 +31,10 @@ const DynamicBreadcrumb = () => {
   const locale = useLocale();
   const t = useTranslations();
 
-  const pathSegments = rawSegments.length > 0 && SUPPORTED_LOCALES.includes(rawSegments[0]) ? rawSegments.slice(1) : rawSegments;
+  const pathSegments =
+    rawSegments.length > 0 && locales.includes(rawSegments[0])
+      ? rawSegments.slice(1)
+      : rawSegments;
 
   const { data, isLoading } = useSWR(
     params.id ? ['product-detail', params.id] : null,
@@ -48,10 +55,7 @@ const DynamicBreadcrumb = () => {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link
-              className="text-base"
-              href={getRoute(ROUTES.HOME, locale)}
-            >
+            <Link className="text-base" href={getRoute(ROUTES.HOME, locale)}>
               {t('header.home')}
             </Link>
           </BreadcrumbLink>
@@ -70,7 +74,8 @@ const DynamicBreadcrumb = () => {
             if (isLoading) {
               displayName = 'Loading...';
             } else {
-              displayName = formattedCapitalize(data?.product.name || '') || segment || '';
+              displayName =
+                formattedCapitalize(data?.product.name || '') || segment || '';
             }
           } else {
             displayName = formatKebabSegment(segment);
@@ -98,6 +103,6 @@ const DynamicBreadcrumb = () => {
       </BreadcrumbList>
     </Breadcrumb>
   );
-}
+};
 
 export default DynamicBreadcrumb;

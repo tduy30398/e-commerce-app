@@ -3,12 +3,10 @@ import type { NextRequest } from 'next/server';
 import { ROUTES } from './lib/constants';
 import { getToken } from 'next-auth/jwt';
 import createMiddleware from 'next-intl/middleware';
+import { defaultLocale, locales } from './i18n/routing';
 
 const protectedRoutes = [ROUTES.PROFILE, ROUTES.PROFILE_OAUTH];
 const authRoutes = [ROUTES.LOGIN, ROUTES.REGISTER];
-
-const locales = ['en', 'es', 'fr'];
-const defaultLocale = 'en';
 
 const intlMiddleware = createMiddleware({
   locales,
@@ -23,9 +21,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname === '/') {
-    return NextResponse.redirect(
-      new URL(`/${defaultLocale}`, request.url)
-    );
+    return NextResponse.redirect(new URL(`/${defaultLocale}`, request.url));
   }
 
   const token = await getToken({
