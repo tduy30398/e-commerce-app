@@ -22,5 +22,9 @@
     "birthdate": "Date de naissance",
     "name": "Nom",
     "confirmPassword": "Confirmer le mot de passe"
+  },
+  "cart": {
+    "empty": "Votre panier est vide",
+    "view": "Voir mon panier"
   }
 }

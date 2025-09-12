@@ -47,6 +47,11 @@ const HamburgerMenu = () => {
     }
   };
 
+  const logoutServiceSocial = () => {
+    signOut({ callbackUrl: getRoute(ROUTES.HOME, locale) });
+    toast.success('Logout successfully');
+  };
+
   return (
     <Sheet>
       <SheetTrigger aria-label="Open menu">
@@ -80,7 +85,7 @@ const HamburgerMenu = () => {
               <SheetClose asChild key={index}>
                 <Link href={item.link} className="hover:underline block">
                   <SheetDescription className="text-black font-bold text-xl">
-                    {item.title}
+                    {t(`header.${item.title}`)}
                   </SheetDescription>
                   {navigateList.length - 1 !== index && (
                     <Separator className="my-4" />
@@ -94,9 +99,7 @@ const HamburgerMenu = () => {
           {accessToken || session ? (
             <Button
               onClick={() =>
-                session
-                  ? signOut({ callbackUrl: ROUTES.HOME })
-                  : logoutService()
+                session ? logoutServiceSocial() : logoutService()
               }
               className="w-full cursor-pointer text-center bg-black text-white text-base rounded-4xl py-3 h-12 hover:bg-black/80"
             >

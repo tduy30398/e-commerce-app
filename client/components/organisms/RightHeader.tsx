@@ -28,6 +28,7 @@ import { ProductTypes } from '@/actions/product/type';
 import useCartStore from '@/store/useCartStore';
 import { useLocale, useTranslations } from 'next-intl';
 import { getRoute } from '@/lib/utils';
+import LocaleSwitch from './LocaleSwitch';
 
 export interface ProductItemCard {
   productId: ProductTypes;
@@ -61,11 +62,16 @@ const RightHeader = () => {
       if (res.status === 200) {
         logoutUserService();
         toast.success('Logout successfully');
-        router.replace(ROUTES.HOME);
+        router.replace(getRoute(ROUTES.HOME, locale));
       }
     } catch {
       toast.error('Logout failed');
     }
+  };
+
+  const logoutServiceSocial = () => {
+    signOut({ callbackUrl: getRoute(ROUTES.HOME, locale) });
+    toast.success('Logout successfully');
   };
 
   React.useEffect(() => {
@@ -102,6 +108,7 @@ const RightHeader = () => {
       <div className="sm:hidden size-6">
         <MobileSearchHeader />
       </div>
+      <LocaleSwitch />
       <ShoppingCartHeader cart={cart} />
       {accessToken || session ? (
         <DropdownMenu>
@@ -122,12 +129,17 @@ const RightHeader = () => {
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className={isMobile ? 'w-20 mr-2' : 'w-40'}
+            className={isMobile ? 'mr-2' : 'w-40'}
             align="center"
           >
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className="text-md cursor-pointer">
-                <Link href={session ? ROUTES.PROFILE_OAUTH : ROUTES.PROFILE}>
+                <Link
+                  href={getRoute(
+                    session ? ROUTES.PROFILE_OAUTH : ROUTES.PROFILE,
+                    locale
+                  )}
+                >
                   {t('header.profile')}
                 </Link>
               </DropdownMenuItem>
@@ -135,12 +147,11 @@ const RightHeader = () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Button
+                variant="outline"
                 onClick={() =>
-                  session
-                    ? signOut({ callbackUrl: ROUTES.HOME })
-                    : logoutService()
+                  session ? logoutServiceSocial() : logoutService()
                 }
-                className="text-md cursor-pointer bg-transparent w-full text-black justify-start outline-none hover:bg-transparent"
+                className="text-md cursor-pointer bg-transparent border-none shadow-none w-full text-black justify-start outline-none hover:bg-transparent"
               >
                 {t('header.logout')}
               </Button>

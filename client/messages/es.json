@@ -22,5 +22,9 @@
     "birthdate": "Fecha de nacimiento",
     "name": "Nombre",
     "confirmPassword": "Confirmar contraseña"
+  },
+  "cart": {
+    "empty": "Tu carrito está vacío",
+    "view": "Ver mi carrito de compras"
   }
 }
