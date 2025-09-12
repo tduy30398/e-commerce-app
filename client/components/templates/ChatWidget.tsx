@@ -260,7 +260,7 @@ const ChatWidget = () => {
                     </div>
                   ) : (
                     <div className="h-full flex-col flex-center">
-                      <img src="icons/chat-welcome.svg" alt="welcome chat" />
+                      <img src="/icons/chat-welcome.svg" alt="welcome chat" />
                       <p className="font-bold text-xl mt-4">
                         Welcome to the SHOP.CO chat
                       </p>

@@ -39,8 +39,9 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-transform duration-300 bg-white shadow-md ${showHeader ? 'translate-y-0' : '-translate-y-full'
-        }`}
+      className={`fixed top-0 left-0 w-full z-50 transition-transform duration-300 bg-white shadow-md ${
+        showHeader ? 'translate-y-0' : '-translate-y-full'
+      }`}
     >
       <div className="relative section-container h-18 xl:h-24 py-6 flex items-center justify-between sm:justify-start">
         <div className="shrink-0 flex items-center">
@@ -60,9 +61,9 @@ const Header = () => {
             />
           </Link>
           <nav className="ml-10 hidden lg:flex items-center">
-            {navigateList.map((item, index) => (
+            {navigateList.map((item) => (
               <Link
-                key={index}
+                key={item.title}
                 href={getRoute(item.link, locale)}
                 className="ml-6 text-black text-base hover:underline"
               >
@@ -74,7 +75,7 @@ const Header = () => {
         <SearchForm />
         <RightHeader />
       </div>
-    </header >
+    </header>
   );
 };
 

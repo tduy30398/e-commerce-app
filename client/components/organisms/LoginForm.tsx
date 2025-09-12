@@ -23,7 +23,8 @@ import { toast } from 'sonner';
 import React from 'react';
 import { UserProfile } from '@/actions/authenticate/type';
 import useProfileStore from '@/store/useProfileStore';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import { getRoute } from '@/lib/utils';
 
 type FormData = z.infer<typeof loginFormSchema>;
 
@@ -31,6 +32,7 @@ const LoginForm = () => {
   const { setAuth } = useProfileStore();
   const router = useRouter();
   const t = useTranslations();
+  const locale = useLocale();
 
   const [isLoading, setIsLoading] = React.useState(false);
   const methods = useForm<FormData>({
@@ -69,7 +71,7 @@ const LoginForm = () => {
           setAuth(profileRes.data, resData.accessToken);
         }
 
-        router.replace(ROUTES.HOME);
+        router.replace(getRoute(ROUTES.HOME, locale));
       }
     } catch (error) {
       if (isAxiosError(error)) {
@@ -107,7 +109,8 @@ const LoginForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                {t('login.email')}<span className="text-red-500">*</span>
+                {t('login.email')}
+                <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input
@@ -127,7 +130,8 @@ const LoginForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                {t('login.password')}<span className="text-red-500">*</span>
+                {t('login.password')}
+                <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <PasswordInput
