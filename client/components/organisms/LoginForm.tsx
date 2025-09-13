@@ -4,7 +4,6 @@ import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
 import { ROUTES } from '@/lib/constants';
 import { loginFormSchema } from '@/lib/shemas';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { PasswordInput } from '../molecules/PasswordInput';
@@ -23,8 +22,8 @@ import { toast } from 'sonner';
 import React from 'react';
 import { UserProfile } from '@/actions/authenticate/type';
 import useProfileStore from '@/store/useProfileStore';
-import { useLocale, useTranslations } from 'next-intl';
-import { getRoute } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
+import { useRouter } from '@/i18n/navigation';
 
 type FormData = z.infer<typeof loginFormSchema>;
 
@@ -32,7 +31,6 @@ const LoginForm = () => {
   const { setAuth } = useProfileStore();
   const router = useRouter();
   const t = useTranslations();
-  const locale = useLocale();
 
   const [isLoading, setIsLoading] = React.useState(false);
   const methods = useForm<FormData>({
@@ -71,7 +69,7 @@ const LoginForm = () => {
           setAuth(profileRes.data, resData.accessToken);
         }
 
-        router.replace(getRoute(ROUTES.HOME, locale));
+        router.replace(ROUTES.HOME);
       }
     } catch (error) {
       if (isAxiosError(error)) {

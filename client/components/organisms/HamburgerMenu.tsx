@@ -14,7 +14,6 @@ import { ROUTES } from '@/lib/constants';
 import { navigateList } from '@/public/dummy/general';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
@@ -23,6 +22,7 @@ import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 import { useLocale, useTranslations } from 'next-intl';
 import { getRoute } from '@/lib/utils';
+import { Link } from '@/i18n/navigation';
 
 const HamburgerMenu = () => {
   const { accessToken } = useProfileStore();
@@ -107,7 +107,7 @@ const HamburgerMenu = () => {
             </Button>
           ) : (
             <Link
-              href={getRoute(ROUTES.LOGIN, locale)}
+              href={ROUTES.LOGIN}
               className="w-full cursor-pointer text-center bg-black text-white text-base rounded-4xl py-3 hover:bg-black/80"
             >
               {t('header.login')}
