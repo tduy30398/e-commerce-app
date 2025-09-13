@@ -11,6 +11,7 @@ import { ChevronDown, Languages } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { useLocale } from 'next-intl';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const locales = [
   { code: 'en', label: 'English' },
@@ -22,6 +23,7 @@ const LocaleSwitch = () => {
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
+  const isMobile = useIsMobile();
 
   const changeLocale = (locale: string) => {
     router.push(pathname, { locale });
@@ -32,11 +34,16 @@ const LocaleSwitch = () => {
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="w-25 p-0 border-none shadow-none cursor-pointer text-base"
+          className={cn(
+            'p-0 border-none shadow-none cursor-pointer text-base',
+            isMobile ? 'w-6 h-6' : 'w-25'
+          )}
         >
-          <Languages className="size-5" />
-          {locales.find((l) => l.code === locale)?.label?.slice(0, 3) ?? ''}
-          <ChevronDown className="size-5" />
+          <Languages className="w-6! h-6!" />
+          {isMobile
+            ? null
+            : locales.find((l) => l.code === locale)?.label?.slice(0, 3) ?? ''}
+          {isMobile ? null : <ChevronDown className="w-5! h-5!" />}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-25">
