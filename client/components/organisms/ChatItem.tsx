@@ -28,7 +28,9 @@ const ChatItem = ({ msg }: ChatItemProps) => {
             <div
               className={cn(
                 'rounded-lg max-w-4/5 shadow-md',
-                isImage ? null : 'px-3 py-2 bg-blue-500 break-words text-white text-base'
+                isImage
+                  ? null
+                  : 'px-3 py-2 bg-blue-500 break-words text-white text-base'
               )}
             >
               {isImage ? (
@@ -51,6 +53,7 @@ const ChatItem = ({ msg }: ChatItemProps) => {
       {isImage && (
         <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
           <DialogContent
+            aria-describedby={undefined}
             showCloseButton={false}
             className="p-0 bg-transparent border-none shadow-none flex items-center justify-center"
           >

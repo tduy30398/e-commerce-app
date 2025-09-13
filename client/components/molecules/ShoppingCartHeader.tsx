@@ -7,7 +7,6 @@ import {
   HoverCardTrigger,
 } from '../ui/hover-card';
 import Image from 'next/image';
-import Link from 'next/link';
 import { ShoppingCart } from 'lucide-react';
 import { Cart } from '../organisms/RightHeader';
 import { cn, formattedCapitalize } from '@/lib/utils';
@@ -15,6 +14,7 @@ import { ROUTES } from '@/lib/constants';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 
 interface ShoppingCartHeaderProps {
   cart: Cart | null;
@@ -76,9 +76,10 @@ const ShoppingCartHeader = ({ cart }: ShoppingCartHeaderProps) => {
                         </p>
                       </div>
                       <p className="text-base text-[#ee4d2d] shrink-0">
-                        {`$${item.productId.promotionalPrice ||
+                        {`$${
+                          item.productId.promotionalPrice ||
                           item.productId.price
-                          }`}
+                        }`}
                       </p>
                     </Link>
                   ))}

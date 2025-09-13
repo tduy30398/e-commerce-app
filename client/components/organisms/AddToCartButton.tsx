@@ -3,10 +3,10 @@
 import { getMainSocket } from '@/lib/socket';
 import React from 'react';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 import useProfileStore from '@/store/useProfileStore';
 import { ROUTES } from '@/lib/constants';
 import QuantityButton from '../molecules/QuantityButton';
+import { useRouter } from '@/i18n/navigation';
 
 interface AddToCartButtonProps {
   productId: string;

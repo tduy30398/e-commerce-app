@@ -23,10 +23,10 @@ import { parseISO } from 'date-fns';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
-import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/lib/constants';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
+import { useRouter } from '@/i18n/navigation';
 
 type FormData = z.infer<typeof profileFormSchema>;
 

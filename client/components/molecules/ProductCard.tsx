@@ -2,9 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 import { formattedCapitalize, calculatePercentage } from '@/lib/utils';
 import { ProductTypes } from '@/actions/product/type';
-import Link from 'next/link';
 import StarRating from './StarRating';
 import { ROUTES } from '@/lib/constants';
+import { Link } from '@/i18n/navigation';
 
 const ProductCard: React.FC<ProductTypes> = ({
   name,
@@ -33,11 +33,13 @@ const ProductCard: React.FC<ProductTypes> = ({
       </h4>
       <StarRating rating={rating} className="mt-2" />
       <div className="flex items-center mt-2">
-        <span className="tex-base md:text-2xl font-semibold">{`$${promotionalPrice || price || 0
-          }`}</span>
+        <span className="tex-base md:text-2xl font-semibold">{`$${
+          promotionalPrice || price || 0
+        }`}</span>
         {promotionalPrice ? (
-          <span className="tex-base md:text-2xl text-gray-400 line-through font-semibold ml-2.5">{`$${price || 0
-            }`}</span>
+          <span className="tex-base md:text-2xl text-gray-400 line-through font-semibold ml-2.5">{`$${
+            price || 0
+          }`}</span>
         ) : null}
         {promotionalPrice ? (
           <span className="text-sm bg-[#ffebeb] text-[#ff3333] px-2 rounded-4xl ml-2.5">{`-${calculatePercentage(

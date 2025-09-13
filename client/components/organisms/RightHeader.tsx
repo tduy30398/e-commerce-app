@@ -4,8 +4,6 @@ import React from 'react';
 import { logoutUserService } from '@/actions/authenticate';
 import { ROUTES } from '@/lib/constants';
 import useProfileStore from '@/store/useProfileStore';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
@@ -29,6 +27,7 @@ import useCartStore from '@/store/useCartStore';
 import { useLocale, useTranslations } from 'next-intl';
 import { getRoute } from '@/lib/utils';
 import LocaleSwitch from './LocaleSwitch';
+import { Link, useRouter } from '@/i18n/navigation';
 
 export interface ProductItemCard {
   productId: ProductTypes;
@@ -62,7 +61,7 @@ const RightHeader = () => {
       if (res.status === 200) {
         logoutUserService();
         toast.success('Logout successfully');
-        router.replace(getRoute(ROUTES.HOME, locale));
+        router.replace(ROUTES.HOME);
       }
     } catch {
       toast.error('Logout failed');
@@ -134,12 +133,7 @@ const RightHeader = () => {
           >
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className="text-md cursor-pointer">
-                <Link
-                  href={getRoute(
-                    session ? ROUTES.PROFILE_OAUTH : ROUTES.PROFILE,
-                    locale
-                  )}
-                >
+                <Link href={session ? ROUTES.PROFILE_OAUTH : ROUTES.PROFILE}>
                   {t('header.profile')}
                 </Link>
               </DropdownMenuItem>
@@ -160,7 +154,7 @@ const RightHeader = () => {
         </DropdownMenu>
       ) : (
         <Link
-          href={getRoute(ROUTES.LOGIN, locale)}
+          href={ROUTES.LOGIN}
           className="text-black text-base hover:underline max-md:hidden"
         >
           {t('header.login')}

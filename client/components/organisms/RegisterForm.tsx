@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form';
 import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
 import { ROUTES } from '@/lib/constants';
 import { AxiosResponse, isAxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { PasswordInput } from '../molecules/PasswordInput';
@@ -26,6 +25,7 @@ import { DatePicker } from './DatePicker';
 import { UserProfile } from '@/actions/authenticate/type';
 import useProfileStore from '@/store/useProfileStore';
 import { useTranslations } from 'next-intl';
+import { useRouter } from '@/i18n/navigation';
 
 type FormData = z.infer<typeof registerFormSchema>;
 
@@ -110,7 +110,8 @@ const RegisterForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                {t('login.name')}<span className="text-red-500">*</span>
+                {t('login.name')}
+                <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input
@@ -130,7 +131,8 @@ const RegisterForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                {t('login.email')}<span className="text-red-500">*</span>
+                {t('login.email')}
+                <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input
@@ -150,7 +152,8 @@ const RegisterForm = () => {
           render={({ field, fieldState }) => (
             <FormItem>
               <FormLabel className="text-base">
-                {t('login.birthdate')}<span className="text-red-500">*</span>
+                {t('login.birthdate')}
+                <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <DatePicker
@@ -170,7 +173,8 @@ const RegisterForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                {t('login.password')}<span className="text-red-500">*</span>
+                {t('login.password')}
+                <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <PasswordInput
@@ -190,7 +194,8 @@ const RegisterForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                {t('login.confirmPassword')}<span className="text-red-500">*</span>
+                {t('login.confirmPassword')}
+                <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <PasswordInput

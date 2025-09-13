@@ -1,10 +1,9 @@
 'use client';
 
 import { createProduct, updateProduct } from '@/actions/product';
-import {  ProductTypes } from '@/actions/product/type';
+import { ProductTypes } from '@/actions/product/type';
 import { ROUTES } from '@/lib/constants';
 import { productFormSchema } from '@/lib/shemas';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -25,6 +24,7 @@ import Uploader from '../organisms/Uploader';
 import { Textarea } from '../ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useProfileStore from '@/store/useProfileStore';
+import { useRouter } from '@/i18n/navigation';
 
 type FormData = z.infer<typeof productFormSchema>;
 

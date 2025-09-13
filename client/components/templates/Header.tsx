@@ -3,19 +3,17 @@
 import { ROUTES } from '@/lib/constants';
 import { navigateList } from '@/public/dummy/general';
 import Image from 'next/image';
-import Link from 'next/link';
 import SearchForm from '../molecules/SearchForm';
 import HamburgerMenu from '../organisms/HamburgerMenu';
 import React from 'react';
 import RightHeader from '../organisms/RightHeader';
-import { useLocale, useTranslations } from 'next-intl';
-import { getRoute } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 
 const Header = () => {
   const [showHeader, setShowHeader] = React.useState(true);
   const [lastScrollY, setLastScrollY] = React.useState(0);
   const t = useTranslations();
-  const locale = useLocale();
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -49,7 +47,7 @@ const Header = () => {
             <HamburgerMenu />
           </div>
           <Link
-            href={getRoute(ROUTES.HOME, locale)}
+            href={ROUTES.HOME}
             className="relative w-[126px] h-[20px] md:w-[160px] md:h-[26px]"
           >
             <Image
@@ -64,7 +62,7 @@ const Header = () => {
             {navigateList.map((item) => (
               <Link
                 key={item.title}
-                href={getRoute(item.link, locale)}
+                href={item.link}
                 className="ml-6 text-black text-base hover:underline"
               >
                 {t(`header.${item.title}`)}

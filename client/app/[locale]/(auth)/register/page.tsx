@@ -1,9 +1,7 @@
-import AuthForm from "@/components/templates/AuthForm";
+import AuthForm from '@/components/templates/AuthForm';
 
-const Register = async ({ params }: { params: Promise<{ locale: string }> }) => {
-  const locale = await params;
-
-  return <AuthForm type="register" locale={locale?.locale || ''} />;
+const Register = async () => {
+  return <AuthForm type="register" />;
 };
 
 export default Register;

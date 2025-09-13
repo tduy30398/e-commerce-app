@@ -12,9 +12,9 @@ import {
 import { Search } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/lib/constants';
 import React from 'react';
+import { useRouter } from '@/i18n/navigation';
 
 const MobileSearchHeader = () => {
   const [open, setOpen] = React.useState(false);

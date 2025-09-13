@@ -25,16 +25,17 @@ const UserItem = ({ user, selectedUser, setSelectedUser }: UserItemProps) => {
     }
   );
 
+  const getLastMessage = (msg?: { type: string; content?: string }) => {
+    if (!msg) return '';
+    return msg.type === 'image' ? 'Image' : msg.content ?? '';
+  };
+
   const lastMessage = React.useMemo(() => {
     const userMessages = messages[user._id] || [];
-    let lastMessage;
-    if (userMessages[userMessages.length - 1]?.type === 'image') {
-      lastMessage = 'Image';
-    } else {
-      lastMessage = userMessages[userMessages.length - 1]?.content;
-    }
+    const latestUserMessage = getLastMessage(userMessages.at(-1));
+    const latestHistoryMessage = getLastMessage(chatHistory?.data?.[0]);
 
-    return lastMessage || chatHistory?.data?.[0]?.content || '';
+    return latestUserMessage || latestHistoryMessage;
   }, [messages, user._id, chatHistory]);
 
   if (loadingChatHistory) return <ChatUserSkeleton />;

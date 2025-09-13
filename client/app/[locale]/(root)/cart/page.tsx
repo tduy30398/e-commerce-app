@@ -6,12 +6,11 @@ import SummaryOrder from '@/components/templates/SummaryOrder';
 import { ROUTES } from '@/lib/constants';
 import useCartStore from '@/store/useCartStore';
 import Image from 'next/image';
-import Link from 'next/link';
 import { ProductItemCard } from '@/components/organisms/RightHeader';
 import CartPageSkeleton from '@/components/organisms/CartPageSkeleton';
 import useProfileStore from '@/store/useProfileStore';
-import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { Link, useRouter } from '@/i18n/navigation';
 
 const CartPage = () => {
   const { cart } = useCartStore();

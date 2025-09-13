@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
+import { Link } from '@/i18n/navigation';
 import { footerDummy, paymentMethods } from '@/public/dummy/general';
 import { Facebook, Github, Instagram, Twitter } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 
 const Footer = () => {
   return (

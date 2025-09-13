@@ -7,11 +7,10 @@ import { useDebounce } from '@/hooks/useDebouce';
 import useSWR from 'swr';
 import { getAllProducts } from '@/actions/product';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import Link from 'next/link';
 import { ROUTES } from '@/lib/constants';
-import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
+import { Link, useRouter } from '@/i18n/navigation';
 
 const SearchForm: React.FC = () => {
   const router = useRouter();
@@ -143,7 +142,7 @@ const SearchForm: React.FC = () => {
                     className={cn(
                       'block px-4 py-2 hover:bg-accent hover:text-accent-foreground',
                       highlightedIndex === index &&
-                      'bg-accent text-accent-foreground'
+                        'bg-accent text-accent-foreground'
                     )}
                     onMouseEnter={() => setHighlightedIndex(index)}
                     onClick={() => {
