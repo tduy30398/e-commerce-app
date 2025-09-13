@@ -5,7 +5,7 @@ import PaginationCustom from '@/components/molecules/PaginationCustom';
 import ProductCard from '@/components/molecules/ProductCard';
 import { filterRatings } from '@/public/dummy/general';
 import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import React from 'react';
 import useSWR from 'swr';
 import FilterDrawer from '../organisms/FilterDrawer';
@@ -13,6 +13,7 @@ import ProductFilter from '../organisms/ProductFilter';
 import { Skeleton } from '../ui/skeleton';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Separator } from '../ui/separator';
+import { useRouter } from '@/i18n/navigation';
 
 const ProductPage = () => {
   const router = useRouter();
@@ -137,8 +138,9 @@ const ProductPage = () => {
               {query ? `Search results for "${query}"` : 'Trending'}
             </h2>
             <div className="flex items-center">
-              <p className="text-base">{`Total: ${products?.pagination.totalItems || 0
-                } product${products?.pagination.totalItems === 1 ? '' : 's'}`}</p>
+              <p className="text-base">{`Total: ${
+                products?.pagination.totalItems || 0
+              } product${products?.pagination.totalItems === 1 ? '' : 's'}`}</p>
               <FilterDrawer
                 trigger={
                   <div className="lg:hidden relative size-8 ml-4 cursor-pointer">

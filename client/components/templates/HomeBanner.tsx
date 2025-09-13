@@ -1,8 +1,8 @@
 import { ROUTES } from '@/lib/constants';
-import Link from 'next/link';
 import React from 'react';
 import StatisticCounter from '../organisms/StatisticCounter';
 import Image from 'next/image';
+import { Link } from '@/i18n/navigation';
 
 const HomeBanner = () => {
   return (

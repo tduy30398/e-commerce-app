@@ -8,7 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import Link from 'next/link';
 import { Eye } from 'lucide-react';
 import { ROUTES } from '@/lib/constants';
 import useSWR from 'swr';
@@ -17,10 +16,11 @@ import { getAllProducts } from '@/actions/product';
 import TableSkeleton from '@/components/molecules/TableSkeleton';
 import DeleteAlert from '@/components/organisms/DeleteAlert';
 import PaginationCustom from '@/components/molecules/PaginationCustom';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import useProfileStore from '@/store/useProfileStore';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { useSession } from 'next-auth/react';
+import { Link, useRouter } from '@/i18n/navigation';
 
 interface DataTableProps {
   [key: string]: string | number;

@@ -9,9 +9,9 @@ import { Trash2 } from 'lucide-react';
 import QuantityButton from './QuantityButton';
 import { ProductItemCard } from '../organisms/RightHeader';
 import { getMainSocket } from '@/lib/socket';
-import Link from 'next/link';
 import { ROUTES } from '@/lib/constants';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Link } from '@/i18n/navigation';
 
 interface ProductCartProps {
   data: ProductItemCard;

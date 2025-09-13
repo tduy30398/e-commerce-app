@@ -18,11 +18,10 @@ import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import useProfileStore from '@/store/useProfileStore';
-import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 import { useLocale, useTranslations } from 'next-intl';
 import { getRoute } from '@/lib/utils';
-import { Link } from '@/i18n/navigation';
+import { Link, useRouter } from '@/i18n/navigation';
 
 const HamburgerMenu = () => {
   const { accessToken } = useProfileStore();
