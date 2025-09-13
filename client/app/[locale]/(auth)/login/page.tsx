@@ -1,9 +1,7 @@
 import AuthForm from '@/components/templates/AuthForm';
 
-const Login = async ({ params }: { params: Promise<{ locale: string }> }) => {
-  const locale = await params;
-
-  return <AuthForm type="login" locale={locale?.locale || ''} />;
+const Login = async () => {
+  return <AuthForm type="login" />;
 };
 
 export default Login;

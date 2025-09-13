@@ -37,7 +37,7 @@ const DynamicBreadcrumb = () => {
     <Breadcrumb
       className={cn(
         'section-container pt-6 border-t-[1px] border-gray-200',
-        rawSegments.length < 2 ? 'hidden' : null
+        rawSegments.length < 1 ? 'hidden' : null
       )}
     >
       <BreadcrumbList>

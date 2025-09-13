@@ -10,11 +10,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Link } from '@/i18n/navigation';
+import { Link, usePathname } from '@/i18n/navigation';
 import { ROUTES } from '@/lib/constants';
 
 import { Inbox } from 'lucide-react';
-import { usePathname } from 'next/navigation';
 
 const items = [
   {
