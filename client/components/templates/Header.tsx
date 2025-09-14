@@ -13,7 +13,7 @@ import { Link } from '@/i18n/navigation';
 const Header = () => {
   const [showHeader, setShowHeader] = React.useState(true);
   const [lastScrollY, setLastScrollY] = React.useState(0);
-  const t = useTranslations();
+  const t = useTranslations('header');
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -65,7 +65,7 @@ const Header = () => {
                 href={item.link}
                 className="ml-6 text-black text-base hover:underline"
               >
-                {t(`header.${item.title}`)}
+                {t(item.title)}
               </Link>
             ))}
           </nav>

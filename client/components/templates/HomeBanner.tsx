@@ -3,25 +3,31 @@ import React from 'react';
 import StatisticCounter from '../organisms/StatisticCounter';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
+import { getTranslations } from 'next-intl/server';
 
-const HomeBanner = () => {
+const HomeBanner = async () => {
+  const t = await getTranslations('home');
+
   return (
     <section className="pt-10 bg-flash-white">
       <div className="section-container flex items-center flex-col lg:flex-row">
         <div className="sm:pb-14 lg:w-[calc((596/1240)*100%)]">
-          <h1 className="text-4xl lg:text-5xl min-[1370px]:text-6xl font-black">
-            FIND EVERYTHING <br /> THAT MATCHES <br /> YOUR STYLE
-          </h1>
-          <p className="mt-5 lg:mt-8 text-base">
-            Browse through our diverse range of meticulously crafted garments,
-            designed to bring out your individuality and cater to your sense of
-            style.
-          </p>
+          {t('title')
+            .split('\n')
+            .map((line, i) => (
+              <h1
+                className="text-4xl lg:text-5xl min-[1370px]:text-6xl font-black uppercase"
+                key={i}
+              >
+                {line}
+              </h1>
+            ))}
+          <p className="mt-5 lg:mt-8 text-base">{t('description')}</p>
           <Link
             href={ROUTES.PRODUCT}
             className="main-button block w-full sm:w-fit mt-6 sm:mt-8 text-center max-lg:mx-auto"
           >
-            Shop Now
+            {t('buy')}
           </Link>
           <StatisticCounter />
         </div>

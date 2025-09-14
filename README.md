@@ -14,6 +14,7 @@ Built using **Next.js**, **Node.js/Express**, **Socket.IO**, and **JWT**.
 - **SWR** – Data fetching & caching
 - **Zustand** – Lightweight state management
 - **Socket.IO Client** – Real-time communication
+- **next-intl** – Internationalization (i18n) & localization
 
 ### Backend
 
@@ -41,6 +42,12 @@ Built using **Next.js**, **Node.js/Express**, **Socket.IO**, and **JWT**.
 
   - Add/remove products to cart
   - Sync cart in real-time
+
+- 🌍 **Internationalization (i18n)**
+
+  - Multi-language support using **next-intl**
+  - Language switcher for users
+  - Translations for UI, product details, and error messages
 
 - 🛠️ **Admin Panel**
   - **CRUD products** (Create, Read, Update, Delete)

@@ -32,7 +32,7 @@ type FormData = z.infer<typeof registerFormSchema>;
 const RegisterForm = () => {
   const { setAuth } = useProfileStore();
   const router = useRouter();
-  const t = useTranslations();
+  const t = useTranslations('login');
 
   const [isLoading, setIsLoading] = React.useState(false);
   const methods = useForm<FormData>({
@@ -110,7 +110,7 @@ const RegisterForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                {t('login.name')}
+                {t('name')}
                 <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
@@ -118,7 +118,7 @@ const RegisterForm = () => {
                   className="border-[#889397] h-12.5 rounded-2xl text-black text-base!"
                   value={field.value}
                   onChange={field.onChange}
-                  placeholder={t('login.name')}
+                  placeholder={t('name')}
                 />
               </FormControl>
               <FormMessage />
@@ -131,7 +131,7 @@ const RegisterForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                {t('login.email')}
+                {t('email')}
                 <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
@@ -139,7 +139,7 @@ const RegisterForm = () => {
                   className="border-[#889397] h-12.5 rounded-2xl text-black text-base!"
                   value={field.value}
                   onChange={field.onChange}
-                  placeholder={t('login.email')}
+                  placeholder={t('email')}
                 />
               </FormControl>
               <FormMessage />
@@ -152,7 +152,7 @@ const RegisterForm = () => {
           render={({ field, fieldState }) => (
             <FormItem>
               <FormLabel className="text-base">
-                {t('login.birthdate')}
+                {t('birthdate')}
                 <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
@@ -160,7 +160,7 @@ const RegisterForm = () => {
                   onChange={field.onChange}
                   value={field.value}
                   isError={!!fieldState.error?.message}
-                  placeholder={t('login.birthdate')}
+                  placeholder={t('birthdate')}
                 />
               </FormControl>
               <FormMessage />
@@ -173,7 +173,7 @@ const RegisterForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                {t('login.password')}
+                {t('password')}
                 <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
@@ -181,7 +181,7 @@ const RegisterForm = () => {
                   className="border-[#889397] h-12.5 rounded-2xl text-black text-base!"
                   value={field.value}
                   onChange={field.onChange}
-                  placeholder={t('login.password')}
+                  placeholder={t('password')}
                 />
               </FormControl>
               <FormMessage />
@@ -194,7 +194,7 @@ const RegisterForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                {t('login.confirmPassword')}
+                {t('confirmPassword')}
                 <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
@@ -202,7 +202,7 @@ const RegisterForm = () => {
                   className="border-[#889397] h-12.5 rounded-2xl text-black text-base!"
                   value={field.value}
                   onChange={field.onChange}
-                  placeholder={t('login.confirmPassword')}
+                  placeholder={t('confirmPassword')}
                 />
               </FormControl>
               <FormMessage />
@@ -214,7 +214,7 @@ const RegisterForm = () => {
           type="submit"
           className="cursor-pointer main-button w-full mt-4 max-md:mt-4 max-md:mb-9 h-12.5"
         >
-          {t('login.register')}
+          {t('register')}
         </Button>
       </form>
     </Form>

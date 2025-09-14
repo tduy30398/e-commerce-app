@@ -14,12 +14,14 @@ import { Skeleton } from '../ui/skeleton';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Separator } from '../ui/separator';
 import { useRouter } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 
 const ProductPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get('query') || '';
   const isMobile = useIsMobile();
+  const t = useTranslations('product');
 
   const pageParam = searchParams.get('page');
 
@@ -135,12 +137,14 @@ const ProductPage = () => {
         <div className="lg:col-span-2 xl:col-span-3">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl sm:text-3xl font-bold">
-              {query ? `Search results for "${query}"` : 'Trending'}
+              {query ? `${t('result')} "${query}"` : t('trending')}
             </h2>
             <div className="flex items-center">
-              <p className="text-base">{`Total: ${
+              <p className="text-base">{`${t('total')}: ${
                 products?.pagination.totalItems || 0
-              } product${products?.pagination.totalItems === 1 ? '' : 's'}`}</p>
+              } ${t('product')}${
+                products?.pagination.totalItems === 1 ? '' : 's'
+              }`}</p>
               <FilterDrawer
                 trigger={
                   <div className="lg:hidden relative size-8 ml-4 cursor-pointer">

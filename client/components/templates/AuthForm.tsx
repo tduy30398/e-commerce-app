@@ -13,23 +13,23 @@ interface AuthFormProps {
 }
 
 const AuthForm = async ({ type }: AuthFormProps) => {
-  const t = await getTranslations();
+  const t = await getTranslations('login');
 
   return (
     <div className={cn('flex', type === 'login' ? '' : 'flex-row-reverse')}>
       <div className="max-md:h-screen w-full md:w-3/5 lg:w-2/5 md:rounded-3xl p-4 md:p-8 max-md:!justify-start flex-center flex-col gap-6">
         <p className="text-4xl font-black max-md:mt-12">
-          {type === 'login' ? t('login.signin') : t('login.signup')}
+          {type === 'login' ? t('signin') : t('signup')}
         </p>
         <div>
           <span className="text-xl">
-            {type === 'login' ? t('login.description') : t('login.already')}
+            {type === 'login' ? t('description') : t('already')}
           </span>
           <Link
             className="text-xl underline ml-2"
             href={type === 'login' ? ROUTES.REGISTER : ROUTES.LOGIN}
           >
-            {type === 'login' ? t('login.signup') : t('login.signin')}
+            {type === 'login' ? t('signup') : t('signin')}
           </Link>
         </div>
         {socialData.map((item) => (
@@ -37,7 +37,7 @@ const AuthForm = async ({ type }: AuthFormProps) => {
         ))}
         <div className="max-w-82.5 w-full flex items-center">
           <div className="border-b-[1px] border-gray-300 flex-1"></div>
-          <p className="text-md text-[#5c6c75] mx-2">{t('login.orwith')}</p>
+          <p className="text-md text-[#5c6c75] mx-2">{t('orwith')}</p>
           <div className="border-b-[1px] border-gray-300 flex-1"></div>
         </div>
         {type === 'login' ? <LoginForm /> : <RegisterForm />}

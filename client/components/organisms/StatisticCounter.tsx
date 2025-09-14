@@ -2,10 +2,13 @@
 
 import { statistics } from '@/public/dummy/general';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import React from 'react';
 import CountUp from 'react-countup';
 
 const StatisticCounter = () => {
+  const t = useTranslations('home');
+
   return (
     <div className="flex flex-col xl:flex-row items-center mt-5 lg:mt-12 max-sm:px-4">
       {statistics.map((statistic, index) => (
@@ -25,7 +28,7 @@ const StatisticCounter = () => {
             />
           </h1>
           <p className="text-base text-muted-foreground mt-2 max-lg:text-center max-sm:text-left">
-            {statistic.title}
+            {t(statistic.title)}
           </p>
         </motion.div>
       ))}

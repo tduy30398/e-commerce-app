@@ -13,6 +13,7 @@ import { createReview } from '@/actions/review';
 import { toast } from 'sonner';
 import { Form, FormControl, FormField, FormItem } from '../ui/form';
 import StarRatingInput from './StarRatingInput';
+import { useTranslations } from 'next-intl';
 
 interface FormReviewProps {
   review: string;
@@ -22,6 +23,7 @@ interface FormReviewProps {
 const AddReview = () => {
   const { profileData, accessToken } = useProfileStore();
   const params = useParams<{ id: string }>();
+  const t = useTranslations('product');
 
   const method = useForm<FormReviewProps>({
     mode: 'onChange',
@@ -95,7 +97,7 @@ const AddReview = () => {
                 <Textarea
                   onChange={onChange}
                   value={value}
-                  placeholder="Write your review..."
+                  placeholder={t('addReview')}
                   className="w-full rounded-xl px-4 py-2 text-sm border border-gray-200 focus:ring-2 focus:ring-cyan-400 focus:outline-none"
                   rows={4}
                 />
@@ -110,7 +112,7 @@ const AddReview = () => {
             size="sm"
             disabled={!method.watch('review') || createReviewLoading}
           >
-            Post
+            {t('post')}
           </Button>
         </div>
       </form>

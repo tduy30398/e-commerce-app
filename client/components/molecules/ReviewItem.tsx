@@ -31,6 +31,7 @@ import {
 import { toast } from 'sonner';
 import useSWRMutation from 'swr/mutation';
 import { deleteReview } from '@/actions/review';
+import { useTranslations } from 'next-intl';
 
 interface ReviewItemProps {
   review: ReviewType;
@@ -42,14 +43,15 @@ const ReviewItem = ({ review }: ReviewItemProps) => {
   const [expanded, setExpanded] = React.useState(false);
   const [openDialog, setOpenDialog] = React.useState(false);
   const isMobile = useIsMobile();
+  const t = useTranslations('product');
 
   const { trigger: deleteReviewTrigger, isMutating: deleteLoading } =
     useSWRMutation('review', deleteReview, {
       onSuccess: async () => {
-        toast.success('Delete review success');
+        toast.success(t('deleteSuccess'));
       },
       onError: () => {
-        toast.error('Delete review failed');
+        toast.error(t('deleteFailed'));
       },
     });
 
@@ -79,14 +81,14 @@ const ReviewItem = ({ review }: ReviewItemProps) => {
             <DropdownMenuGroup>
               <DropdownMenuItem className="cursor-pointer">
                 <SquarePen className="mr-1 size-4" />
-                <p>Edit</p>
+                <p>{t('edit')}</p>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => setOpenDialog(true)}
                 className="hover:bg-[#e02e2a23] focus:bg-[#e02e2a23] cursor-pointer"
               >
                 <Trash2 className="mr-1 size-4 text-[#ff8583]" />
-                <p className="text-[#ff8583]">Delete</p>
+                <p className="text-[#ff8583]">{t('delete')}</p>
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
@@ -95,24 +97,21 @@ const ReviewItem = ({ review }: ReviewItemProps) => {
       <AlertDialog open={openDialog} onOpenChange={setOpenDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>
-              Are you sure to delete this review?
-            </AlertDialogTitle>
+            <AlertDialogTitle>{t('confirm')}</AlertDialogTitle>
             <AlertDialogDescription className="text-black">
-              This action cannot be undone. This will permanently delete your
-              record from our servers.
+              {t('confirmContent')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel className="cursor-pointer">
-              Cancel
+              {t('cancel')}
             </AlertDialogCancel>
             <AlertDialogAction
               disabled={deleteLoading}
               onClick={() => deleteReviewTrigger({ id: review?._id })}
               className="cursor-pointer bg-[#f5232f] hover:bg-[#f28d92]"
             >
-              Delete
+              {t('delete')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -147,7 +146,7 @@ const ReviewItem = ({ review }: ReviewItemProps) => {
             className="mt-2 px-2 text-cyan-600 hover:text-cyan-800 cursor-pointer"
             onClick={() => setExpanded((prev) => !prev)}
           >
-            {expanded ? 'Show less' : 'Show more'}
+            {expanded ? t('showLess') : t('showMore')}
           </Button>
         </div>
       )}
