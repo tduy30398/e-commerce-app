@@ -27,12 +27,14 @@ import { ROUTES } from '@/lib/constants';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
 import { useRouter } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 
 type FormData = z.infer<typeof profileFormSchema>;
 
 const Profile = () => {
   const router = useRouter();
   const { data: session } = useSession();
+  const t = useTranslations('profile');
   const { profileData, accessToken, isLoggingOut, hydrated, setProfileData } =
     useProfileStore();
   const [uploadPct, setUploadPct] = React.useState<number | null>(null);
@@ -119,7 +121,7 @@ const Profile = () => {
               render={({ field, formState }) => (
                 <FormItem className="md:col-span-2">
                   {uploadPct && <Progress value={uploadPct} />}
-                  <FormLabel>Avatar (Max size: 2MB)</FormLabel>
+                  <FormLabel>{`${t('avatar')} (Max: 2MB)`}</FormLabel>
                   <FormControl>
                     <Uploader
                       disabled={!!session}
@@ -142,7 +144,7 @@ const Profile = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t('email')}</FormLabel>
                   <FormControl>
                     <Input
                       className="h-12 text-lg! border-[#889397]"
@@ -160,7 +162,7 @@ const Profile = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>{t('name')}</FormLabel>
                   <FormControl>
                     <Input
                       className="h-12 text-lg! border-[#889397]"
@@ -179,7 +181,7 @@ const Profile = () => {
                 name="birthday"
                 render={({ field, fieldState }) => (
                   <FormItem>
-                    <FormLabel>Birthday</FormLabel>
+                    <FormLabel>{t('birthdate')}</FormLabel>
                     <FormControl>
                       <DatePicker
                         onChange={field.onChange}
@@ -201,7 +203,7 @@ const Profile = () => {
                 className="cursor-pointer main-button h-12 mt-8 max-md:mt-8 max-md:w-full"
                 disabled={isLoading || uploadPct !== null}
               >
-                Save
+                {t('save')}
               </Button>
             </div>
           )}

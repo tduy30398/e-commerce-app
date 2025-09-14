@@ -10,6 +10,33 @@
     "profile": "Perfil",
     "home": "Inicio"
   },
+  "footer": {
+    "title": "Tenemos ropa que se adapta a tu estilo y que te haces orgulloso de llevar. Desde mujeres hasta hombres.",
+    "company": "Compañía",
+    "help": "Ayuda",
+    "faqs": "Faqs",
+    "resource": "Recursos",
+    "about": "Acerca de",
+    "features": "Características",
+    "works": "Funciona",
+    "careers": "Carreras",
+    "support": "Soporte",
+    "delivery": "Entrega",
+    "terms": "Términos y Condiciones",
+    "privacy": "Política de Privacidad",
+    "accounts": "Cuentas",
+    "payment": "Pago",
+    "order": "Orden",
+    "shipping": "Envío",
+    "freeebook": "Libro gratuito",
+    "tutorial": "Tutorial",
+    "blog": "Blog",
+    "playlist": "Playlist",
+    "rights": "Todos los derechos reservados",
+    "subscribe": "Mantente al tanto de nuestras últimas ofertas",
+    "email": "Ingresa tu dirección de correo electrónico",
+    "submit": "Suscríbete a la newsletter"
+  },
   "login": {
     "signin": "Iniciar sesión",
     "register": "Regístrate",
@@ -78,6 +105,20 @@
     "deliveryFee": "Costo de envío",
     "addPromo": "Añadir código promocional",
     "applyCart": "Aplicar",
-    "goCheckout": "Ir al carrito"
+    "goCheckout": "Ir al carrito",
+    "allrating": "Todas las calificaciones",
+    "fivestars": "5 estrellas",
+    "fourstars": "4 estrellas y más",
+    "threestars": "3 estrellas y más",
+    "twostars": "2 estrellas y más",
+    "onestar": "1 estrella y más"
+  },
+  "profile": {
+    "avatar": "Avatar",
+    "save": "Guardar",
+    "email": "Email",
+    "birthdate": "Fecha de nacimiento",
+    "name": "Nombre",
+    "information": "Información del perfil"
   }
 }

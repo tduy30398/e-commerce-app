@@ -1,5 +1,3 @@
-'use client';
-
 import { formatNumberWithCommas } from '@/lib/utils';
 import React from 'react';
 import { Separator } from '../ui/separator';

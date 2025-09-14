@@ -10,6 +10,33 @@
     "profile": "Profile",
     "home": "Home"
   },
+  "footer": {
+    "title": "We have clothes that suits your style and which you’re proud to wear. From women to men.",
+    "company": "Company",
+    "help": "Help",
+    "faqs": "Faqs",
+    "resource": "Resource",
+    "about": "About",
+    "features": "Features",
+    "works": "Works",
+    "careers": "Careers",
+    "support": "Support",
+    "delivery": "Delivery",
+    "terms": "Terms and Conditions",
+    "privacy": "Privacy Policy",
+    "accounts": "Accounts",
+    "payment": "Payment",
+    "order": "Order",
+    "shipping": "Shipping",
+    "freeebook": "Free eBook",
+    "tutorial": "Tutorial",
+    "blog": "Blog",
+    "playlist": "Playlist",
+    "rights": "All rights reserved",
+    "subscribe": "Stay up-to-date about our latest offers",
+    "email": "Enter your email address",
+    "submit": "Subscribe to Newsletter"
+  },
   "login": {
     "signin": "Sign In",
     "register": "Register",
@@ -78,6 +105,20 @@
     "deliveryFee": "Delivery Fee",
     "addPromo": "Add Promo Code",
     "applyCart": "Apply",
-    "goCheckout": "Go to Checkout"
+    "goCheckout": "Go to Checkout",
+    "allrating": "All Ratings",
+    "fivestars": "5 stars",
+    "fourstars": "4 stars and above",
+    "threestars": "3 stars and above",
+    "twostars": "2 stars and above",
+    "onestar": "1 star and above"
+  },
+  "profile": {
+    "avatar": "Avatar",
+    "save": "Save",
+    "email": "Email",
+    "birthdate": "Birthdate",
+    "name": "Name",
+    "information": "Profile Information"
   }
 }

@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useTranslations } from 'next-intl';
 
 interface SelectorProps {
   value: string;
@@ -21,6 +22,8 @@ const Selector = ({
   options,
   placeholder,
 }: SelectorProps) => {
+  const t = useTranslations('product');
+
   return (
     <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger className="w-full">
@@ -30,7 +33,7 @@ const Selector = ({
         <SelectGroup>
           {options.map((option) => (
             <SelectItem key={option.value} value={option.value}>
-              {option.title}
+              {t(option.title)}
             </SelectItem>
           ))}
         </SelectGroup>

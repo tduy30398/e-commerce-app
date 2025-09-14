@@ -10,6 +10,33 @@
     "profile": "Profil",
     "home": "Accueil"
   },
+  "footer": {
+    "title": "Nous avons des vêtements qui s'adaptent à votre style et que vous êtes fier de porter. De femmes à hommes.",
+    "company": "Entreprise",
+    "help": "Aide",
+    "faqs": "Faqs",
+    "resource": "Ressources",
+    "about": "Acerca de",
+    "features": "Características",
+    "works": "Funciona",
+    "careers": "Carreras",
+    "support": "Soporte",
+    "delivery": "Entrega",
+    "terms": "Términos y Condiciones",
+    "privacy": "Política de Privacidad",
+    "accounts": "Cuentas",
+    "payment": "Pago",
+    "order": "Orden",
+    "shipping": "Envío",
+    "freeebook": "Libro gratuito",
+    "tutorial": "Tutorial",
+    "blog": "Blog",
+    "playlist": "Playlist",
+    "rights": "Todos los derechos reservados",
+    "subscribe": "Mantente al tanto de nuestras últimas ofertas",
+    "email": "Entrez votre adresse e-mail",
+    "submit": "S'inscrire à la newsletter"
+  },
   "login": {
     "signin": "Se connecter",
     "register": "S'inscrire",
@@ -78,6 +105,20 @@
     "deliveryFee": "Frais de livraison",
     "addPromo": "Ajouter un code promo",
     "applyCart": "Appliquer",
-    "goCheckout": "Aller au panier"
+    "goCheckout": "Aller au panier",
+    "allrating": "Toutes les évaluations",
+    "fivestars": "5 étoiles",
+    "fourstars": "4 étoiles et plus",
+    "threestars": "3 étoiles et plus",
+    "twostars": "2 étoiles et plus",
+    "onestar": "1 étoile et plus"
+  },
+  "profile": {
+    "avatar": "Avatar",
+    "save": "Sauvegarder",
+    "email": "Email",
+    "birthdate": "Date de naissance",
+    "name": "Nom",
+    "information": "Informations du profil"
   }
 }
