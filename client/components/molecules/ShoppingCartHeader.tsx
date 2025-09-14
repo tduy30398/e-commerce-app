@@ -22,7 +22,7 @@ interface ShoppingCartHeaderProps {
 
 const ShoppingCartHeader = ({ cart }: ShoppingCartHeaderProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const t = useTranslations();
+  const t = useTranslations('cart');
 
   return (
     <HoverCard
@@ -94,7 +94,7 @@ const ShoppingCartHeader = ({ cart }: ShoppingCartHeaderProps) => {
                   )}
                   <Button asChild>
                     <Link className="h-10" href={ROUTES.CART}>
-                      {t('cart.view')}
+                      {t('view')}
                     </Link>
                   </Button>
                 </div>
@@ -110,7 +110,7 @@ const ShoppingCartHeader = ({ cart }: ShoppingCartHeaderProps) => {
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 </div>
-                <p className="text-base">{t('cart.empty')}</p>
+                <p className="text-base">{t('empty')}</p>
               </div>
             )}
           </div>

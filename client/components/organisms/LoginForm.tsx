@@ -30,7 +30,7 @@ type FormData = z.infer<typeof loginFormSchema>;
 const LoginForm = () => {
   const { setAuth } = useProfileStore();
   const router = useRouter();
-  const t = useTranslations();
+  const t = useTranslations('login');
 
   const [isLoading, setIsLoading] = React.useState(false);
   const methods = useForm<FormData>({
@@ -107,7 +107,7 @@ const LoginForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                {t('login.email')}
+                {t('email')}
                 <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
@@ -115,7 +115,7 @@ const LoginForm = () => {
                   className="border-[#889397] h-12.5 rounded-2xl text-black text-base!"
                   value={field.value}
                   onChange={field.onChange}
-                  placeholder={t('login.email')}
+                  placeholder={t('email')}
                 />
               </FormControl>
               <FormMessage />
@@ -128,7 +128,7 @@ const LoginForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">
-                {t('login.password')}
+                {t('password')}
                 <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
@@ -136,7 +136,7 @@ const LoginForm = () => {
                   className="border-[#889397] h-12.5 rounded-2xl text-black text-base!"
                   value={field.value}
                   onChange={field.onChange}
-                  placeholder={t('login.password')}
+                  placeholder={t('password')}
                 />
               </FormControl>
               <FormMessage />
@@ -148,7 +148,7 @@ const LoginForm = () => {
           disabled={isLoading}
           className="cursor-pointer main-button w-full mt-4 max-md:mt-4 h-12.5"
         >
-          {t('login.signin')}
+          {t('signin')}
         </Button>
       </form>
     </Form>

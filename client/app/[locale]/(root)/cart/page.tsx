@@ -11,12 +11,14 @@ import CartPageSkeleton from '@/components/organisms/CartPageSkeleton';
 import useProfileStore from '@/store/useProfileStore';
 import { useSession } from 'next-auth/react';
 import { Link, useRouter } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 
 const CartPage = () => {
   const { cart } = useCartStore();
   const { accessToken, isLoggingOut, hydrated } = useProfileStore();
   const { data: session } = useSession();
   const router = useRouter();
+  const t = useTranslations('cart');
 
   const [products, setProducts] = React.useState<ProductItemCard[]>(
     cart?.items || []
@@ -59,7 +61,9 @@ const CartPage = () => {
   return (
     <div className="section-container mb-36">
       <div className="mt-5 lg:mt-9">
-        <h1 className="text-3xl md:text-4xl font-black">SHOPPING CART</h1>
+        <h1 className="text-3xl md:text-4xl font-black uppercase">
+          {t('title')}
+        </h1>
         {products.length > 0 ? (
           <div className="grid grid-cols-1 lg:grid-cols-10 gap-5 mt-4 md:mt-6">
             <div className="flex flex-col col-span-1 lg:col-span-6 border border-black/10 rounded-2xl p-4 md:p-6 h-fit">
@@ -84,11 +88,9 @@ const CartPage = () => {
                 sizes="160px"
               />
             </div>
-            <p className="text-base text-gray-400">
-              Your shopping cart is empty
-            </p>
+            <p className="text-base text-gray-400">{t('emptyCart')}</p>
             <Link href={ROUTES.HOME} className="main-button rounded-xl! mt-4">
-              Go Shopping Now
+              {t('shopping')}
             </Link>
           </div>
         )}

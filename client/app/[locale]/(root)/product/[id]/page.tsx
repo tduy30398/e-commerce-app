@@ -7,6 +7,7 @@ import RelatedProduct from '@/components/organisms/RelatedProduct';
 import Reviews from '@/components/organisms/Reviews';
 import { Separator } from '@/components/ui/separator';
 import { calculatePercentage, formattedCapitalize } from '@/lib/utils';
+import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import React, { Suspense } from 'react';
 
@@ -26,6 +27,7 @@ export async function generateMetadata({ params }: ProductDetailProps) {
 const ProductDetail = async ({ params }: ProductDetailProps) => {
   const { id } = await params;
   const productDetail = await getProductDetail(id);
+  const t = await getTranslations('product');
   const { promotionalPrice, price, rating, name, image, description } =
     productDetail.product;
 
@@ -71,7 +73,7 @@ const ProductDetail = async ({ params }: ProductDetailProps) => {
       <RelatedProduct
         className="mt-12 md:mt-16"
         products={productDetail.relatedProducts}
-        title="You might also like"
+        title={t('mayLike')}
       />
       <AddReview />
       <Suspense

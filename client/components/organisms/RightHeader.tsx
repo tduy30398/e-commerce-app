@@ -49,7 +49,7 @@ const RightHeader = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const isMobile = useIsMobile();
-  const t = useTranslations();
+  const t = useTranslations('header');
   const locale = useLocale();
 
   const logoutService = async () => {
@@ -134,7 +134,7 @@ const RightHeader = () => {
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className="text-md cursor-pointer">
                 <Link href={session ? ROUTES.PROFILE_OAUTH : ROUTES.PROFILE}>
-                  {t('header.profile')}
+                  {t('profile')}
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
@@ -147,7 +147,7 @@ const RightHeader = () => {
                 }
                 className="text-md cursor-pointer bg-transparent border-none shadow-none w-full text-black justify-start outline-none hover:bg-transparent"
               >
-                {t('header.logout')}
+                {t('logout')}
               </Button>
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -157,7 +157,7 @@ const RightHeader = () => {
           href={ROUTES.LOGIN}
           className="text-black text-base hover:underline max-md:hidden"
         >
-          {t('header.login')}
+          {t('login')}
         </Link>
       )}
     </div>

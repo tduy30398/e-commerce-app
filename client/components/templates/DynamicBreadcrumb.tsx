@@ -22,7 +22,7 @@ const DynamicBreadcrumb = () => {
   const pathname = usePathname();
   const params = useParams<{ id?: string; locale?: string }>();
   const rawSegments = pathname.split('/').filter(Boolean);
-  const t = useTranslations();
+  const t = useTranslations('header');
 
   const { data, isLoading } = useSWR(
     params.id ? ['product-detail', params.id] : null,
@@ -44,7 +44,7 @@ const DynamicBreadcrumb = () => {
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
             <Link className="text-base" href={ROUTES.HOME}>
-              {t('header.home')}
+              {t('home')}
             </Link>
           </BreadcrumbLink>
         </BreadcrumbItem>

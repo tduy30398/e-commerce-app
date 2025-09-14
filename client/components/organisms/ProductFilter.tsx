@@ -12,6 +12,7 @@ import {
   AccordionTrigger,
 } from '../ui/accordion';
 import { Separator } from '../ui/separator';
+import { useTranslations } from 'next-intl';
 
 interface ProductFilterProps {
   pendingRating: string;
@@ -36,12 +37,14 @@ const ProductFilter = ({
   isHideTitle = false,
   disabled = false,
 }: ProductFilterProps) => {
+  const t = useTranslations('product');
+
   return (
     <Accordion type="multiple" defaultValue={['item-1', 'item-2', 'item-3']}>
       {!isHideTitle && (
         <>
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold">Filters</h2>
+            <h2 className="text-xl font-bold">{t('filters')}</h2>
             <div className="relative size-8 ml-4">
               <Image fill src="/icons/filter.svg" alt="filter" sizes="32px" />
             </div>
@@ -51,7 +54,7 @@ const ProductFilter = ({
       )}
       <AccordionItem value="item-1">
         <AccordionTrigger className="text-xl font-bold cursor-pointer">
-          Rating range
+          {t('range')}
         </AccordionTrigger>
         <AccordionContent>
           <Selector
@@ -64,7 +67,7 @@ const ProductFilter = ({
       </AccordionItem>
       <AccordionItem value="item-2">
         <AccordionTrigger className="text-xl font-bold cursor-pointer">
-          Only discount
+          {t('discount')}
         </AccordionTrigger>
         <AccordionContent>
           <Switch
@@ -77,7 +80,7 @@ const ProductFilter = ({
       </AccordionItem>
       <AccordionItem value="item-3">
         <AccordionTrigger className="text-xl font-bold cursor-pointer">
-          Price Range
+          {t('price')}
         </AccordionTrigger>
         <AccordionContent>
           <Slider
@@ -98,7 +101,7 @@ const ProductFilter = ({
         className="main-button w-full h-12 cursor-pointer mt-8"
         disabled={disabled}
       >
-        Apply Filter
+        {t('apply')}
       </Button>
     </Accordion>
   );

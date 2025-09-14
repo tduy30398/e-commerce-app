@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 import React from 'react';
 
 interface SizeSelectorProps {
@@ -17,6 +18,8 @@ const SizeSelector = ({
   selectedSize,
   handleSizeChange,
 }: SizeSelectorProps) => {
+  const t = useTranslations('product');
+
   return (
     <div className="flex items-center gap-4 mt-3">
       {data.map((item) => (
@@ -29,7 +32,7 @@ const SizeSelector = ({
               'bg-primary text-white hover:opacity-80'
           )}
         >
-          {item.label}
+          {t(item.label)}
         </button>
       ))}
     </div>

@@ -27,7 +27,7 @@ const HamburgerMenu = () => {
   const { accessToken } = useProfileStore();
   const router = useRouter();
   const { data: session } = useSession();
-  const t = useTranslations();
+  const t = useTranslations('header');
   const locale = useLocale();
 
   const logoutService = async () => {
@@ -84,7 +84,7 @@ const HamburgerMenu = () => {
               <SheetClose asChild key={index}>
                 <Link href={item.link} className="hover:underline block">
                   <SheetDescription className="text-black font-bold text-xl">
-                    {t(`header.${item.title}`)}
+                    {t(`${item.title}`)}
                   </SheetDescription>
                   {navigateList.length - 1 !== index && (
                     <Separator className="my-4" />
@@ -102,14 +102,14 @@ const HamburgerMenu = () => {
               }
               className="w-full cursor-pointer text-center bg-black text-white text-base rounded-4xl py-3 h-12 hover:bg-black/80"
             >
-              {t('header.logout')}
+              {t('logout')}
             </Button>
           ) : (
             <Link
               href={ROUTES.LOGIN}
               className="w-full cursor-pointer text-center bg-black text-white text-base rounded-4xl py-3 hover:bg-black/80"
             >
-              {t('header.login')}
+              {t('login')}
             </Link>
           )}
         </SheetClose>

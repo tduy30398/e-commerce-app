@@ -14,7 +14,7 @@ import { Link, useRouter } from '@/i18n/navigation';
 
 const SearchForm: React.FC = () => {
   const router = useRouter();
-  const t = useTranslations();
+  const t = useTranslations('header');
 
   const [value, setValue] = React.useState('');
   const debouncedValue = useDebounce(value, 500);
@@ -71,7 +71,7 @@ const SearchForm: React.FC = () => {
               ref={inputRef}
               name="query"
               type="search"
-              placeholder={t('header.search')}
+              placeholder={t('search')}
               className="pl-10 bg-flash-white rounded-3xl h-12 text-base!"
               value={value}
               onChange={(e) => {
@@ -131,7 +131,7 @@ const SearchForm: React.FC = () => {
         >
           {isValidating ? (
             <div className="p-4 text-sm text-muted-foreground">
-              {t('header.searching')}
+              {t('searching')}
             </div>
           ) : (
             <ul className="max-h-100 overflow-y-auto custom-scrollbar">

@@ -28,15 +28,15 @@ export const navigateList: NavigateListProps[] = [
 export const statistics: StatisticsProps[] = [
   {
     quantity: 200,
-    title: 'International Brands',
+    title: 'brands',
   },
   {
     quantity: 2000,
-    title: 'Quality Products',
+    title: 'products',
   },
   {
     quantity: 30000,
-    title: 'Happy Customers',
+    title: 'customers',
   },
 ];
 
@@ -203,15 +203,15 @@ export const socialData = [
 
 export const selectorData = [
   {
-    label: 'Small',
+    label: 'small',
     value: 1,
   },
   {
-    label: 'Medium',
+    label: 'medium',
     value: 2,
   },
   {
-    label: 'Large',
+    label: 'large',
     value: 3,
   },
 ];

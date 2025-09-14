@@ -7,6 +7,7 @@ import useProfileStore from '@/store/useProfileStore';
 import { ROUTES } from '@/lib/constants';
 import QuantityButton from '../molecules/QuantityButton';
 import { useRouter } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 
 interface AddToCartButtonProps {
   productId: string;
@@ -18,6 +19,7 @@ const AddToCartButton = ({ productId, color, size }: AddToCartButtonProps) => {
   const [quantity, setQuantity] = React.useState(1);
   const { accessToken } = useProfileStore();
   const router = useRouter();
+  const t = useTranslations('product');
 
   const handleAdd = () => {
     if (!accessToken) {
@@ -49,7 +51,7 @@ const AddToCartButton = ({ productId, color, size }: AddToCartButtonProps) => {
         onClick={handleAdd}
         className="h-12 cursor-pointer rounded-3xl bg-primary text-white px-4 flex-center hover:opacity-80 w-full"
       >
-        Add to Cart
+        {t('add')}
       </button>
     </div>
   );

@@ -12,6 +12,7 @@ import { getMainSocket } from '@/lib/socket';
 import { ROUTES } from '@/lib/constants';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Link } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 
 interface ProductCartProps {
   data: ProductItemCard;
@@ -21,6 +22,7 @@ interface ProductCartProps {
 const ProductCart = ({ data: item, onQuantityChange }: ProductCartProps) => {
   const { productId, quantity } = item;
   const isMobile = useIsMobile();
+  const t = useTranslations('product');
 
   const handleDelete = () => {
     const mainSocket = getMainSocket();
@@ -54,14 +56,14 @@ const ProductCart = ({ data: item, onQuantityChange }: ProductCartProps) => {
               {formattedCapitalize(productId.name)}
             </Link>
             <p className="text-sm text-gray-400">
-              <span className="text-black">Size:</span>
+              <span className="text-black">{t('size')}:</span>
               <span>
                 {' '}
                 {selectorData.find((s) => s.value === item.size)?.label}
               </span>
             </p>
             <p className="text-sm text-gray-400">
-              <span className="text-black">Color:</span>
+              <span className="text-black">{t('color')}:</span>
               <span>
                 {' '}
                 {colorSelectorData.find((s) => s.value === item.color)?.name}
@@ -69,7 +71,7 @@ const ProductCart = ({ data: item, onQuantityChange }: ProductCartProps) => {
             </p>
             {!isMobile ? (
               <p className="text-sm text-gray-400">
-                <span className="text-black">Unit price:</span>
+                <span className="text-black">{t('unitPrice')}:</span>
                 <span className="text-black">
                   {' '}
                   {`$${formatNumberWithCommas(
@@ -81,7 +83,7 @@ const ProductCart = ({ data: item, onQuantityChange }: ProductCartProps) => {
           </div>
           <p className="text-lg font-bold text-[#ee4d2d]">
             <span className="text-base text-black">
-              {isMobile ? '' : 'Total price:'}
+              {isMobile ? '' : t('totalPrice')}
             </span>{' '}
             {`$${formatNumberWithCommas(
               (productId.promotionalPrice || productId.price) * quantity
