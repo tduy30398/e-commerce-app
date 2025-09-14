@@ -103,7 +103,7 @@ const RightHeader = () => {
   }, [accessToken]);
 
   return (
-    <div className="flex items-center sm:ml-10 gap-4 shrink-0">
+    <div className="flex items-center sm:ml-10 gap-3 md:gap-4 shrink-0">
       <div className="sm:hidden size-6">
         <MobileSearchHeader />
       </div>

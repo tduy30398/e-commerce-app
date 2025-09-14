@@ -1,10 +1,12 @@
-/* eslint-disable @next/next/no-img-element */
 import { Link } from '@/i18n/navigation';
 import { footerDummy, paymentMethods } from '@/public/dummy/general';
 import { Facebook, Github, Instagram, Twitter } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 
-const Footer = () => {
+const Footer = async () => {
+  const t = await getTranslations('footer');
+
   return (
     <footer className="pt-44 lg:pt-36 bg-flash-white">
       <div className="section-container flex flex-col xl:flex-row items-start gap-6 lg:gap-20 pb-10 border-b-[1px] border-gray-300">
@@ -18,10 +20,7 @@ const Footer = () => {
               priority
             />
           </div>
-          <p className="mt-4 md:mt-6 text-base">
-            We have clothes that suits your style and which you’re proud to
-            wear. From women to men.
-          </p>
+          <p className="mt-4 md:mt-6 text-base">{t('title')}</p>
           <div className="flex items-center mt-5 md:mt-9 gap-2">
             <Link
               href="https://twitter.com"
@@ -59,7 +58,9 @@ const Footer = () => {
               key={index}
               className={`w-1/2 lg:w-1/4 ${index > 1 && 'max-lg:mt-4'}`}
             >
-              <h3 className="text-xl font-semibold uppercase">{item.title}</h3>
+              <h3 className="text-xl font-semibold uppercase">
+                {t(item.title)}
+              </h3>
               <nav className="flex flex-col">
                 {item.links.map((link, index) => (
                   <Link
@@ -67,7 +68,7 @@ const Footer = () => {
                     href={link.link}
                     className="text-base mt-4 text-gray-800 hover:underline"
                   >
-                    {link.title}
+                    {t(link.title)}
                   </Link>
                 ))}
               </nav>
@@ -76,14 +77,14 @@ const Footer = () => {
         </div>
       </div>
       <div className="pb-20 mt-4 section-container flex-col md:flex-row flex items-center justify-between">
-        <p>{`Shop.co © ${new Date().getFullYear()}, All Rights Reserved`}</p>
+        <p>{`Shop.co © ${new Date().getFullYear()}, ${t('rights')}`}</p>
         <div className="flex items-center gap-2 md:gap-3 max-md:mt-4">
           {paymentMethods.map((item, index) => (
             <div
               key={index}
-              className="px-4 bg-white rounded-2.5 h-6 md:h-9 flex items-center"
+              className="px-4 bg-white rounded-md h-6 md:h-9 flex items-center"
             >
-              <img src={item.logo} alt={item.name} width={34} height={15} />
+              <Image src={item.logo} alt={item.name} width={34} height={15} />
             </div>
           ))}
         </div>

@@ -50,85 +50,85 @@ export const partnerLogos = [
 
 export const footerDummy = [
   {
-    title: 'Company',
+    title: 'company',
     links: [
       {
-        title: 'About',
+        title: 'about',
         link: '/',
       },
       {
-        title: 'Features',
+        title: 'features',
         link: '/',
       },
       {
-        title: 'Works',
+        title: 'works',
         link: '/',
       },
       {
-        title: 'Careers',
+        title: 'careers',
         link: '/',
       },
     ],
   },
   {
-    title: 'Help',
+    title: 'help',
     links: [
       {
-        title: 'Customer Support',
+        title: 'support',
         link: '/',
       },
       {
-        title: 'Delivery Details',
+        title: 'delivery',
         link: '/',
       },
       {
-        title: 'Terms & Conditions',
+        title: 'terms',
         link: '/',
       },
       {
-        title: 'Privacy Policy',
+        title: 'privacy',
         link: '/',
       },
     ],
   },
   {
-    title: 'FAQs',
+    title: 'faqs',
     links: [
       {
-        title: 'Account',
+        title: 'accounts',
         link: '/',
       },
       {
-        title: 'Payment',
+        title: 'payment',
         link: '/',
       },
       {
-        title: 'Order',
+        title: 'order',
         link: '/',
       },
       {
-        title: 'Shipping',
+        title: 'shipping',
         link: '/',
       },
     ],
   },
   {
-    title: 'Resources',
+    title: 'resource',
     links: [
       {
-        title: 'Free eBooks',
+        title: 'freeebook',
         link: '/',
       },
       {
-        title: 'Development Tutorial',
+        title: 'tutorial',
         link: '/',
       },
       {
-        title: 'How to - Blog',
+        title: 'blog',
         link: '/',
       },
       {
-        title: 'Youtube Playlist',
+        title: 'playlist',
         link: '/',
       },
     ],
@@ -161,27 +161,27 @@ export const paymentMethods = [
 
 export const filterRatings = [
   {
-    title: 'All ratings',
+    title: 'allrating',
     value: 'all',
   },
   {
-    title: '5 stars',
+    title: 'fivestars',
     value: '5',
   },
   {
-    title: '4 stars and above',
+    title: 'fourstars',
     value: '4',
   },
   {
-    title: '3 stars and above',
+    title: 'threestars',
     value: '3',
   },
   {
-    title: '2 stars and above',
+    title: 'twostars',
     value: '2',
   },
   {
-    title: '1 star and above',
+    title: 'onestar',
     value: '1',
   },
 ];
