@@ -17,7 +17,7 @@ const AuthForm = async ({ type }: AuthFormProps) => {
 
   return (
     <div className={cn('flex', type === 'login' ? '' : 'flex-row-reverse')}>
-      <div className="max-md:h-screen w-full md:w-3/5 lg:w-2/5 md:rounded-3xl p-4 md:p-8 max-md:!justify-start flex-center flex-col gap-6">
+      <div className="w-full md:w-3/5 lg:w-2/5 md:rounded-3xl p-4 md:p-8 max-md:!justify-start flex-center flex-col gap-6">
         <p className="text-4xl font-black max-md:mt-12">
           {type === 'login' ? t('signin') : t('signup')}
         </p>
@@ -42,9 +42,9 @@ const AuthForm = async ({ type }: AuthFormProps) => {
         </div>
         {type === 'login' ? <LoginForm /> : <RegisterForm />}
       </div>
-      <div className="hidden h-screen md:block md:w-2/5 lg:w-3/5 relative">
+      <div className="hidden min-h-screen md:block md:w-2/5 lg:w-3/5 relative">
         <Image
-          src="/icons/login-bg.svg"
+          src={`/icons/${type}-bg.svg`}
           alt="background"
           fill
           className="object-cover"
