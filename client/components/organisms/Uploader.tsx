@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import React from 'react';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   value?: string | null;
@@ -29,6 +30,7 @@ export default function Uploader({
   disabled = false,
 }: Props) {
   const [preview, setPreview] = React.useState<string | null>(null);
+  const t = useTranslations('product');
 
   const uploadToCloudinary = async (file: File): Promise<string> => {
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
@@ -141,8 +143,8 @@ export default function Uploader({
               )}
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-sm text-muted-foreground">
-              Drag & drop or click
+            <div className="w-full h-full flex items-center justify-center text-sm text-muted-foreground text-center">
+              {t('dragdrop')}
             </div>
           )}
         </label>

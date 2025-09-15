@@ -25,6 +25,7 @@ import { Textarea } from '../ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useProfileStore from '@/store/useProfileStore';
 import { useRouter } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 
 type FormData = z.infer<typeof productFormSchema>;
 
@@ -51,6 +52,7 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
     mode: 'onChange',
     defaultValues: defaultValues,
   });
+  const t = useTranslations('product');
 
   const handleSuccess = () => {
     methods.reset();
@@ -103,14 +105,14 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
     <Form {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-          <h2 className="text-2xl font-bold">Product Detail</h2>
+          <h2 className="text-2xl font-bold">{t('detail')}</h2>
           {profileData?.role === 'admin' && (
             <Button
               type="submit"
               className="max-md:hidden main-button cursor-pointer md:w-auto max-md:mt-4"
               disabled={isMutating || updateLoading || uploadPct !== null}
             >
-              {id !== 'create' ? 'Update' : 'Create'}
+              {id !== 'create' ? t('update') : t('create')}
             </Button>
           )}
         </div>
@@ -122,7 +124,7 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Name<span className="text-red-500">*</span>
+                  {t('name')}<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <Input value={field.value} onChange={field.onChange} />
@@ -139,7 +141,7 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Price<span className="text-red-500">*</span>
+                  {t('price')}<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -160,7 +162,7 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
             name="promotionalPrice"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Promotional Price</FormLabel>
+                <FormLabel>{t('promotionalPrice')}</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -181,7 +183,7 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
             render={({ field, formState }) => (
               <FormItem className="md:col-span-2">
                 <FormLabel>
-                  Product Image (Max size: 2MB)
+                  {t('image')} (Max size: 2MB)
                   <span className="text-red-500">*</span>
                 </FormLabel>
                 {uploadPct && <Progress value={uploadPct} />}
@@ -206,7 +208,7 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
           render={({ field }) => (
             <FormItem className="mt-6">
               <FormLabel>
-                Description<span className="text-red-500">*</span>
+                {t('description')}<span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Textarea
@@ -225,7 +227,7 @@ const ProductDashboard = ({ id, data }: ProductDashboardProps) => {
           className="md:hidden cursor-pointer main-button w-full max-md:mt-4"
           disabled={isMutating || updateLoading || uploadPct !== null}
         >
-          {id !== 'create' ? 'Update' : 'Create'}
+          {id !== 'create' ? t('update') : t('create')}
         </Button>
       </form>
     </Form>

@@ -19,6 +19,7 @@ import ChatItem from '../organisms/ChatItem';
 import ChatItemSkeleton from '../molecules/ChatItemSkeleton';
 import ChatMessageInput from '../molecules/ChatMessageInput';
 import { useChatStore } from '@/store/useChatStore';
+import { useTranslations } from 'next-intl';
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -32,6 +33,7 @@ const ChatWidget = () => {
   const { messages, setMessages, prependMessages } = useChatStore();
   const { profileData, accessToken } = useProfileStore();
   const { sendMessage } = useChatSocket();
+  const t = useTranslations('chat');
 
   const { data: users, isLoading } = useSWR(
     isOpen ? ['users'] : null,
@@ -156,7 +158,7 @@ const ChatWidget = () => {
         onClick={() => setIsOpen(true)}
       >
         <MessageSquareText className="size-6 text-black" />
-        <p className="text-xl font-semibold">Chat</p>
+        <p className="text-xl font-semibold">{t('title')}</p>
       </Button>
       <AnimatePresence>
         {isOpen && (
@@ -173,7 +175,7 @@ const ChatWidget = () => {
           >
             <Card className="py-0 gap-0 flex rounded-sm shadow-xl">
               <div className="flex items-center justify-between p-3 border-b">
-                <p className="text-2xl font-semibold">Chat</p>
+                <p className="text-2xl font-semibold">{t('title')}</p>
                 <Button
                   variant="outline"
                   size="sm"
@@ -206,7 +208,7 @@ const ChatWidget = () => {
                             ))
                         ) : (
                           <p className="text-center text-gray-500">
-                            No users found
+                            {t('noUser')}
                           </p>
                         )}
                       </div>
@@ -242,7 +244,7 @@ const ChatWidget = () => {
                         <>
                           {loadingMore ? (
                             <p className="text-center text-gray-500">
-                              Loading...
+                              {t('loading')}
                             </p>
                           ) : null}
                           {conversation.map((msg) => (
@@ -253,7 +255,7 @@ const ChatWidget = () => {
                       ) : (
                         <div className="flex-center flex-col">
                           <p className="font-bold text-xl mt-4">
-                            Start a conversation
+                            {t('start')}
                           </p>
                         </div>
                       )}

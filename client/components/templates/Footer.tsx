@@ -25,28 +25,28 @@ const Footer = async () => {
             <Link
               href="https://twitter.com"
               target="_blank"
-              className="p-2 rounded-full border bg-flash-white border-gray-500"
+              className="p-2 rounded-full border bg-flash-white border-gray-500 hover:bg-gray-500 hover:text-white transition"
             >
               <Twitter className="size-5" />
             </Link>
             <Link
               href="https://facebook.com"
               target="_blank"
-              className="p-2 rounded-full border bg-flash-white border-gray-500"
+              className="p-2 rounded-full border bg-flash-white border-gray-500 hover:bg-gray-500 hover:text-white transition"
             >
               <Facebook className="size-5" />
             </Link>
             <Link
               href="https://instagram.com"
               target="_blank"
-              className="p-2 rounded-full border bg-flash-white border-gray-500"
+              className="p-2 rounded-full border bg-flash-white border-gray-500 hover:bg-gray-500 hover:text-white transition"
             >
               <Instagram className="size-5" />
             </Link>
             <Link
               href="https://github.com"
               target="_blank"
-              className="p-2 rounded-full border bg-flash-white border-gray-500"
+              className="p-2 rounded-full border bg-flash-white border-gray-500 hover:bg-gray-500 hover:text-white transition"
             >
               <Github className="size-5" />
             </Link>
@@ -66,7 +66,7 @@ const Footer = async () => {
                   <Link
                     key={index}
                     href={link.link}
-                    className="text-base mt-4 text-gray-800 hover:underline"
+                    className="text-base mt-4 text-gray-800 hover:underline w-fit"
                   >
                     {t(link.title)}
                   </Link>

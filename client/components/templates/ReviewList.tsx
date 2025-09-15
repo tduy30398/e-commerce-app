@@ -6,6 +6,7 @@ import React from 'react';
 import ReviewItem from '../molecules/ReviewItem';
 import ReviewSkeleton from '../molecules/ReviewSkeleton';
 import { NEXT_PUBLIC_API_BASE_URL } from '@/lib/axios';
+import { useTranslations } from 'next-intl';
 
 interface ReviewListProps {
   productId: string;
@@ -17,6 +18,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const ReviewList = ({ productId, initReviews }: ReviewListProps) => {
   const PAGE_SIZE = initReviews.pagination.limit;
   const loadMoreRef = React.useRef<HTMLDivElement | null>(null);
+  const t = useTranslations('product');
 
   const getKey = (
     pageIndex: number,
@@ -28,9 +30,8 @@ const ReviewList = ({ productId, initReviews }: ReviewListProps) => {
     ) {
       return null;
     }
-    return `${NEXT_PUBLIC_API_BASE_URL}review/${productId}?page=${
-      pageIndex + 1
-    }&limit=${PAGE_SIZE}`;
+    return `${NEXT_PUBLIC_API_BASE_URL}review/${productId}?page=${pageIndex + 1
+      }&limit=${PAGE_SIZE}`;
   };
 
   const { data, size, setSize, isValidating } = useSWRInfinite<
@@ -71,7 +72,7 @@ const ReviewList = ({ productId, initReviews }: ReviewListProps) => {
       {reviews.length > 0 ? (
         reviews.map((review) => <ReviewItem key={review._id} review={review} />)
       ) : (
-        <p className="text-center text-xl font-semibold">No reviews yet.</p>
+        <p className="text-center text-xl font-semibold">{t('noReview')}</p>
       )}
 
       {hasMore && (

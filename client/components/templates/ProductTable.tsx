@@ -21,6 +21,8 @@ import useProfileStore from '@/store/useProfileStore';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { useSession } from 'next-auth/react';
 import { Link, useRouter } from '@/i18n/navigation';
+import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 interface DataTableProps {
   [key: string]: string | number;
@@ -40,6 +42,7 @@ const ProductTable = () => {
   const { profileData, accessToken, isLoggingOut, hydrated } =
     useProfileStore();
   const { data: session } = useSession();
+  const t = useTranslations('product');
 
   const currentPage = React.useMemo(() => {
     return pageParam ? parseInt(pageParam, 10) : 1;
@@ -50,12 +53,14 @@ const ProductTable = () => {
   const {
     data: products,
     isLoading,
-    error,
   } = useSWR(
     queryKey,
     () => getAllProducts({ page: currentPage, limit: PAGE_SIZE }),
     {
       revalidateOnFocus: false,
+      onError: () => {
+        toast.error(t('loadFail'));
+      },
     }
   );
 
@@ -87,19 +92,19 @@ const ProductTable = () => {
     },
     {
       key: 'name',
-      label: 'Name',
+      label: t('name'),
     },
     {
       key: 'description',
-      label: 'Description',
+      label: t('description'),
     },
     {
       key: 'price',
-      label: 'Price',
+      label: t('price'),
     },
     {
       key: 'rating',
-      label: 'Rating',
+      label: t('rating'),
     },
   ];
 
@@ -139,18 +144,16 @@ const ProductTable = () => {
     return <TableSkeleton />;
   }
 
-  if (error) return <div>Failed to load data. Error: {error.message}</div>;
-
   return (
     <>
       <div className="flex justify-between">
-        <h2 className="text-2xl font-bold mb-6">Products List</h2>
+        <h2 className="text-2xl font-bold mb-6">{t('productList')}</h2>
         {profileData?.role === 'admin' && (
           <Link
             href={`${ROUTES.ADMIN_PRODUCT}/create`}
             className="bg-black text-white px-10 py-2 rounded-4xl h-9 leading-4.5"
           >
-            Create
+            {t('create')}
           </Link>
         )}
       </div>
@@ -165,7 +168,7 @@ const ProductTable = () => {
                 {column.label}
               </TableHead>
             ))}
-            <TableHead>Actions</TableHead>
+            <TableHead>{t('actions')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -190,7 +193,7 @@ const ProductTable = () => {
                     </Link>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Detail</p>
+                    <p>{t('detail')}</p>
                   </TooltipContent>
                 </Tooltip>
                 {profileData?.role === 'admin' && (

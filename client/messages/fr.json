@@ -111,7 +111,25 @@
     "fourstars": "4 étoiles et plus",
     "threestars": "3 étoiles et plus",
     "twostars": "2 étoiles et plus",
-    "onestar": "1 étoile et plus"
+    "onestar": "1 étoile et plus",
+    "noReview": "Aucune évaluation pour l'instant",
+    "loadFail": "Échec du chargement des données. Veuillez essayer à nouveau plus tard.",
+    "productList": "Liste de produits",
+    "create": "Créer",
+    "update": "Mettre à jour",
+    "actions": "Actions",
+    "detail": "Détails",
+    "noProduct": "Aucun produit trouvé",
+    "createSuccess": "Produit créé",
+    "createFailed": "Création de produit échouée",
+    "editSuccess": "Produit mis à jour",
+    "editFailed": "Mise à jour de produit échouée",
+    "name": "Nom",
+    "description": "Description",
+    "promotionalPrice": "Prix promocional",
+    "image": "Image",
+    "rating": "Évaluation",
+    "dragdrop": "Glisser et déposer ou cliquer"
   },
   "profile": {
     "avatar": "Avatar",
@@ -119,6 +137,12 @@
     "email": "Email",
     "birthdate": "Date de naissance",
     "name": "Nom",
-    "information": "Informations du profil"
+    "information": "{name}'s Informations du profil"
+  },
+  "chat": {
+    "title": "Chatte",
+    "noUser": "Utilisateur non trouvé",
+    "loading": "Chargement...",
+    "start": "Commencer la conversation"
   }
 }
