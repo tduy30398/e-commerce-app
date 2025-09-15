@@ -54,12 +54,10 @@ app.use("/api/user", authMiddleware, userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/review", reviewRoutes);
+app.use("/api/upload", uploadRoutes);
 
 // Serve static uploads folder
 // app.use("/uploads", express.static("uploads"));
-
-// Public upload route
-app.use("/api/upload", uploadRoutes);
 
 const PORT = process.env.PORT || 3001;
 
