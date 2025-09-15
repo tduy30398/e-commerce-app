@@ -2,6 +2,7 @@ import React from 'react';
 import ProductCard from '../molecules/ProductCard';
 import { ProductTypes } from '@/actions/product/type';
 import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 
 interface RelatedProductProps {
   products: ProductTypes[];
@@ -10,6 +11,8 @@ interface RelatedProductProps {
 }
 
 const RelatedProduct = ({ products, title, className }: RelatedProductProps) => {
+  const t = useTranslations('product');
+
   return (
     <div className={cn('flex flex-col items-center w-full', className)}>
       {title && <h2 className="text-2xl md:text-5xl font-extrabold uppercase">{title}</h2>}
@@ -20,7 +23,7 @@ const RelatedProduct = ({ products, title, className }: RelatedProductProps) => 
           ))
         ) : (
           <p className="col-span-full text-center text-gray-500">
-            No products available.
+            {t('noProduct')}
           </p>
         )}
       </div>

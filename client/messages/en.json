@@ -111,7 +111,25 @@
     "fourstars": "4 stars and above",
     "threestars": "3 stars and above",
     "twostars": "2 stars and above",
-    "onestar": "1 star and above"
+    "onestar": "1 star and above",
+    "noReview": "No review yet",
+    "loadFail": "Failed to load data. Please try again later.",
+    "productList": "Product List",
+    "create": "Create",
+    "update": "Update",
+    "actions": "Actions",
+    "detail": "Detail",
+    "noProduct": "No product found",
+    "createSuccess": "Product created",
+    "createFailed": "Product creation failed",
+    "editSuccess": "Product updated",
+    "editFailed": "Product update failed",
+    "name": "Name",
+    "description": "Description",
+    "promotionalPrice": "Promotional Price",
+    "image": "Image",
+    "rating": "Rating",
+    "dragdrop": "Drag & drop or click"
   },
   "profile": {
     "avatar": "Avatar",
@@ -119,6 +137,12 @@
     "email": "Email",
     "birthdate": "Birthdate",
     "name": "Name",
-    "information": "Profile Information"
+    "information": "{name}'s Profile Information"
+  },
+  "chat": {
+    "title": "Chat",
+    "noUser": "No user found",
+    "loading": "Loading...",
+    "start": "Start Conversation"
   }
 }

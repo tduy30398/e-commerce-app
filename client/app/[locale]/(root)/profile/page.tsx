@@ -114,7 +114,8 @@ const Profile = () => {
     <Form {...method}>
       <form onSubmit={method.handleSubmit(onSubmit)}>
         <div className="section-container mb-36">
-          <div className="mt-8">
+          <h1 className="text-4xl font-black mt-6">{t('information', { name: profileData?.name || '' })}</h1>
+          <div className="mt-6">
             <FormField
               control={method.control}
               name="avatar"

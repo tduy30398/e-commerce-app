@@ -18,6 +18,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { deleteProduct } from '@/actions/product';
 import useSWRMutation from 'swr/mutation';
+import { useTranslations } from 'next-intl';
 
 interface DeleteAlertProps {
   id: string;
@@ -25,14 +26,16 @@ interface DeleteAlertProps {
 }
 
 const DeleteAlert: React.FC<DeleteAlertProps> = ({ id, queryKey }) => {
+  const t = useTranslations('product');
+
   const { trigger: deleteProductTrigger, isMutating: deleteLoading } =
     useSWRMutation('product', deleteProduct, {
       onSuccess: () => {
         mutate(queryKey);
-        toast.success('Delete product success');
+        toast.success(t('deleteSuccess'));
       },
       onError: () => {
-        toast.error('Delete product failed');
+        toast.error(t('deleteFail'));
       },
     });
 
@@ -45,29 +48,28 @@ const DeleteAlert: React.FC<DeleteAlertProps> = ({ id, queryKey }) => {
           </AlertDialogTrigger>
         </TooltipTrigger>
         <TooltipContent>
-          <p>Delete</p>
+          <p>{t('delete')}</p>
         </TooltipContent>
       </Tooltip>
       <AlertDialogContent className="top-10 left-1/2 -translate-x-1/2 translate-y-0">
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure to delete this record?
+            {t('confirm')}
           </AlertDialogTitle>
           <AlertDialogDescription className="text-black">
-            This action cannot be undone. This will permanently delete your
-            record from our servers.
+            {t('confirmContent')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel className="cursor-pointer">
-            Cancel
+            {t('cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             disabled={deleteLoading}
             onClick={() => deleteProductTrigger({ id })}
             className="cursor-pointer bg-[#f5232f] hover:bg-[#f28d92]"
           >
-            Delete
+            {t('delete')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

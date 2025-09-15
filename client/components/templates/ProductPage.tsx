@@ -140,11 +140,9 @@ const ProductPage = () => {
               {query ? `${t('result')} "${query}"` : t('trending')}
             </h2>
             <div className="flex items-center">
-              <p className="text-base">{`${t('total')}: ${
-                products?.pagination.totalItems || 0
-              } ${t('product')}${
-                products?.pagination.totalItems === 1 ? '' : 's'
-              }`}</p>
+              <p className="text-base">{`${t('total')}: ${products?.pagination.totalItems || 0
+                } ${t('product')}${products?.pagination.totalItems === 1 ? '' : 's'
+                }`}</p>
               <FilterDrawer
                 trigger={
                   <div className="lg:hidden relative size-8 ml-4 cursor-pointer">
@@ -180,7 +178,7 @@ const ProductPage = () => {
               ))
             ) : (
               <p className="col-span-full text-3xl text-center text-black">
-                No products available.
+                {t('noProduct')}
               </p>
             )}
           </div>
