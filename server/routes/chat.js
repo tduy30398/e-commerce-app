@@ -11,23 +11,19 @@ router.get("/:userId", authMiddleware, async (req, res) => {
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
     const skip = (page - 1) * limit;
+    const query = {
+      $or: [
+        { from: req.user.userId, to: userId },
+        { from: userId, to: req.user.userId },
+      ],
+    }
 
     const [messages, totalMessages] = await Promise.all([
-      Message.find({
-        $or: [
-          { from: req.user.userId, to: userId },
-          { from: userId, to: req.user.userId },
-        ],
-      })
+      Message.find(query)
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit),
-      Message.countDocuments({
-        $or: [
-          { from: req.user.userId, to: userId },
-          { from: userId, to: req.user.userId },
-        ],
-      }),
+      Message.countDocuments(query),
     ]);
 
     res.status(200).json({
