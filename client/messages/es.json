@@ -137,7 +137,9 @@
     "email": "Email",
     "birthdate": "Fecha de nacimiento",
     "name": "Nombre",
-    "information": "{name}'s Información del perfil"
+    "information": "{name}'s Información del perfil",
+    "updateSuccess": "Perfil actualizado exitosamente",
+    "updateFailed": "Actualización de perfil fallida"
   },
   "chat": {
     "title": "Charlar",
