@@ -68,14 +68,14 @@ const Profile = () => {
 
       if (res.status === 200) {
         setProfileData(res.data);
-        toast.success('Profile updated successfully');
+        toast.success(t('updateSuccess'));
         router.replace(ROUTES.HOME);
       }
     } catch (error) {
       if (isAxiosError(error)) {
-        toast.error(error.response?.data?.message || 'An error occurred');
+        toast.error(error.response?.data?.message || t('updateFailed'));
       } else {
-        toast.error('An unexpected error occurred');
+        toast.error(t('updateFailed'));
       }
     } finally {
       setIsLoading(false);
