@@ -148,6 +148,14 @@ const ChatWidget = () => {
     }
   }, [conversation]);
 
+  React.useEffect(() => {
+    if (selectedUser && chatHistory?.data?.length) {
+      requestAnimationFrame(() => {
+        scrollToBottom();
+      });
+    }
+  }, [selectedUser, chatHistory]);
+
   return (
     <div
       className={cn('fixed bottom-0 right-2 z-50', accessToken ? '' : 'hidden')}
@@ -254,9 +262,7 @@ const ChatWidget = () => {
                         </>
                       ) : (
                         <div className="flex-center flex-col">
-                          <p className="font-bold text-xl mt-4">
-                            {t('start')}
-                          </p>
+                          <p className="font-bold text-xl mt-4">{t('start')}</p>
                         </div>
                       )}
                     </div>
