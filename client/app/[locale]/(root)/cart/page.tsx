@@ -89,7 +89,10 @@ const CartPage = () => {
               />
             </div>
             <p className="text-base text-gray-400">{t('emptyCart')}</p>
-            <Link href={ROUTES.HOME} className="main-button rounded-xl! mt-4">
+            <Link
+              href={ROUTES.PRODUCT}
+              className="main-button rounded-xl! mt-4"
+            >
               {t('shopping')}
             </Link>
           </div>
