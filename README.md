@@ -1,7 +1,7 @@
 # 🛍️ Personal E-Commerce Website
 
 A full-stack e-commerce web application with real-time features, authentication, and admin management.  
-Built using **Next.js**, **Node.js/Express**, **Socket.IO**, and **JWT**.
+ Built using **Next.js**, **Node.js/Express**, **Socket.IO**, and **JWT**.
 
 ---
 
@@ -50,5 +50,10 @@ Built using **Next.js**, **Node.js/Express**, **Socket.IO**, and **JWT**.
   - Translations for UI, product details, and error messages
 
 - 🛠️ **Admin Panel**
+
   - **CRUD products** (Create, Read, Update, Delete)
   - Role-based access control
+
+- 📘 **API Documentation (Swagger)**
+  - Built using **swagger-jsdoc** and **swagger-ui-express**
+  - Automatically generates documentation from JSDoc comments

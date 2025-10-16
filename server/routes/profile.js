@@ -1,8 +1,105 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Profile
+ *   description: API endpoints for the authenticated user's profile
+ */
+
+/**
+ * @swagger
+ * /profile:
+ *   get:
+ *     summary: Get current user's profile
+ *     description: Retrieve profile information of the authenticated user.
+ *     tags: [Profile]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved user profile
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                 avatar:
+ *                   type: string
+ *                 role:
+ *                   type: string
+ *                 birthday:
+ *                   type: string
+ *                   format: date
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Server error
+ *
+ *   patch:
+ *     summary: Update current user's profile
+ *     description: Allows the authenticated user to update limited profile fields such as name, avatar, and birthday.
+ *     tags: [Profile]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               avatar:
+ *                 type: string
+ *               birthday:
+ *                 type: string
+ *                 format: date
+ *             example:
+ *               name: "John Doe"
+ *               avatar: "https://example.com/avatar.jpg"
+ *               birthday: "1995-06-15"
+ *     responses:
+ *       200:
+ *         description: Successfully updated user profile
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                 avatar:
+ *                   type: string
+ *                 birthday:
+ *                   type: string
+ *       400:
+ *         description: Invalid request body
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Server error
+ */
+
 const express = require("express");
 const User = require("../models/User");
 
 const router = express.Router();
 
+// Get profile
 router.get("/", async (req, res) => {
   try {
     const user = await User.findById(req.user.userId).select(
@@ -19,6 +116,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Update profile
 router.patch("/", async (req, res) => {
   try {
     const allowedUpdates = ["name", "avatar", "birthday"];

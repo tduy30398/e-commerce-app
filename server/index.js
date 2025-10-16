@@ -1,4 +1,5 @@
 const express = require("express");
+const { setupSwagger } = require("./swagger.js");
 const app = express();
 const cors = require("cors");
 require("dotenv").config();
@@ -6,6 +7,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const http = require("http");
 
+setupSwagger(app);
 app.use(cookieParser());
 app.use(express.json());
 
@@ -22,6 +24,7 @@ const uploadRoutes = require("./routes/upload");
 
 const allowedOrigins = [
   "http://localhost:3000",
+  "http://localhost:3001",
   "https://e-commerce-tduy.vercel.app",
 ];
 
