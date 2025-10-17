@@ -1,9 +1,10 @@
-import { getAllProducts, getProductDetail } from '@/actions/product';
+import { getProductDetail } from '@/actions/product';
 import { ProductTypes } from '@/actions/product/type';
 import ProductDashboard from '@/components/templates/ProductDashboard';
 
 export async function generateStaticParams() {
-  const products = await getAllProducts();
+  const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}product`);
+  const products: APIPaginationResponse<ProductTypes[]> = await data.json();
 
   return products.data.map((product) => ({
     id: product._id,

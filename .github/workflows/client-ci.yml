@@ -1,0 +1,58 @@
+name: Client CI/CD
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "client/**"
+  pull_request:
+    paths:
+      - "client/**"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: "yarn"
+          cache-dependency-path: client/yarn.lock
+
+      - name: Install dependencies
+        working-directory: client
+        run: yarn install --frozen-lockfile
+
+      - name: Build Next.js app
+        working-directory: client
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+        run: yarn build
+
+      - name: Lint
+        working-directory: client
+        run: yarn lint
+
+      - name: Build Docker image
+        working-directory: client
+        run: |
+          docker build \
+            --build-arg NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
+            -t client-app .
+
+      # Optional: Push to Docker Hub
+      - name: Push image to Docker Hub
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          docker tag client-app ${{ secrets.DOCKER_USERNAME }}/client-app:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/client-app:latest
+
+      # Optional: Deploy (e.g., to Vercel or Render)
+      # - name: Deploy to Vercel
+      #   run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
