@@ -26,7 +26,6 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:3001",
   "https://e-commerce-tduy.vercel.app",
-  "https://client-app-latest.onrender.com"
 ];
 
 const corsOptions = {
