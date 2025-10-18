@@ -30,8 +30,6 @@ jobs:
 
       - name: Build Next.js app
         working-directory: client
-        env:
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
         run: yarn build
 
       - name: Lint
@@ -40,10 +38,7 @@ jobs:
 
       - name: Build Docker image
         working-directory: client
-        run: |
-          docker build \
-            --build-arg NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
-            -t e-commerce-client .
+        run: docker build -t e-commerce-client .
 
       # Optional: Push to Docker Hub
       - name: Push image to Docker Hub
