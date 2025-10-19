@@ -57,3 +57,6 @@ A full-stack e-commerce web application with real-time features, authentication,
 - 📘 **API Documentation (Swagger)**
   - Built using **swagger-jsdoc** and **swagger-ui-express**
   - Automatically generates documentation from JSDoc comments
+
+- 🐳 **CI/CD with Docker**
+  - Continuous integration and deployment using GitHub Actions and Docker
