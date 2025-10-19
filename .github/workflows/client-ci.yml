@@ -40,7 +40,6 @@ jobs:
         working-directory: client
         run: docker build -t e-commerce-client .
 
-      # Optional: Push to Docker Hub
       - name: Push image to Docker Hub
         if: github.ref == 'refs/heads/main'
         run: |
@@ -52,7 +51,3 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
-
-      # Optional: Deploy (e.g., to Vercel or Render)
-      # - name: Deploy to Vercel
-      #   run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
