@@ -1,10 +1,19 @@
 'use client';
 
-import React from 'react';
 import { logoutUserService } from '@/actions/authenticate';
+import { ProductTypes } from '@/actions/product/type';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Link, useRouter } from '@/i18n/navigation';
+import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
 import { ROUTES } from '@/lib/constants';
+import { disconnectSockets, initMainSocket } from '@/lib/socket';
+import useCartStore from '@/store/useCartStore';
 import useProfileStore from '@/store/useProfileStore';
+import { AxiosResponse } from 'axios';
+import { useTranslations } from 'next-intl';
+import React from 'react';
 import { toast } from 'sonner';
+import ShoppingCartHeader from '../molecules/ShoppingCartHeader';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 import {
@@ -15,19 +24,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import MobileSearchHeader from './MobileSearchHeader';
-import { signOut, useSession } from 'next-auth/react';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { disconnectSockets, initMainSocket } from '@/lib/socket';
-import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
-import { AxiosResponse } from 'axios';
-import ShoppingCartHeader from '../molecules/ShoppingCartHeader';
-import { ProductTypes } from '@/actions/product/type';
-import useCartStore from '@/store/useCartStore';
-import { useLocale, useTranslations } from 'next-intl';
-import { getRoute } from '@/lib/utils';
 import LocaleSwitch from './LocaleSwitch';
-import { Link, useRouter } from '@/i18n/navigation';
+import MobileSearchHeader from './MobileSearchHeader';
 
 export interface ProductItemCard {
   productId: ProductTypes;
@@ -47,10 +45,10 @@ const RightHeader = () => {
   const { cart, setCart, clearCart } = useCartStore();
   const { profileData, accessToken } = useProfileStore();
   const router = useRouter();
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
   const isMobile = useIsMobile();
   const t = useTranslations('header');
-  const locale = useLocale();
+  // const locale = useLocale();
 
   const logoutService = async () => {
     try {
@@ -68,10 +66,10 @@ const RightHeader = () => {
     }
   };
 
-  const logoutServiceSocial = () => {
-    signOut({ callbackUrl: getRoute(ROUTES.HOME, locale) });
-    toast.success('Logout successfully');
-  };
+  // const logoutServiceSocial = () => {
+  //   signOut({ callbackUrl: getRoute(ROUTES.HOME, locale) });
+  //   toast.success('Logout successfully');
+  // };
 
   React.useEffect(() => {
     if (!accessToken) {
@@ -109,21 +107,19 @@ const RightHeader = () => {
       </div>
       <LocaleSwitch />
       <ShoppingCartHeader cart={cart} />
-      {accessToken || session ? (
+      {accessToken ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer border border-gray-300 size-9">
-              {(profileData?.avatar || session?.user?.image) && (
+              {profileData?.avatar && (
                 <AvatarImage
                   className="object-cover"
-                  src={profileData?.avatar || session?.user?.image || ''}
+                  src={profileData?.avatar || ''}
                   alt="avatar"
                 />
               )}
               <AvatarFallback className="bg-[#00ffff]">
-                {profileData?.name?.charAt(0) ||
-                  session?.user?.name?.charAt(0) ||
-                  ''}
+                {profileData?.name?.charAt(0) || ''}
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
@@ -133,18 +129,14 @@ const RightHeader = () => {
           >
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className="text-md cursor-pointer">
-                <Link href={session ? ROUTES.PROFILE_OAUTH : ROUTES.PROFILE}>
-                  {t('profile')}
-                </Link>
+                <Link href={ROUTES.PROFILE}>{t('profile')}</Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Button
                 variant="outline"
-                onClick={() =>
-                  session ? logoutServiceSocial() : logoutService()
-                }
+                onClick={() => logoutService()}
                 className="text-md cursor-pointer bg-transparent border-none shadow-none w-full text-black justify-start outline-none hover:bg-transparent"
               >
                 {t('logout')}

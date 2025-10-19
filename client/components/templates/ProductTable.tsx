@@ -19,7 +19,7 @@ import PaginationCustom from '@/components/molecules/PaginationCustom';
 import { useSearchParams } from 'next/navigation';
 import useProfileStore from '@/store/useProfileStore';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
-import { useSession } from 'next-auth/react';
+// import { useSession } from 'next-auth/react';
 import { Link, useRouter } from '@/i18n/navigation';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
@@ -41,7 +41,7 @@ const ProductTable = () => {
   const pageParam = searchParams.get('page');
   const { profileData, accessToken, isLoggingOut, hydrated } =
     useProfileStore();
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
   const t = useTranslations('product');
 
   const currentPage = React.useMemo(() => {
@@ -135,10 +135,10 @@ const ProductTable = () => {
   React.useEffect(() => {
     if (!hydrated) return;
 
-    if (!accessToken && !session && !isLoggingOut) {
+    if (!accessToken && !isLoggingOut) {
       router.replace(ROUTES.LOGIN);
     }
-  }, [accessToken, session, router, isLoggingOut, hydrated]);
+  }, [accessToken, router, isLoggingOut, hydrated]);
 
   if (isLoading) {
     return <TableSkeleton />;
