@@ -48,6 +48,11 @@ jobs:
           docker tag e-commerce-client ${{ secrets.DOCKER_USERNAME }}/e-commerce-client:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/e-commerce-client:latest
 
+      - name: Trigger Render redeploy
+        if: github.ref == 'refs/heads/main'
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+
       # Optional: Deploy (e.g., to Vercel or Render)
       # - name: Deploy to Vercel
       #   run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }}

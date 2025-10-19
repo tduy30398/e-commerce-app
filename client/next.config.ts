@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
         hostname: 'avatars.githubusercontent.com',
       },
     ],
+    unoptimized: true, // disables Next.js optimizer => run Docker image on Render
   },
   devIndicators: false,
 };
