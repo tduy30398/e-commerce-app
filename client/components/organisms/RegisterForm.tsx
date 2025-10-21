@@ -21,7 +21,7 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
-import { DatePicker } from './DatePicker';
+// import { DatePicker } from './DatePicker';
 import { UserProfile } from '@/actions/authenticate/type';
 import useProfileStore from '@/store/useProfileStore';
 import { useTranslations } from 'next-intl';
@@ -146,7 +146,7 @@ const RegisterForm = () => {
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={methods.control}
           name="birthday"
           render={({ field, fieldState }) => (
@@ -166,7 +166,7 @@ const RegisterForm = () => {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         <FormField
           control={methods.control}
           name="password"

@@ -32,9 +32,6 @@
  *                   type: string
  *                 role:
  *                   type: string
- *                 birthday:
- *                   type: string
- *                   format: date
  *       401:
  *         description: Unauthorized - Missing or invalid token
  *       404:
@@ -44,7 +41,7 @@
  *
  *   patch:
  *     summary: Update current user's profile
- *     description: Allows the authenticated user to update limited profile fields such as name, avatar, and birthday.
+ *     description: Allows the authenticated user to update limited profile fields such as name, and avatar.
  *     tags: [Profile]
  *     security:
  *       - bearerAuth: []
@@ -59,13 +56,9 @@
  *                 type: string
  *               avatar:
  *                 type: string
- *               birthday:
- *                 type: string
- *                 format: date
  *             example:
  *               name: "John Doe"
  *               avatar: "https://example.com/avatar.jpg"
- *               birthday: "1995-06-15"
  *     responses:
  *       200:
  *         description: Successfully updated user profile
@@ -81,8 +74,6 @@
  *                 email:
  *                   type: string
  *                 avatar:
- *                   type: string
- *                 birthday:
  *                   type: string
  *       400:
  *         description: Invalid request body
@@ -117,31 +108,31 @@ router.get("/", async (req, res) => {
 });
 
 // Update profile
-router.patch("/", async (req, res) => {
-  try {
-    const allowedUpdates = ["name", "avatar", "birthday"];
-    const updates = {};
+// router.patch("/", async (req, res) => {
+//   try {
+//     const allowedUpdates = ["name", "avatar"];
+//     const updates = {};
 
-    allowedUpdates.forEach((field) => {
-      if (req.body[field] !== undefined) {
-        updates[field] = req.body[field];
-      }
-    });
+//     allowedUpdates.forEach((field) => {
+//       if (req.body[field] !== undefined) {
+//         updates[field] = req.body[field];
+//       }
+//     });
 
-    const updatedUser = await User.findByIdAndUpdate(
-      req.user.userId,
-      { $set: updates },
-      { new: true, runValidators: true }
-    ).select("-password -refreshToken");
+//     const updatedUser = await User.findByIdAndUpdate(
+//       req.user.userId,
+//       { $set: updates },
+//       { new: true, runValidators: true }
+//     ).select("-password -refreshToken");
 
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
+//     if (!updatedUser) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
 
-    res.json(updatedUser);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+//     res.json(updatedUser);
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// });
 
 module.exports = router;

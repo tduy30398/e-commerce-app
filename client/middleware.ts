@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { ROUTES } from './lib/constants';
-import { getToken } from 'next-auth/jwt';
 import createMiddleware from 'next-intl/middleware';
 import { defaultLocale, locales } from './i18n/routing';
 
@@ -14,44 +13,36 @@ const intlMiddleware = createMiddleware({
   localeDetection: false,
 });
 
-export async function middleware(request: NextRequest) {
-  const intlResponse = await intlMiddleware(request);
-  if (intlResponse) return intlResponse;
+export function middleware(request: NextRequest) {
+  const response = intlMiddleware(request);
 
   const { pathname } = request.nextUrl;
+  const segments = pathname.split('/');
+  const locale = locales.includes(segments[1]) ? segments[1] : defaultLocale;
+  const route = locale ? `/${segments.slice(2).join('/')}` : pathname;
 
   if (pathname === '/') {
     return NextResponse.redirect(new URL(`/${defaultLocale}`, request.url));
   }
 
-  const token = await getToken({
-    req: request,
-    secret: process.env.AUTH_SECRET,
-  });
-
   const refreshToken = request.cookies.get('refreshToken');
-
-  const isLogged = Boolean(refreshToken || token);
-
-  const segments = pathname.split('/');
-  const locale = locales.includes(segments[1]) ? segments[1] : null;
-  const route = locale ? `/${segments.slice(2).join('/')}` : pathname;
+  const isLogged = Boolean(refreshToken);
 
   if (!isLogged && protectedRoutes.includes(route)) {
     return NextResponse.redirect(
-      new URL(`/${locale ?? defaultLocale}${ROUTES.LOGIN}`, request.url)
+      new URL(`/${locale}${ROUTES.LOGIN}`, request.url)
     );
   }
 
   if (isLogged && authRoutes.includes(route)) {
     return NextResponse.redirect(
-      new URL(`/${locale ?? defaultLocale}${ROUTES.HOME}`, request.url)
+      new URL(`/${locale}${ROUTES.HOME}`, request.url)
     );
   }
 
-  return NextResponse.next();
+  return response ?? NextResponse.next();
 }
 
 export const config = {
-  matcher: '/((?!api|trpc|_next|_vercel|.*\\..*).*)',
+  matcher: ['/((?!api|trpc|_next|_vercel|.*\\..*).*)'],
 };

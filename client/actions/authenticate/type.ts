@@ -7,7 +7,7 @@ export interface RegisterRequest {
   email: string;
   password: string;
   name: string;
-  birthday: Date;
+  // birthday: Date;
 }
 export interface AuthResponse {
   accessToken: string;
@@ -19,7 +19,7 @@ export interface UserProfile {
   email: string;
   name: string;
   avatar: string;
-  birthday: string;
+  // birthday: string;
   role: string;
   createdAt: string;
   updatedAt: string;
@@ -28,5 +28,5 @@ export interface UserProfile {
 export interface UpdateUserProfile {
   name: string;
   avatar: string | null;
-  birthday: string;
+  // birthday: string;
 }

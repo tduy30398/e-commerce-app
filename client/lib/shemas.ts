@@ -32,9 +32,9 @@ export const registerFormSchema = z
   .object({
     name: z.string().nonempty('Name is required'),
     email: z.string().email('Invalid email'),
-    birthday: z.date({
-      error: 'Date is required',
-    }),
+    // birthday: z.date({
+    //   error: 'Date is required',
+    // }),
     password: z.string().min(6, 'Password must be at least 6 characters'),
     confirmPassword: z
       .string()
@@ -48,8 +48,10 @@ export const registerFormSchema = z
 export const profileFormSchema = z.object({
   name: z.string().nonempty('Name is required'),
   email: z.string().email('Invalid email'),
-  birthday: z.date({
-    error: 'Date is required',
-  }),
+  // birthday: z
+  //   .date({
+  //     error: 'Date is required',
+  //   })
+  //   .optional(),
   avatar: z.string().optional().nullable(),
 });

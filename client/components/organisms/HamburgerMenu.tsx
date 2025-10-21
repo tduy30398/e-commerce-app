@@ -18,17 +18,13 @@ import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import useProfileStore from '@/store/useProfileStore';
-// import { signOut } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
-// import { getRoute } from '@/lib/utils';
 import { Link, useRouter } from '@/i18n/navigation';
 
 const HamburgerMenu = () => {
   const { accessToken } = useProfileStore();
   const router = useRouter();
-  // const { data: session } = useSession();
   const t = useTranslations('header');
-  // const locale = useLocale();
 
   const logoutService = async () => {
     try {
@@ -97,7 +93,7 @@ const HamburgerMenu = () => {
         <SheetClose asChild>
           {accessToken ? (
             <Button
-              onClick={() => logoutService() }
+              onClick={() => logoutService()}
               className="w-full cursor-pointer text-center bg-black text-white text-base rounded-4xl py-3 h-12 hover:bg-black/80"
             >
               {t('logout')}

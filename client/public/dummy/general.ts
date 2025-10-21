@@ -186,21 +186,6 @@ export const filterRatings = [
   },
 ];
 
-export const socialData = [
-  {
-    name: 'Google',
-    icon: '/icons/google.svg',
-  },
-  {
-    name: 'Facebook',
-    icon: '/icons/facebook.svg',
-  },
-  {
-    name: 'GitHub',
-    icon: '/icons/github.svg',
-  },
-];
-
 export const selectorData = [
   {
     label: 'small',

@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: false, // OAuth users may not always provide a name
     },
     email: {
       type: String,
@@ -13,17 +13,20 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: function () {
+        // Only required for users who registered manually
+        return !this.provider || this.provider === "credentials";
+      },
     },
-    birthday: {
-      type: Date,
-      required: true,
-    },
-    refreshToken: {
+    // birthday: {
+    //   type: Date,
+    //   required: false, // optional for OAuth users
+    // },
+    avatar: {
       type: String,
       default: null,
     },
-    avatar: {
+    refreshToken: {
       type: String,
       default: null,
     },
@@ -31,6 +34,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["user", "admin"],
       default: "user",
+    },
+    provider: {
+      type: String,
+      enum: ["credentials", "google", "facebook", "github"],
+      default: "credentials",
+    },
+    firebaseUid: {
+      type: String,
+      default: null,
     },
   },
   { timestamps: true }

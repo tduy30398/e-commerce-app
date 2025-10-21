@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const admin = require("../firebase");
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -23,7 +24,7 @@ const generateTokens = (userId, role) => {
 
 // Register
 router.post("/register", async (req, res) => {
-  const { name, email, password, birthday } = req.body;
+  const { name, email, password } = req.body;
 
   try {
     const exists = await User.findOne({ email });
@@ -37,7 +38,6 @@ router.post("/register", async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      birthday,
     });
 
     const { accessToken, refreshToken } = generateTokens(user._id, user.role);
@@ -83,6 +83,36 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/firebase-login", async (req, res) => {
+  const { idToken } = req.body;
+
+  try {
+    const decoded = await admin.auth().verifyIdToken(idToken);
+
+    const { uid, email, name } = decoded;
+
+    let user = await User.findOne({ email });
+    if (!user) {
+      user = await User.create({
+        name,
+        email,
+        firebaseUid: uid,
+        provider: decoded.firebase?.sign_in_provider?.replace(".com", ""),
+        password: null,
+        avatar: decoded?.picture || "",
+      });
+    }
+
+    const { accessToken, refreshToken } = generateTokens(user._id, user.role);
+    user.refreshToken = refreshToken;
+    await user.save();
+
+    res.status(200).json({ accessToken, refreshToken });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 router.post("/refresh-token", async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
 
@@ -97,9 +127,13 @@ router.post("/refresh-token", async (req, res) => {
       return res.status(403).json({ message: "Invalid refresh token" });
     }
 
-    const newAccessToken = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, {
-      expiresIn: "30m",
-    });
+    const newAccessToken = jwt.sign(
+      { userId: user._id, role: user.role },
+      JWT_SECRET,
+      {
+        expiresIn: "30m",
+      }
+    );
 
     res.json({ accessToken: newAccessToken });
   } catch (err) {
