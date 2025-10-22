@@ -4,7 +4,6 @@ import { Toaster } from '@/components/ui/sonner';
 
 import localFont from 'next/font/local';
 import ProgressBarWraper from '@/components/organisms/ProgressBarWraper';
-// import AuthProvider from '@/components/templates/AuthProvider';
 
 const satoshi = localFont({
   src: [
@@ -77,7 +76,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={satoshi.variable}>
         <ProgressBarWraper />
-        {/* <AuthProvider>{children}</AuthProvider> */}
         {children}
         <Toaster position="top-center" richColors />
       </body>

@@ -1,4 +1,3 @@
-import { auth } from '@/auth';
 import TableSkeleton from '@/components/molecules/TableSkeleton';
 import ProductTable from '@/components/templates/ProductTable';
 import { redirect } from '@/i18n/navigation';
@@ -17,12 +16,12 @@ interface CookiesTypes {
 }
 
 const ProductDashboard = async () => {
-  const session = await auth();
   const locale = await getLocale();
   const cookieStore = await cookies();
-  const refreshToken: CookiesTypes | undefined = cookieStore.get('refreshToken');
+  const refreshToken: CookiesTypes | undefined =
+    cookieStore.get('refreshToken');
 
-  if (!session && !refreshToken) {
+  if (!refreshToken) {
     redirect({ href: ROUTES.LOGIN, locale });
   }
 

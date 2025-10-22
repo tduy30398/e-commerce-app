@@ -45,10 +45,8 @@ const RightHeader = () => {
   const { cart, setCart, clearCart } = useCartStore();
   const { profileData, accessToken } = useProfileStore();
   const router = useRouter();
-  // const { data: session } = useSession();
   const isMobile = useIsMobile();
   const t = useTranslations('header');
-  // const locale = useLocale();
 
   const logoutService = async () => {
     try {
@@ -65,11 +63,6 @@ const RightHeader = () => {
       toast.error('Logout failed');
     }
   };
-
-  // const logoutServiceSocial = () => {
-  //   signOut({ callbackUrl: getRoute(ROUTES.HOME, locale) });
-  //   toast.success('Logout successfully');
-  // };
 
   React.useEffect(() => {
     if (!accessToken) {

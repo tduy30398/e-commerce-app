@@ -9,14 +9,12 @@ import Image from 'next/image';
 import { ProductItemCard } from '@/components/organisms/RightHeader';
 import CartPageSkeleton from '@/components/organisms/CartPageSkeleton';
 import useProfileStore from '@/store/useProfileStore';
-// import { useSession } from 'next-auth/react';
 import { Link, useRouter } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 
 const CartPage = () => {
   const { cart } = useCartStore();
   const { accessToken, isLoggingOut, hydrated } = useProfileStore();
-  // const { data: session } = useSession();
   const router = useRouter();
   const t = useTranslations('cart');
 

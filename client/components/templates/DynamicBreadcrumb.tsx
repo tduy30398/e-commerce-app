@@ -20,6 +20,7 @@ import { Link, usePathname } from '@/i18n/navigation';
 
 const DynamicBreadcrumb = () => {
   const pathname = usePathname();
+
   const params = useParams<{ id?: string; locale?: string }>();
   const rawSegments = pathname.split('/').filter(Boolean);
   const t = useTranslations('header');
