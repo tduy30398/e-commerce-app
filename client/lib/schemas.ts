@@ -24,14 +24,14 @@ export const productFormSchema = z
   );
 
 export const loginFormSchema = z.object({
-  email: z.string().email('Invalid email'),
+  email: z.email('Invalid email'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
 export const registerFormSchema = z
   .object({
     name: z.string().nonempty('Name is required'),
-    email: z.string().email('Invalid email'),
+    email: z.email('Invalid email'),
     // birthday: z.date({
     //   error: 'Date is required',
     // }),
@@ -47,7 +47,7 @@ export const registerFormSchema = z
 
 export const profileFormSchema = z.object({
   name: z.string().nonempty('Name is required'),
-  email: z.string().email('Invalid email'),
+  email: z.email('Invalid email'),
   // birthday: z
   //   .date({
   //     error: 'Date is required',
