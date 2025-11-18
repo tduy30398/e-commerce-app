@@ -3,7 +3,7 @@
 import { createProduct, updateProduct } from '@/actions/product';
 import { ProductTypes } from '@/actions/product/type';
 import { ROUTES } from '@/lib/constants';
-import { productFormSchema } from '@/lib/shemas';
+import { productFormSchema } from '@/lib/schemas';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';

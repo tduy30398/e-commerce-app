@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
-import { profileFormSchema } from '@/lib/shemas';
+import { profileFormSchema } from '@/lib/schemas';
 import useProfileStore from '@/store/useProfileStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 // import { parseISO } from 'date-fns';

@@ -2,7 +2,7 @@
 
 import axiosInstance, { setAccessTokenHeader } from '@/lib/axios';
 import { ROUTES } from '@/lib/constants';
-import { loginFormSchema } from '@/lib/shemas';
+import { loginFormSchema } from '@/lib/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
