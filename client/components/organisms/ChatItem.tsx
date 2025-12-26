@@ -27,10 +27,9 @@ const ChatItem = ({ msg }: ChatItemProps) => {
           <TooltipTrigger asChild>
             <div
               className={cn(
-                'rounded-lg max-w-4/5 shadow-md',
-                isImage
-                  ? null
-                  : 'px-3 py-2 bg-blue-500 break-words text-white text-base'
+                'rounded-lg max-w-4/5 text-base shadow-md break-words',
+                isOwn ? 'bg-blue-500 text-white' : 'bg-white text-gray-900',
+                !isImage ? 'px-3 py-2' : null
               )}
             >
               {isImage ? (
